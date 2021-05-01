@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"xiekkki.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="（转自我的CSDN博客） 摘要倒立摆是机器人学中一个非常重要的模型，火箭、导弹、独轮车、双足机器人、四足机器人，基本都是倒立摆的变形。这里是对基本的倒立摆问题的一些研究和思考。">
+  <meta name="description" content="摘要 倒立摆是机器人学中一个非常重要的模型，火箭、导弹、独轮车、双足机器人、四足机器人，基本都是倒立摆的变形。这里是对基本的倒立摆问题的一些研究和思考。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="倒立摆状态反馈控制——分析、建模与仿真(matlab)">
 <meta property="og:url" content="https://xiekkki.github.io/2020/06/01/%E5%80%92%E7%AB%8B%E6%91%86%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E6%8E%A7%E5%88%B6%E2%80%94%E2%80%94%E5%88%86%E6%9E%90%E3%80%81%E5%BB%BA%E6%A8%A1%E4%B8%8E%E4%BB%BF%E7%9C%9F(matlab)/index.html">
 <meta property="og:site_name" content="家鹏的个人主页">
-<meta property="og:description" content="（转自我的CSDN博客） 摘要倒立摆是机器人学中一个非常重要的模型，火箭、导弹、独轮车、双足机器人、四足机器人，基本都是倒立摆的变形。这里是对基本的倒立摆问题的一些研究和思考。">
+<meta property="og:description" content="摘要 倒立摆是机器人学中一个非常重要的模型，火箭、导弹、独轮车、双足机器人、四足机器人，基本都是倒立摆的变形。这里是对基本的倒立摆问题的一些研究和思考。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2020051815081870.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/202005181519403.png">
@@ -81,7 +81,7 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200601123414215.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200601123423558.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70">
 <meta property="article:published_time" content="2020-05-31T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-05-01T07:39:45.268Z">
+<meta property="article:modified_time" content="2021-05-01T07:41:47.845Z">
 <meta property="article:author" content="谢家鹏">
 <meta property="article:tag" content="自动控制原理">
 <meta property="article:tag" content="倒立摆">
@@ -274,7 +274,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-01 15:39:45" itemprop="dateModified" datetime="2021-05-01T15:39:45+08:00">2021-05-01</time>
+                <time title="修改时间：2021-05-01 15:41:47" itemprop="dateModified" datetime="2021-05-01T15:41:47+08:00">2021-05-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -294,6 +294,20 @@
               <span class="post-meta-item-text">阅读次数：</span>
               <span id="busuanzi_value_page_pv"></span>
             </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/06/01/%E5%80%92%E7%AB%8B%E6%91%86%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E6%8E%A7%E5%88%B6%E2%80%94%E2%80%94%E5%88%86%E6%9E%90%E3%80%81%E5%BB%BA%E6%A8%A1%E4%B8%8E%E4%BB%BF%E7%9C%9F(matlab)/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/01/%E5%80%92%E7%AB%8B%E6%91%86%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E6%8E%A7%E5%88%B6%E2%80%94%E2%80%94%E5%88%86%E6%9E%90%E3%80%81%E5%BB%BA%E6%A8%A1%E4%B8%8E%E4%BB%BF%E7%9C%9F(matlab)/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -304,96 +318,133 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>（转自我的CSDN博客）</p>
-<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>倒立摆是机器人学中一个非常重要的模型，火箭、导弹、独轮车、双足机器人、四足机器人，基本都是倒立摆的变形。这里是对基本的倒立摆问题的一些研究和思考。</p>
+        <h3 id="摘要">摘要</h3>
+<p>倒立摆是机器人学中一个非常重要的模型，火箭、导弹、独轮车、双足机器人、四足机器人，基本都是倒立摆的变形。这里是对基本的倒立摆问题的一些研究和思考。</p>
 <span id="more"></span>
 <p>（转自我的CSDN博客）</p>
-<h1 id="倒立摆状态反馈控制"><a href="#倒立摆状态反馈控制" class="headerlink" title="倒立摆状态反馈控制"></a>倒立摆状态反馈控制</h1><h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>关于倒立摆的问题描述如下：<br>如图所示的倒立摆系统。摆的关节连接在一个可移动的小车上，小车由电机驱动，电机水平驱动力为<strong>F</strong>，摆杆质量为<strong>m</strong>，小车质量为<strong>M</strong>，摆长<strong>2l</strong>。<br>现在要研究外力F如何能使摆保持垂直的位置。</p>
-<p><img src="https://img-blog.csdnimg.cn/2020051815081870.png" alt="在这里插入图片描述"></p>
-<h2 id="状态空间模型"><a href="#状态空间模型" class="headerlink" title="状态空间模型"></a>状态空间模型</h2><p>设摆杆偏离垂直位置角度为<strong>θ</strong>，小车位移为<strong>y</strong>。小车对摆水平方向和垂直方向反作用力分别为<strong>H和V</strong>。</p>
-<p><img src="https://img-blog.csdnimg.cn/202005181519403.png" alt="在这里插入图片描述"><br>根据牛顿定律可以写出摆水平、垂直方向的力平衡方程：<br><img src="https://img-blog.csdnimg.cn/20200518152031278.png" alt="在这里插入图片描述"><br>记摆杆对其质心的转动惯量为<strong>I</strong>，则摆质心的力矩方程为：<br><img src="https://img-blog.csdnimg.cn/20200518152526233.png" alt="在这里插入图片描述"><br>用k表示摩擦系数，小车水平方向的力平衡方程为：<br><img src="https://img-blog.csdnimg.cn/20200518153034256.png" alt="在这里插入图片描述"><br>联立以上四个式子，小曲中间变量V、H，得到：<br><img src="https://img-blog.csdnimg.cn/20200518153441440.png" alt="在这里插入图片描述"><br>由于θ比较小，这里不妨使sinθ = 0，cosθ = 1，简化方程为：<br><img src="https://img-blog.csdnimg.cn/20200518153853325.png" alt="在这里插入图片描述"><br>设摆杆质量分布均匀，忽略摩擦（k=0，摩擦力也不会影响能控性），有：<br><img src="https://img-blog.csdnimg.cn/20200518155051441.png" alt="在这里插入图片描述"><br>定义系统状态：<br><img src="https://img-blog.csdnimg.cn/20200518155241173.png" alt="在这里插入图片描述"><br>得到状态方程：<br><img src="https://img-blog.csdnimg.cn/20200518155256854.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>即：<br><img src="https://img-blog.csdnimg.cn/20200518155401489.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>计算系统的能控性矩阵：<br><img src="https://img-blog.csdnimg.cn/2020051815571467.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>能控性矩阵的秩为4，所以系统完全能控。</p>
-<h2 id="设计状态反馈控制"><a href="#设计状态反馈控制" class="headerlink" title="设计状态反馈控制"></a>设计状态反馈控制</h2><p>为了方便设计，不妨设<strong>M=2kg，m=0.1kg，l=0.5m</strong>。代入状态方程：<br><img src="https://img-blog.csdnimg.cn/20200519084128428.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>其中：<br><img src="https://img-blog.csdnimg.cn/20200519084208893.png" alt="在这里插入图片描述"><br>根据<strong>极点配置原理</strong>，线性定常系统通过状态反馈可以任意配置闭环系统极点的充分必要条件是系统完全能控。<br>系统的能控性在上面已经证明。<br>于是采用状态反馈，即：<br><img src="https://img-blog.csdnimg.cn/20200519084338722.png" alt="在这里插入图片描述"><br>K为4<em>1矩阵。<br>原系统的特征多项式为：<br><img src="https://img-blog.csdnimg.cn/20200519085132333.png" alt="在这里插入图片描述"><br>存在大于等于0的极点，显然不加控制的系统是不稳定的，倒立摆不能倒立。<br>所以我们要<em>*配置合适的极点</em></em>来使得系统达到稳定性要求。</p>
-<p>这是一个四阶系统，可以设计两个远离虚轴的极点，和两个<strong>靠近虚轴的闭环主导极点</strong>，系统的瞬态性能指标主要由主导极点决定。<br>这样就可以<strong>把一个高阶系统简化成一个二阶系统</strong>。</p>
-<p><strong>典型二阶系统传递函数</strong>如下：<br><img src="https://img-blog.csdnimg.cn/20200519091717626.png" alt="在这里插入图片描述"><img src="https://img-blog.csdnimg.cn/20200519091733165.png" alt="在这里插入图片描述"><br><strong>欠阻尼时的两个特征根</strong>为：<br><img src="https://img-blog.csdnimg.cn/20200519093404130.png" alt="在这里插入图片描述"><br><strong>典型二阶系统的瞬态性能指标</strong>如下：</p>
-<p>（1）上升时间：<br><img src="https://img-blog.csdnimg.cn/20200519092300720.png" alt="在这里插入图片描述"><br>其中<br><img src="https://img-blog.csdnimg.cn/20200519092025406.png" alt="在这里插入图片描述"><br>（2）峰值时间：<br><img src="https://img-blog.csdnimg.cn/20200519092322664.png" alt="在这里插入图片描述"><br>（3）最大超调量：<br><img src="https://img-blog.csdnimg.cn/20200519092540201.png" alt="在这里插入图片描述"><img src="https://img-blog.csdnimg.cn/20200519092514156.png" alt="在这里插入图片描述"><br>通常取控制系统最大超调量为25% ~ 1.5%，对应的阻尼比为0.4 ~ 0.8 。</p>
-<p>（4）调节时间：<br><img src="https://img-blog.csdnimg.cn/20200519092811560.png" alt="在这里插入图片描述"><br>（5）震荡次数<br><img src="https://img-blog.csdnimg.cn/20200519092911234.png" alt="在这里插入图片描述"><br>综上，我们想要使系统具有<strong>较短的调节时间和适当的超调量</strong>，可取<br><img src="https://img-blog.csdnimg.cn/20200519093604919.png" alt="在这里插入图片描述">      <img src="https://img-blog.csdnimg.cn/20200519093612456.png" alt="在这里插入图片描述"><br>于是闭环主导极点为：<br><img src="https://img-blog.csdnimg.cn/20200519093700922.png" alt="在这里插入图片描述"><br>再取两个远离虚轴的极点：<br><img src="https://img-blog.csdnimg.cn/20200519093722817.png" alt="在这里插入图片描述"><br>期望特征多项式为：<br><img src="https://img-blog.csdnimg.cn/20200519093800207.png" alt="在这里插入图片描述"><br>已经有了期望的闭环特征多项式，接下来要<strong>如何根据特征多项式确定反馈增益K</strong>呢？<br>有两种常见方法：<br><img src="https://img-blog.csdnimg.cn/20200519094904985.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200519094926393.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>其中<strong>算法1在低阶系统中应用会比较方便，但是对于高阶系统，算法2的计算会更为简单</strong>。<br>本问题是四阶系统，我们选用算法2 。<br>刚刚我们已经计算过原特征多项式。<br><img src="https://img-blog.csdnimg.cn/2020051910172255.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>我们已经计算出了反馈增益K。</p>
-<p>综上，只需要使得外力输入<br><img src="https://img-blog.csdnimg.cn/20200519084338722.png" alt="在这里插入图片描述"><br>即可使倒立摆保持垂直状态。</p>
-<h2 id="建立simulink模型"><a href="#建立simulink模型" class="headerlink" title="建立simulink模型"></a>建立simulink模型</h2><p>根据A、B、K矩阵画出框图：<br><img src="https://img-blog.csdnimg.cn/20200628203711312.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>给定状态x1（即θ）初值：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123006150.png" alt="\[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-Ma4KziYv-1590985727990)(C:\Users\hp\AppData\Roaming\Typora\typora-user-images\image-20200525170331331.png)\]"></p>
+<h1 id="倒立摆状态反馈控制">倒立摆状态反馈控制</h1>
+<h2 id="问题描述">问题描述</h2>
+<p>关于倒立摆的问题描述如下： 如图所示的倒立摆系统。摆的关节连接在一个可移动的小车上，小车由电机驱动，电机水平驱动力为<strong>F</strong>，摆杆质量为<strong>m</strong>，小车质量为<strong>M</strong>，摆长<strong>2l</strong>。 现在要研究外力F如何能使摆保持垂直的位置。</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/2020051815081870.png" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
+<h2 id="状态空间模型">状态空间模型</h2>
+<p>设摆杆偏离垂直位置角度为<strong>θ</strong>，小车位移为<strong>y</strong>。小车对摆水平方向和垂直方向反作用力分别为<strong>H和V</strong>。</p>
+<p><img src="https://img-blog.csdnimg.cn/202005181519403.png" alt="在这里插入图片描述" /> 根据牛顿定律可以写出摆水平、垂直方向的力平衡方程： <img src="https://img-blog.csdnimg.cn/20200518152031278.png" alt="在这里插入图片描述" /> 记摆杆对其质心的转动惯量为<strong>I</strong>，则摆质心的力矩方程为： <img src="https://img-blog.csdnimg.cn/20200518152526233.png" alt="在这里插入图片描述" /> 用k表示摩擦系数，小车水平方向的力平衡方程为： <img src="https://img-blog.csdnimg.cn/20200518153034256.png" alt="在这里插入图片描述" /> 联立以上四个式子，小曲中间变量V、H，得到： <img src="https://img-blog.csdnimg.cn/20200518153441440.png" alt="在这里插入图片描述" /> 由于θ比较小，这里不妨使sinθ = 0，cosθ = 1，简化方程为： <img src="https://img-blog.csdnimg.cn/20200518153853325.png" alt="在这里插入图片描述" /> 设摆杆质量分布均匀，忽略摩擦（k=0，摩擦力也不会影响能控性），有： <img src="https://img-blog.csdnimg.cn/20200518155051441.png" alt="在这里插入图片描述" /> 定义系统状态： <img src="https://img-blog.csdnimg.cn/20200518155241173.png" alt="在这里插入图片描述" /> 得到状态方程： <img src="https://img-blog.csdnimg.cn/20200518155256854.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 即： <img src="https://img-blog.csdnimg.cn/20200518155401489.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 计算系统的能控性矩阵： <img src="https://img-blog.csdnimg.cn/2020051815571467.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 能控性矩阵的秩为4，所以系统完全能控。</p>
+<h2 id="设计状态反馈控制">设计状态反馈控制</h2>
+<p>为了方便设计，不妨设<strong>M=2kg，m=0.1kg，l=0.5m</strong>。代入状态方程： <img src="https://img-blog.csdnimg.cn/20200519084128428.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 其中： <img src="https://img-blog.csdnimg.cn/20200519084208893.png" alt="在这里插入图片描述" /> 根据<strong>极点配置原理</strong>，线性定常系统通过状态反馈可以任意配置闭环系统极点的充分必要条件是系统完全能控。 系统的能控性在上面已经证明。 于是采用状态反馈，即： <img src="https://img-blog.csdnimg.cn/20200519084338722.png" alt="在这里插入图片描述" /> K为4*1矩阵。 原系统的特征多项式为： <img src="https://img-blog.csdnimg.cn/20200519085132333.png" alt="在这里插入图片描述" /> 存在大于等于0的极点，显然不加控制的系统是不稳定的，倒立摆不能倒立。 所以我们要<strong>配置合适的极点</strong>来使得系统达到稳定性要求。</p>
+<p>这是一个四阶系统，可以设计两个远离虚轴的极点，和两个<strong>靠近虚轴的闭环主导极点</strong>，系统的瞬态性能指标主要由主导极点决定。 这样就可以<strong>把一个高阶系统简化成一个二阶系统</strong>。</p>
+<p><strong>典型二阶系统传递函数</strong>如下： <img src="https://img-blog.csdnimg.cn/20200519091717626.png" alt="在这里插入图片描述" /><img src="https://img-blog.csdnimg.cn/20200519091733165.png" alt="在这里插入图片描述" /> <strong>欠阻尼时的两个特征根</strong>为： <img src="https://img-blog.csdnimg.cn/20200519093404130.png" alt="在这里插入图片描述" /> <strong>典型二阶系统的瞬态性能指标</strong>如下：</p>
+<p>（1）上升时间： <img src="https://img-blog.csdnimg.cn/20200519092300720.png" alt="在这里插入图片描述" /> 其中 <img src="https://img-blog.csdnimg.cn/20200519092025406.png" alt="在这里插入图片描述" /> （2）峰值时间： <img src="https://img-blog.csdnimg.cn/20200519092322664.png" alt="在这里插入图片描述" /> （3）最大超调量： <img src="https://img-blog.csdnimg.cn/20200519092540201.png" alt="在这里插入图片描述" /><img src="https://img-blog.csdnimg.cn/20200519092514156.png" alt="在这里插入图片描述" /> 通常取控制系统最大超调量为25% ~ 1.5%，对应的阻尼比为0.4 ~ 0.8 。</p>
+<p>（4）调节时间： <img src="https://img-blog.csdnimg.cn/20200519092811560.png" alt="在这里插入图片描述" /> （5）震荡次数 <img src="https://img-blog.csdnimg.cn/20200519092911234.png" alt="在这里插入图片描述" /> 综上，我们想要使系统具有<strong>较短的调节时间和适当的超调量</strong>，可取 <img src="https://img-blog.csdnimg.cn/20200519093604919.png" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200519093612456.png" alt="在这里插入图片描述" /> 于是闭环主导极点为： <img src="https://img-blog.csdnimg.cn/20200519093700922.png" alt="在这里插入图片描述" /> 再取两个远离虚轴的极点： <img src="https://img-blog.csdnimg.cn/20200519093722817.png" alt="在这里插入图片描述" /> 期望特征多项式为： <img src="https://img-blog.csdnimg.cn/20200519093800207.png" alt="在这里插入图片描述" /> 已经有了期望的闭环特征多项式，接下来要<strong>如何根据特征多项式确定反馈增益K</strong>呢？ 有两种常见方法： <img src="https://img-blog.csdnimg.cn/20200519094904985.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200519094926393.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 其中<strong>算法1在低阶系统中应用会比较方便，但是对于高阶系统，算法2的计算会更为简单</strong>。 本问题是四阶系统，我们选用算法2 。 刚刚我们已经计算过原特征多项式。 <img src="https://img-blog.csdnimg.cn/2020051910172255.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 我们已经计算出了反馈增益K。</p>
+<p>综上，只需要使得外力输入 <img src="https://img-blog.csdnimg.cn/20200519084338722.png" alt="在这里插入图片描述" /> 即可使倒立摆保持垂直状态。</p>
+<h2 id="建立simulink模型">建立simulink模型</h2>
+<p>根据A、B、K矩阵画出框图： <img src="https://img-blog.csdnimg.cn/20200628203711312.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 给定状态x1（即θ）初值：</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200601123006150.png" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-Ma4KziYv-1590985727990)(C:-user-images-20200525170331331.png)]" /><figcaption aria-hidden="true">[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-Ma4KziYv-1590985727990)(C:-user-images-20200525170331331.png)]</figcaption>
+</figure>
 <p>运行仿真，观测四个状态的变化。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200628203647460.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200628203647460.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>观察x1，可知倒立摆偏离角度在很短时间内收敛到0，控制效果很好。</p>
-<h2 id="设计降维状态观测器"><a href="#设计降维状态观测器" class="headerlink" title="设计降维状态观测器"></a>设计降维状态观测器</h2><p>在以上的状态反馈控制中，我们使用了4个状态变量来进行反馈控制：<br><img src="https://img-blog.csdnimg.cn/20200519084208893.png" alt="在这里插入图片描述"><br>这就意味着，在实际的应用中，我们需要<strong>同时用传感器测量4个变量</strong>：<br>摆杆角度、摆杆角速度、小车位移、小车速度。</p>
-<p>但是有的时候，我们不想用这么多传感器，或者有的时候，某些状态量的测量并不方便。<br><strong>能不能减少反馈的状态个数，同时也能达到控制效果呢</strong>？</p>
+<h2 id="设计降维状态观测器">设计降维状态观测器</h2>
+<p>在以上的状态反馈控制中，我们使用了4个状态变量来进行反馈控制： <img src="https://img-blog.csdnimg.cn/20200519084208893.png" alt="在这里插入图片描述" /> 这就意味着，在实际的应用中，我们需要<strong>同时用传感器测量4个变量</strong>： 摆杆角度、摆杆角速度、小车位移、小车速度。</p>
+<p>但是有的时候，我们不想用这么多传感器，或者有的时候，某些状态量的测量并不方便。 <strong>能不能减少反馈的状态个数，同时也能达到控制效果呢</strong>？</p>
 <p>可以设计降维观测器配合反馈控制来达到目的。</p>
-<p>不过在此之前可能有人会想：摆杆角速度和小车的速度不就分别是角度和位移对时间的微分吗？<br>的确如此，但是<strong>直接用微分计算得到的速度与用传感器测得的速度是有不同的。在状态观测器的设计中，用一个状态的微分产生另一个状态的方法通常是不可取的，因为噪声通常比控制信号变化快，信号的微分会使噪声的作用增强，即减小了信噪比。</strong></p>
+<p>不过在此之前可能有人会想：摆杆角速度和小车的速度不就分别是角度和位移对时间的微分吗？ 的确如此，但是<strong>直接用微分计算得到的速度与用传感器测得的速度是有不同的。在状态观测器的设计中，用一个状态的微分产生另一个状态的方法通常是不可取的，因为噪声通常比控制信号变化快，信号的微分会使噪声的作用增强，即减小了信噪比。</strong></p>
 <p>这里假设摆杆的角度和小车的位移能被测量，即状态</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123541235.png" alt="在这里插入图片描述"></p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200601123541235.png" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>已知，需要设计状态观测器观测其余两个状态。</p>
-<p><strong>将状态重新排序</strong>：</p>
-<script type="math/tex; mode=display">
-x1 = x，x2=y, x3 = \dot θ，x4= \dot y</script><p>系统输出为：</p>
-<script type="math/tex; mode=display">
+<p><strong>将状态重新排序</strong>： <span class="math display">\[
+x1 = x，x2=y, x3 = \dot θ，x4= \dot y
+\]</span> 系统输出为： <span class="math display">\[
 y=\begin{bmatrix}
 \theta \\
 y\\
-\end{bmatrix}</script><p>状态矩阵变为：</p>
-<script type="math/tex; mode=display">
-A=\begin{bmatrix}0  & 0&1&0 \\ 0 & 0&0&1\\15.244&0&0&0\\-0.363&0&0&0 \end{bmatrix}
+\end{bmatrix}
+\]</span> 状态矩阵变为： <span class="math display">\[
+A=\begin{bmatrix}0  &amp; 0&amp;1&amp;0 \\ 0 &amp; 0&amp;0&amp;1\\15.244&amp;0&amp;0&amp;0\\-0.363&amp;0&amp;0&amp;0 \end{bmatrix}
 B=\begin{bmatrix}0  \\ 0 \\-0.741\\0.494 \end{bmatrix}
-C=\begin{bmatrix}1  & 0&0&0 \\ 0 &1&0&0 \end{bmatrix}</script><p>降维观测器设计思路：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123049630.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="\[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-mhKzq5aO-1590985727998)(C:\Users\hp\AppData\Roaming\Typora\typora-user-images\image-20200531233309196.png)\]\[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-0acABmru-1590985728000)(C:\Users\hp\AppData\Roaming\Typora\typora-user-images\image-20200531233355203.png)\]\[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-cvb2jLCC-1590985728000)(C:\Users\hp\AppData\Roaming\Typora\typora-user-images\image-20200601084105169.png)\]"><br><img src="https://img-blog.csdnimg.cn/20200601123107667.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200601123125483.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>首先<strong>判断系统的能观性</strong>：</p>
-<script type="math/tex; mode=display">
-Rank Qc = \begin{bmatrix}C \\ CA\\CA^2\\CA^3 \end{bmatrix}=4</script><p>系统完全能观，确保可以设计降维状态观测器来观测状态。</p>
-<p>令</p>
-<script type="math/tex; mode=display">
-C=\begin{bmatrix}C1 & C2 \end{bmatrix},C1=\begin{bmatrix}1&0\\0&1\end{bmatrix},C2=\begin{bmatrix}0&0\\0&0\end{bmatrix}</script><p>C1非奇异，则<strong>状态变换矩阵</strong></p>
-<script type="math/tex; mode=display">
-P=\begin{bmatrix}1 & 0&0&0 \\ 0 & 1&0&0\\0&0&1&0\\0&0&0&1 \end{bmatrix}</script><script type="math/tex; mode=display">
-\overline A=\begin{bmatrix}0  & 0&1&0 \\ 0 & 0&0&1\\15.244&0&0&0\\-0.363&0&0&0 \end{bmatrix}=\begin{bmatrix}\overline A_{11}&\overline A_{12} \\ \overline A_{21}&\overline A_{22}\end{bmatrix},
+C=\begin{bmatrix}1  &amp; 0&amp;0&amp;0 \\ 0 &amp;1&amp;0&amp;0 \end{bmatrix}
+\]</span></p>
+<p>降维观测器设计思路：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200601123049630.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-mhKzq5aO-1590985727998)(C:-user-images-20200531233309196.png)][外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-0acABmru-1590985728000)(C:-user-images-20200531233355203.png)][外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-cvb2jLCC-1590985728000)(C:-user-images-20200601084105169.png)]" /> <img src="https://img-blog.csdnimg.cn/20200601123107667.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200601123125483.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 首先<strong>判断系统的能观性</strong>： <span class="math display">\[
+Rank Qc = \begin{bmatrix}C \\ CA\\CA^2\\CA^3 \end{bmatrix}=4
+\]</span> 系统完全能观，确保可以设计降维状态观测器来观测状态。</p>
+<p>令 <span class="math display">\[
+C=\begin{bmatrix}C1 &amp; C2 \end{bmatrix},C1=\begin{bmatrix}1&amp;0\\0&amp;1\end{bmatrix},C2=\begin{bmatrix}0&amp;0\\0&amp;0\end{bmatrix}
+\]</span> C1非奇异，则<strong>状态变换矩阵</strong> <span class="math display">\[
+P=\begin{bmatrix}1 &amp; 0&amp;0&amp;0 \\ 0 &amp; 1&amp;0&amp;0\\0&amp;0&amp;1&amp;0\\0&amp;0&amp;0&amp;1 \end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[
+\overline A=\begin{bmatrix}0  &amp; 0&amp;1&amp;0 \\ 0 &amp; 0&amp;0&amp;1\\15.244&amp;0&amp;0&amp;0\\-0.363&amp;0&amp;0&amp;0 \end{bmatrix}=\begin{bmatrix}\overline A_{11}&amp;\overline A_{12} \\ \overline A_{21}&amp;\overline A_{22}\end{bmatrix},
 \overline B=\begin{bmatrix}0  \\ 0 \\-0.741\\0.494 \end{bmatrix}=\begin{bmatrix}\overline B_{1} \\\overline B_{2}\end{bmatrix},
-\overline C=\begin{bmatrix}1  & 0&0&0 \\ 0 &1&0&0 \end{bmatrix}</script><p><strong>设计反馈增益矩阵</strong>:</p>
-<p>前面我们在设计状态反馈的时候已经得出了系统的闭环主导极点：</p>
-<script type="math/tex; mode=display">
-\lambda_1^*=-2+j2\sqrt3,\lambda_2^*=-2-j2\sqrt3</script><p>一般设计，观测器极点为系统主导极点3~5倍。</p>
+\overline C=\begin{bmatrix}1  &amp; 0&amp;0&amp;0 \\ 0 &amp;1&amp;0&amp;0 \end{bmatrix}
+\]</span></p>
+<p><strong>设计反馈增益矩阵</strong>:</p>
+<p>前面我们在设计状态反馈的时候已经得出了系统的闭环主导极点： <span class="math display">\[
+\lambda_1^*=-2+j2\sqrt3,\lambda_2^*=-2-j2\sqrt3
+\]</span> 一般设计，观测器极点为系统主导极点3~5倍。</p>
 <p>我们先试着使极点为-10，-10。</p>
-<p>期望特征方程为：</p>
-<script type="math/tex; mode=display">
-\lambda^2+20\lambda+100=0</script><p>观测器特征方程为：</p>
-<script type="math/tex; mode=display">
-det(sI-\overline A_{22}+\overline H\overline A_{12})=s^2+(H_{11}+H_{22})s+H_{11}H_{22}-H_{21}H_{22}=0</script><p>不妨使：</p>
-<script type="math/tex; mode=display">
-H_{21}=0,H_{22}=0,H_{11}=H_{22}</script><p>比较系数，得：</p>
-<script type="math/tex; mode=display">
-H_{11}=10,H_{22}=10</script><p><strong>子系统的观测器为</strong>：</p>
-<script type="math/tex; mode=display">
+<p>期望特征方程为： <span class="math display">\[
+\lambda^2+20\lambda+100=0
+\]</span> 观测器特征方程为： <span class="math display">\[
+det(sI-\overline A_{22}+\overline H\overline A_{12})=s^2+(H_{11}+H_{22})s+H_{11}H_{22}-H_{21}H_{22}=0
+\]</span></p>
+<p>不妨使： <span class="math display">\[
+H_{21}=0,H_{22}=0,H_{11}=H_{22}
+\]</span> 比较系数，得： <span class="math display">\[
+H_{11}=10,H_{22}=10
+\]</span> <strong>子系统的观测器为</strong>：</p>
+<p><span class="math display">\[
 \begin{cases}
-\dot z=\begin{bmatrix} -10&0 \\0&-10 \end{bmatrix}\hat x_2+\begin{bmatrix} -0.741 \\0.494 \end{bmatrix}u+\begin{bmatrix}15.244&0 \\-0.363&0\end{bmatrix}y\\
-\hat x_2=z+\begin{bmatrix} 10&0\\0&10 \end{bmatrix}y
-\end{cases}</script><p><strong>原系统的状态观测量为</strong>：</p>
-<script type="math/tex; mode=display">
-\hat x=\begin{bmatrix}y\\\hat x_2\end{bmatrix},y=\begin{bmatrix} x_1\\x_2 \end{bmatrix}=\begin{bmatrix} \theta\\y^{'} \end{bmatrix}</script><p>于是我们便构建了x3、x4，即两个不可测量的速度的观测值。</p>
+\dot z=\begin{bmatrix} -10&amp;0 \\0&amp;-10 \end{bmatrix}\hat x_2+\begin{bmatrix} -0.741 \\0.494 \end{bmatrix}u+\begin{bmatrix}15.244&amp;0 \\-0.363&amp;0\end{bmatrix}y\\
+\hat x_2=z+\begin{bmatrix} 10&amp;0\\0&amp;10 \end{bmatrix}y
+\end{cases}
+\]</span></p>
+<p><strong>原系统的状态观测量为</strong>： <span class="math display">\[
+\hat x=\begin{bmatrix}y\\\hat x_2\end{bmatrix},y=\begin{bmatrix} x_1\\x_2 \end{bmatrix}=\begin{bmatrix} \theta\\y^{&#39;} \end{bmatrix}
+\]</span> 于是我们便构建了x3、x4，即两个不可测量的速度的观测值。</p>
 <p>接下来只需要<strong>将观测值代入状态反馈</strong>。</p>
-<h2 id="建立Simulink模型"><a href="#建立Simulink模型" class="headerlink" title="建立Simulink模型"></a>建立Simulink模型</h2><p>根据以上建立仿真模型：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123233338.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>为了简化框图，将原系统模型替换成了直接State space表示的形式，具体设置为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123248486.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="建立simulink模型-1">建立Simulink模型</h2>
+<p>根据以上建立仿真模型：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200601123233338.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 为了简化框图，将原系统模型替换成了直接State space表示的形式，具体设置为：</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200601123248486.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>可以看到我们给定了倒立摆角度的初值1，其他全部设为0。</p>
 <p>运行仿真，角度scope的输出为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123300369.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>系统可以控制倒立摆达到平衡状态，但是<strong>超调量和调节时间都增大</strong>了。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200601123300369.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 系统可以控制倒立摆达到平衡状态，但是<strong>超调量和调节时间都增大</strong>了。</p>
 <p>我们试着<strong>调整观测器极点</strong>，使两极点都为-20：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123314527.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123324650.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200601123314527.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200601123324650.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>影响并不是很大。</p>
 <p>实际上，当我试着<strong>将原系统框图完整地画出，并比较观测器观测值与实际状态的误差</strong>的时候，发现观测器已经能够很好地跟踪未知状态了。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200628204038292.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>θ曲线对比</p>
-<p><img src="https://img-blog.csdnimg.cn/2020060112335195.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200628204038292.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> θ曲线对比</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/2020060112335195.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>速度曲线对比</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123400100.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200601123400100.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>试着在初始状态基础上<strong>加入一个阶跃扰动</strong>，扰动发生时间为1s，幅度设置较大（1000）：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123414215.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123423558.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200601123414215.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200601123423558.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>观察到，系统受扰后，仍能迅速调整达到稳定。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>综上，倒立摆问题已经基本得到了解决。</p>
+<h2 id="总结">总结</h2>
+<p>综上，倒立摆问题已经基本得到了解决。</p>
 <p><strong>只需要通过传感器测量出摆的角度和小车位移，就能设计状态观测器观测出摆的角速度和小车速度，进而通过状态反馈，得到需要输入的外力F。通过此外力F，就能使倒立摆保持平衡。</strong></p>
 <p>在实际运用中，根据场景要求，对参数进行优化即可。</p>
 <p>matlab模型在我的CSDN个人主页资源中可以找到。</p>
@@ -459,6 +510,7 @@ H_{11}=10,H_{22}=10</script><p><strong>子系统的观测器为</strong>：</p>
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -505,7 +557,7 @@ H_{11}=10,H_{22}=10</script><p><strong>子系统的观测器为</strong>：</p>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%80%92%E7%AB%8B%E6%91%86%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E6%8E%A7%E5%88%B6"><span class="nav-number"></span> <span class="nav-text">倒立摆状态反馈控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number"></span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E7%A9%BA%E9%97%B4%E6%A8%A1%E5%9E%8B"><span class="nav-number"></span> <span class="nav-text">状态空间模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E6%8E%A7%E5%88%B6"><span class="nav-number"></span> <span class="nav-text">设计状态反馈控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8Bsimulink%E6%A8%A1%E5%9E%8B"><span class="nav-number"></span> <span class="nav-text">建立simulink模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E9%99%8D%E7%BB%B4%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B%E5%99%A8"><span class="nav-number"></span> <span class="nav-text">设计降维状态观测器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8BSimulink%E6%A8%A1%E5%9E%8B"><span class="nav-number"></span> <span class="nav-text">建立Simulink模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number"></span> <span class="nav-text">总结</span></a></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%80%92%E7%AB%8B%E6%91%86%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E6%8E%A7%E5%88%B6"><span class="nav-number"></span> <span class="nav-text">倒立摆状态反馈控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number"></span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E7%A9%BA%E9%97%B4%E6%A8%A1%E5%9E%8B"><span class="nav-number"></span> <span class="nav-text">状态空间模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E6%8E%A7%E5%88%B6"><span class="nav-number"></span> <span class="nav-text">设计状态反馈控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8Bsimulink%E6%A8%A1%E5%9E%8B"><span class="nav-number"></span> <span class="nav-text">建立simulink模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E9%99%8D%E7%BB%B4%E7%8A%B6%E6%80%81%E8%A7%82%E6%B5%8B%E5%99%A8"><span class="nav-number"></span> <span class="nav-text">设计降维状态观测器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8Bsimulink%E6%A8%A1%E5%9E%8B-1"><span class="nav-number"></span> <span class="nav-text">建立Simulink模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number"></span> <span class="nav-text">总结</span></a></div>
       </div>
       <!--/noindex-->
 
@@ -712,6 +764,35 @@ H_{11}=10,H_{22}=10</script><p><strong>子系统的观测器为</strong>：</p>
     
 
   
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'jWiMxVrj9ipCFA6Nt2JtFwld-gzGzoHsz# Your leancloud application appid',
+      appKey     : '7u7KfQ4BNsCCjQElGsNtnYi5# Your leancloud application appkey',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
 
   
 
