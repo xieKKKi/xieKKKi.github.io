@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"xiekkki.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="摘要要自制一款效果器，看懂电路图是必须的，即使你已经有了完整的设计电路图，在电路的绘制以及焊接的时候电路知识都会用到。">
+  <meta name="description" content="摘要 要自制一款效果器，看懂电路图是必须的，即使你已经有了完整的设计电路图，在电路的绘制以及焊接的时候电路知识都会用到。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="自制电吉他效果器 DIY PCB（二）电路图分析">
 <meta property="og:url" content="https://xiekkki.github.io/2020/04/14/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E4%BA%8C%EF%BC%89%E7%94%B5%E8%B7%AF%E5%9B%BE%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="家鹏的个人主页">
-<meta property="og:description" content="摘要要自制一款效果器，看懂电路图是必须的，即使你已经有了完整的设计电路图，在电路的绘制以及焊接的时候电路知识都会用到。">
+<meta property="og:description" content="摘要 要自制一款效果器，看懂电路图是必须的，即使你已经有了完整的设计电路图，在电路的绘制以及焊接的时候电路知识都会用到。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200414220701871.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200414221347958.png">
@@ -273,25 +273,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>要自制一款效果器，看懂电路图是必须的，即使你已经有了完整的设计电路图，在电路的绘制以及焊接的时候电路知识都会用到。</p>
+        <h3 id="摘要">摘要</h3>
+<p>要自制一款效果器，看懂电路图是必须的，即使你已经有了完整的设计电路图，在电路的绘制以及焊接的时候电路知识都会用到。</p>
 <span id="more"></span>
 <p>（转自我的CSDN博客）</p>
-<h1 id="电路图分析"><a href="#电路图分析" class="headerlink" title="电路图分析"></a>电路图分析</h1><p>在效果器电路中，比较简单的是<strong>过载失真类</strong>效果器的电路。混响延迟等与声相有关的由于电路比较复杂本人也没有尝试过。其他的例如EQ、哇音等等效果器复杂程度依设计各不相同，在能做出过载失真类效果器后，可以自行尝试。</p>
-<p>我这里主要为大家介绍失真效果器。<br>来看一张电路图：<br><img src="https://img-blog.csdnimg.cn/20200414220701871.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这是一款非常经典的失真效果器的电路图，具体型号我就不说了。</p>
+<h1 id="电路图分析">电路图分析</h1>
+<p>在效果器电路中，比较简单的是<strong>过载失真类</strong>效果器的电路。混响延迟等与声相有关的由于电路比较复杂本人也没有尝试过。其他的例如EQ、哇音等等效果器复杂程度依设计各不相同，在能做出过载失真类效果器后，可以自行尝试。</p>
+<p>我这里主要为大家介绍失真效果器。 来看一张电路图： <img src="https://img-blog.csdnimg.cn/20200414220701871.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 这是一款非常经典的失真效果器的电路图，具体型号我就不说了。</p>
 <p>它的设计也非常简单，我们把它简单分成几个模块来分析一下。</p>
-<h2 id="放大模块（失真源）"><a href="#放大模块（失真源）" class="headerlink" title="放大模块（失真源）"></a>放大模块（失真源）</h2><p><img src="https://img-blog.csdnimg.cn/20200414221347958.png" alt="在这里插入图片描述"><br>这是一个<strong>运算放大电路</strong>，用的是学过模电的同学都很熟悉的741运放。不熟悉741的可以百度一下741的用户手册。</p>
+<h2 id="放大模块失真源">放大模块（失真源）</h2>
+<p><img src="https://img-blog.csdnimg.cn/20200414221347958.png" alt="在这里插入图片描述" /> 这是一个<strong>运算放大电路</strong>，用的是学过模电的同学都很熟悉的741运放。不熟悉741的可以百度一下741的用户手册。</p>
 <p><strong>吉他输入的电流信号可以理解为正弦波，是交流信号，3脚和6脚接入的电容目的是隔直流，通交流。</strong></p>
 <p><strong>500K的电位器决定了放大倍数，这个电位器对应的就是效果器上的GAIN旋钮。</strong></p>
-<p><strong>运放使用9v直流电源供电，造成失真的原因是，当放大倍数足够大的时候，输入信号电压*放大倍数超过9v（或者低于0v），信号削波。</strong></p>
-<h2 id="4-5v供电模块"><a href="#4-5v供电模块" class="headerlink" title="4.5v供电模块"></a>4.5v供电模块</h2><p><img src="https://img-blog.csdnimg.cn/20200414222355701.png" alt="在这里插入图片描述"><br>这里用两个10k电阻串联，接入9v电源和地之间，产生4.5v偏置电压，接入运放3脚。<br><strong>这样做的目的是提供直流偏置。吉他输入信号是在0v上下波动的，4.5v偏置电压可以将其抬升至电源电压范围 0-9v 的中间位置，进行放大。</strong></p>
+<p>**运放使用9v直流电源供电，造成失真的原因是，当放大倍数足够大的时候，输入信号电压*放大倍数超过9v（或者低于0v），信号削波。**</p>
+<h2 id="v供电模块">4.5v供电模块</h2>
+<p><img src="https://img-blog.csdnimg.cn/20200414222355701.png" alt="在这里插入图片描述" /> 这里用两个10k电阻串联，接入9v电源和地之间，产生4.5v偏置电压，接入运放3脚。 <strong>这样做的目的是提供直流偏置。吉他输入信号是在0v上下波动的，4.5v偏置电压可以将其抬升至电源电压范围 0-9v 的中间位置，进行放大。</strong></p>
 <p>一般的效果器都会使用这样的直流偏置方案。</p>
-<p><strong>另外，10uf的极性电容是一个滤波电容，目的是滤除电源的高频噪声。同样的，我们在9v的电源处也要接入滤波电容，常用的规格是47uf或100uf的电解电容。</strong></p>
-<h2 id="EQ调节模块"><a href="#EQ调节模块" class="headerlink" title="EQ调节模块"></a>EQ调节模块</h2><p><img src="https://img-blog.csdnimg.cn/20200414223037354.png" alt="在这里插入图片描述"><br><strong>这是一个简单的无源一阶滤波器，对应的是效果器上的TONE钮。</strong></p>
-<p>右边两个跟滤波器无关，顺便说一下，这是两个稳压二极管，常用型号是1N4148.<br><img src="https://img-blog.csdnimg.cn/20200414223307583.png" alt="在这里插入图片描述"><br>独立的虚线框里表示的是另一种<strong>替代方案</strong>。</p>
-<h2 id="其他部分"><a href="#其他部分" class="headerlink" title="其他部分"></a>其他部分</h2><p><img src="https://img-blog.csdnimg.cn/20200414223649520.png" alt="在这里插入图片描述"><br><strong>50K电位器控制输出的音量，对应VOLUME钮。</strong></p>
+<p><strong>另外，10uf的极性电容是一个滤波电容，目的是滤除电源的高频噪声。同样的，我们在9v的电源处也要接入滤波电容，常用的规格是47uf或100uf的电解电容。</strong> ## EQ调节模块 <img src="https://img-blog.csdnimg.cn/20200414223037354.png" alt="在这里插入图片描述" /> <strong>这是一个简单的无源一阶滤波器，对应的是效果器上的TONE钮。</strong></p>
+<p>右边两个跟滤波器无关，顺便说一下，这是两个稳压二极管，常用型号是1N4148. <img src="https://img-blog.csdnimg.cn/20200414223307583.png" alt="在这里插入图片描述" /> 独立的虚线框里表示的是另一种<strong>替代方案</strong>。</p>
+<h2 id="其他部分">其他部分</h2>
+<p><img src="https://img-blog.csdnimg.cn/20200414223649520.png" alt="在这里插入图片描述" /> <strong>50K电位器控制输出的音量，对应VOLUME钮。</strong></p>
 <p><strong>SW表示开关，控制output接受放大后的信号还是bypass的信号。</strong></p>
 <p>一般的效果器还有信号指示灯，比较简单，在之后画原理图的时候再看不迟。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一个简单而又经典的失真效果器就介绍完了，信号主要经过的处理是</p>
+<h2 id="总结">总结</h2>
+<p>一个简单而又经典的失真效果器就介绍完了，信号主要经过的处理是</p>
 <p><strong>加直流偏置，741放大，滤波器调节EQ，调节输出电平。</strong></p>
 <p>是不是觉得难度其实也不大呢？接下来让我们继续学习，试着将它亲手做出来吧。</p>
 <p>且听下回分解。</p>
@@ -409,7 +414,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%B5%E8%B7%AF%E5%9B%BE%E5%88%86%E6%9E%90"><span class="nav-number"></span> <span class="nav-text">电路图分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%BE%E5%A4%A7%E6%A8%A1%E5%9D%97%EF%BC%88%E5%A4%B1%E7%9C%9F%E6%BA%90%EF%BC%89"><span class="nav-number"></span> <span class="nav-text">放大模块（失真源）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5v%E4%BE%9B%E7%94%B5%E6%A8%A1%E5%9D%97"><span class="nav-number"></span> <span class="nav-text">4.5v供电模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EQ%E8%B0%83%E8%8A%82%E6%A8%A1%E5%9D%97"><span class="nav-number"></span> <span class="nav-text">EQ调节模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E9%83%A8%E5%88%86"><span class="nav-number"></span> <span class="nav-text">其他部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number"></span> <span class="nav-text">总结</span></a></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%B5%E8%B7%AF%E5%9B%BE%E5%88%86%E6%9E%90"><span class="nav-number"></span> <span class="nav-text">电路图分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%BE%E5%A4%A7%E6%A8%A1%E5%9D%97%E5%A4%B1%E7%9C%9F%E6%BA%90"><span class="nav-number"></span> <span class="nav-text">放大模块（失真源）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#v%E4%BE%9B%E7%94%B5%E6%A8%A1%E5%9D%97"><span class="nav-number"></span> <span class="nav-text">4.5v供电模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E9%83%A8%E5%88%86"><span class="nav-number"></span> <span class="nav-text">其他部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number"></span> <span class="nav-text">总结</span></a></div>
       </div>
       <!--/noindex-->
 

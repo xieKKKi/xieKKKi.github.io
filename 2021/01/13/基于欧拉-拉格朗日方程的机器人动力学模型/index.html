@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"xiekkki.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="摘要如题。">
+  <meta name="description" content="摘要 如题。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于欧拉-拉格朗日方程的机器人动力学模型">
 <meta property="og:url" content="https://xiekkki.github.io/2021/01/13/%E5%9F%BA%E4%BA%8E%E6%AC%A7%E6%8B%89-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%96%B9%E7%A8%8B%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="家鹏的个人主页">
-<meta property="og:description" content="摘要如题。">
+<meta property="og:description" content="摘要 如题。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210113172549829.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210113172528262.png">
@@ -266,131 +266,146 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>如题。</p>
+        <h3 id="摘要">摘要</h3>
+<p>如题。</p>
 <span id="more"></span>
 <p>（转自我的CSDN博客）</p>
-<h2 id="机器人动力学方程"><a href="#机器人动力学方程" class="headerlink" title="机器人动力学方程"></a>机器人动力学方程</h2><p>机器人动力学方程是描述机器人力和运动之间的关系的方程。只描述力和运动的关系，不考虑产生运动的力和扭矩。</p>
-<h3 id="欧拉-拉格朗日方程"><a href="#欧拉-拉格朗日方程" class="headerlink" title="欧拉 - 拉格朗日方程"></a>欧拉 - 拉格朗日方程</h3><p>欧拉-拉格朗日方程（OL）描述了处于完整约束下，并且约束力满足虚功原理的机械系统的<strong>力和运动随时间的变化</strong>。</p>
+<h2 id="机器人动力学方程">机器人动力学方程</h2>
+<p>机器人动力学方程是描述机器人力和运动之间的关系的方程。只描述力和运动的关系，不考虑产生运动的力和扭矩。</p>
+<h3 id="欧拉---拉格朗日方程">欧拉 - 拉格朗日方程</h3>
+<p>欧拉-拉格朗日方程（OL）描述了处于完整约束下，并且约束力满足虚功原理的机械系统的<strong>力和运动随时间的变化</strong>。</p>
 <p>有两种推导方法，先介绍使用牛顿第二定律的推导方法。</p>
-<p>根据牛顿第二定律，某质点的运动方程是：</p>
-<script type="math/tex; mode=display">
-m\ddot y = f-mg</script><p>先对时间求导，再对$\dot y$求偏导，方程左侧可以写为：</p>
-<script type="math/tex; mode=display">
-m \ddot y = {d \over dt}(m \dot y)={d \over dt}{\partial \over \partial \dot y}({1 \over 2}m \dot y^2)={d \over dt}{\partial K \over \partial \dot y}</script><p>其中$K = {1 \over 2}m \dot y^2$，是动能。</p>
-<p>接着将重力表示为：</p>
-<script type="math/tex; mode=display">
-mg = {\partial \over \partial y}(mgy) = {\partial P \over \partial y}</script><p>其中$P = mgy$表示重力势能。</p>
-<p>定义拉格朗日算子$L$，表示系统动能与势能之差：</p>
-<script type="math/tex; mode=display">
-L = K-P ={1 \over 2}m \dot y^2-mgy</script><p>并且有：</p>
-<script type="math/tex; mode=display">
-{\partial L\over \partial \dot y} = {\partial K \over \partial \dot y},{\partial L \over \partial y} =-{\partial P \over \partial y}</script><p>则初始的质点运动方程可化为：</p>
-<script type="math/tex; mode=display">
-{d \over dt}{\partial K \over \partial \dot y} = f-{\partial P \over \partial y}</script><p>即：</p>
-<script type="math/tex; mode=display">
-{d \over dt}{\partial L \over \partial \dot y}-{\partial L \over \partial y} = f</script><p>此方程被称为欧拉-拉格朗日方程。</p>
-<p>推广到n自由度的系统，得到：</p>
-<script type="math/tex; mode=display">
-{d \over dt}{\partial L \over \partial \dot q_k}-{\partial L \over \partial q_k} = \tau_k</script><p>其中$\tau_k$是与广义坐标$q_k$相关的力。</p>
-<h3 id="动能与势能"><a href="#动能与势能" class="headerlink" title="动能与势能"></a>动能与势能</h3><p>欧拉-拉格朗日方程可以直接用来推导动力学方程，前提是我们能够以一组广义坐标来表示该系统的动能和势能。如果要让这能够得到实际应用，那么我们就必须能够针对一个n连杆机器人计算出他的动能和势能。接下来将推到刚性连杆机器人动能和势能的表达式。</p>
-<h4 id="动能表示"><a href="#动能表示" class="headerlink" title="动能表示"></a>动能表示</h4><p>刚体的动能可表示为平移动能和关于质心的旋转动能之和：</p>
-<script type="math/tex; mode=display">
-K = {1 \over 2}mv^Tv+{1\over 2}\omega^T Z\omega</script><p>$Z$表示物体的惯性张量，是一个3*3的对称矩阵。</p>
-<p>$Z = RIR^T$，R是附体坐标系与惯性坐标系之间的姿态变换。</p>
-<p>$I$是附体坐标系中的惯性张量，仅取决于物体的形状和质量分布，与物体运动无关。<br><img src="https://img-blog.csdnimg.cn/20210113172549829.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>速度$v$和角速度$\omega$需要转置，因为要考虑多个维度的方向。连杆上任意一点的现速度和角速度可通过雅可比矩阵和关节速度（关节变量的导数）来表示：</p>
-<script type="math/tex; mode=display">
+<p>根据牛顿第二定律，某质点的运动方程是： <span class="math display">\[
+m\ddot y = f-mg
+\]</span> 先对时间求导，再对<span class="math inline">\(\dot y\)</span>求偏导，方程左侧可以写为： <span class="math display">\[
+m \ddot y = {d \over dt}(m \dot y)={d \over dt}{\partial \over \partial \dot y}({1 \over 2}m \dot y^2)={d \over dt}{\partial K \over \partial \dot y}
+\]</span> 其中<span class="math inline">\(K = {1 \over 2}m \dot y^2\)</span>，是动能。</p>
+<p>接着将重力表示为： <span class="math display">\[
+mg = {\partial \over \partial y}(mgy) = {\partial P \over \partial y}
+\]</span> 其中<span class="math inline">\(P = mgy\)</span>表示重力势能。</p>
+<p>定义拉格朗日算子<span class="math inline">\(L\)</span>，表示系统动能与势能之差： <span class="math display">\[
+L = K-P ={1 \over 2}m \dot y^2-mgy
+\]</span> 并且有： <span class="math display">\[
+{\partial L\over \partial \dot y} = {\partial K \over \partial \dot y},{\partial L \over \partial y} =-{\partial P \over \partial y}
+\]</span></p>
+<p>则初始的质点运动方程可化为： <span class="math display">\[
+{d \over dt}{\partial K \over \partial \dot y} = f-{\partial P \over \partial y}
+\]</span> 即： <span class="math display">\[
+{d \over dt}{\partial L \over \partial \dot y}-{\partial L \over \partial y} = f
+\]</span> 此方程被称为欧拉-拉格朗日方程。</p>
+<p>推广到n自由度的系统，得到： <span class="math display">\[
+{d \over dt}{\partial L \over \partial \dot q_k}-{\partial L \over \partial q_k} = \tau_k
+\]</span> 其中<span class="math inline">\(\tau_k\)</span>是与广义坐标<span class="math inline">\(q_k\)</span>相关的力。</p>
+<h3 id="动能与势能">动能与势能</h3>
+<p>欧拉-拉格朗日方程可以直接用来推导动力学方程，前提是我们能够以一组广义坐标来表示该系统的动能和势能。如果要让这能够得到实际应用，那么我们就必须能够针对一个n连杆机器人计算出他的动能和势能。接下来将推到刚性连杆机器人动能和势能的表达式。</p>
+<h4 id="动能表示">动能表示</h4>
+<p>刚体的动能可表示为平移动能和关于质心的旋转动能之和： <span class="math display">\[
+K = {1 \over 2}mv^Tv+{1\over 2}\omega^T Z\omega
+\]</span> <span class="math inline">\(Z\)</span>表示物体的惯性张量，是一个3*3的对称矩阵。</p>
+<p><span class="math inline">\(Z = RIR^T\)</span>，R是附体坐标系与惯性坐标系之间的姿态变换。</p>
+<p><span class="math inline">\(I\)</span>是附体坐标系中的惯性张量，仅取决于物体的形状和质量分布，与物体运动无关。 <img src="https://img-blog.csdnimg.cn/20210113172549829.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /></p>
+<p>速度<span class="math inline">\(v\)</span>和角速度<span class="math inline">\(\omega\)</span>需要转置，因为要考虑多个维度的方向。连杆上任意一点的现速度和角速度可通过雅可比矩阵和关节速度（关节变量的导数）来表示： <span class="math display">\[
 v_i = J_{v_i}q\dot q \\
-\omega_i = J_{\omega_i}q\dot q</script><p>机器人总动能可表示为：</p>
-<script type="math/tex; mode=display">
-K = {1 \over 2}\dot q^T \sum_{i=1}^n[m_i\ {(J_{v_i}(q))}^T \ J_{v_i}(q) \ + \ (J_{\omega_i}(q))^T \ R_{i}(q) \ I_i \ (R_i(q))^T \ J_{\omega_i}(q)]\dot q</script><p>用$D(q)$来表示机器人的惯性矩阵：</p>
-<script type="math/tex; mode=display">
+\omega_i = J_{\omega_i}q\dot q
+\]</span></p>
+<p>机器人总动能可表示为： <span class="math display">\[
+K = {1 \over 2}\dot q^T \sum_{i=1}^n[m_i\ {(J_{v_i}(q))}^T \ J_{v_i}(q) \ + \ (J_{\omega_i}(q))^T \ R_{i}(q) \ I_i \ (R_i(q))^T \ J_{\omega_i}(q)]\dot q
+\]</span> 用<span class="math inline">\(D(q)\)</span>来表示机器人的惯性矩阵： <span class="math display">\[
 D(q) \ = \ \sum_{i=1}^n[m_i\ {(J_{v_i}(q))}^T \ J_{v_i}(q) \ + \ (J_{\omega_i}(q))^T \ R_{i}(q) \ I_i \ (R_i(q))^T \ J_{\omega_i}(q)] \\
-K = {1 \over 2}\dot q^T D(q)\dot q</script><p>机器人惯性矩阵$D(q)$有如下特点：</p>
-<ol>
+K = {1 \over 2}\dot q^T D(q)\dot q
+\]</span> 机器人惯性矩阵<span class="math inline">\(D(q)\)</span>有如下特点：</p>
+<ol type="1">
 <li>只与机器人构型有关</li>
 <li>对称且正定</li>
 <li>动能总是非负的</li>
 </ol>
-<h4 id="势能表示"><a href="#势能表示" class="headerlink" title="势能表示"></a>势能表示</h4><p>在刚体动力学情形下，势能总是来源于重力。假设物体质量集中在质心，计算第$i$个连杆的势能：</p>
-<script type="math/tex; mode=display">
-P_i = m_ig^Tr_{ci}</script><p>$g$是惯性坐标系中的重力向量，$r_{ci}$是连杆$i$的质心坐标。机器人总势能为：</p>
-<script type="math/tex; mode=display">
-P = \sum_{i=1}^n P_i = \sum_{i=1}^n m_ig^Tr_{ci}</script><p>在m、g保持不变的情况下，机器人势能只与广义坐标$r_{ci}$有关。</p>
-<h3 id="运动方程"><a href="#运动方程" class="headerlink" title="运动方程"></a>运动方程</h3><p>上面我们得到了如下结果：</p>
-<p>系统动能是关于广义速度（坐标微分）的二次函数：</p>
-<script type="math/tex; mode=display">
-K = {1 \over 2}\dot q^T D(q)\dot q = {1 \over 2}\sum_{i,j}^n d_{i,j}(q) \dot q_i \dot q_j</script><p>系统势能是关于广义坐标的函数，且与广义速度无关：</p>
-<script type="math/tex; mode=display">
-P =  \sum_{i=1}^n m_ig^Tr_{ci}</script><p>欧拉-拉格朗日算子为：</p>
-<script type="math/tex; mode=display">
-L = K-P ={1 \over 2}\sum_{i,j}^n d_{i,j}(q) \dot q_i \dot q_j-P(q)</script><p>欧拉-拉格朗日方程为：</p>
-<script type="math/tex; mode=display">
-{d \over dt}{\partial L \over \partial \dot q_k}-{\partial L \over \partial q_k} = \tau_k</script><p>其中：</p>
-<script type="math/tex; mode=display">
+<h4 id="势能表示">势能表示</h4>
+<p>在刚体动力学情形下，势能总是来源于重力。假设物体质量集中在质心，计算第<span class="math inline">\(i\)</span>个连杆的势能： <span class="math display">\[
+P_i = m_ig^Tr_{ci}
+\]</span> <span class="math inline">\(g\)</span>是惯性坐标系中的重力向量，<span class="math inline">\(r_{ci}\)</span>是连杆<span class="math inline">\(i\)</span>的质心坐标。机器人总势能为： <span class="math display">\[
+P = \sum_{i=1}^n P_i = \sum_{i=1}^n m_ig^Tr_{ci}
+\]</span> 在m、g保持不变的情况下，机器人势能只与广义坐标<span class="math inline">\(r_{ci}\)</span>有关。</p>
+<h3 id="运动方程">运动方程</h3>
+<p>上面我们得到了如下结果：</p>
+<p>系统动能是关于广义速度（坐标微分）的二次函数： <span class="math display">\[
+K = {1 \over 2}\dot q^T D(q)\dot q = {1 \over 2}\sum_{i,j}^n d_{i,j}(q) \dot q_i \dot q_j
+\]</span> 系统势能是关于广义坐标的函数，且与广义速度无关： <span class="math display">\[
+P =  \sum_{i=1}^n m_ig^Tr_{ci}
+\]</span> 欧拉-拉格朗日算子为： <span class="math display">\[
+L = K-P ={1 \over 2}\sum_{i,j}^n d_{i,j}(q) \dot q_i \dot q_j-P(q)
+\]</span> 欧拉-拉格朗日方程为： <span class="math display">\[
+{d \over dt}{\partial L \over \partial \dot q_k}-{\partial L \over \partial q_k} = \tau_k
+\]</span> 其中： <span class="math display">\[
 {\partial L \over \partial \dot q_k}= \sum_jd_{kj}\dot q_j\\
 {d \over dt}{\partial L \over \partial \dot q_k} = \sum_jd_{kj}\ddot q_j+\sum_{j}{d \over dt}d_{kj}\dot q_j \\ 
 \ \ \ \ \   \ \ \  \  \  \ \ \ \ \ = \sum_jd_{kj}\ddot q_j+\sum_{i,j}{\partial d_{kj}\over \partial q_i}\dot q_i\dot q_j \\
-{\partial L \over \partial q_k} = {1 \over 2}\sum_{i,j} {\partial d_{i,j} \over \partial q_k} \dot q_i \dot q_j - {\partial P \over \partial q_k}</script><p>因此对于每个$k=1,2,…n$，欧拉-拉格朗日方程可以写成：</p>
-<script type="math/tex; mode=display">
-\sum_jd_{kj}\ddot q_j+\sum_{i,j}\{ {\partial d_{kj}\over \partial q_i} -{1\over 2}{\partial d_{i,j} \over \partial q_k}\} \dot q_i\dot q_j - {\partial P \over \partial q_k}= \tau_k</script><p>即：</p>
-<script type="math/tex; mode=display">
-\sum_jd_{kj}\ddot q_j+\sum_{i,j} {1\over 2}\{ {\partial d_{kj}\over \partial q_i} + {\partial d_{kj}\over \partial q_i} -{\partial d_{i,j} \over \partial q_k}\} \dot q_i\dot q_j - {\partial P \over \partial q_k}= \tau_k</script><p>定义Christoffel symbol：</p>
-<script type="math/tex; mode=display">
-c_{ijk} = c_{jik} ={1\over 2}\{ {\partial d_{kj}\over \partial q_i} + {\partial d_{kj}\over \partial q_i} -{\partial d_{i,j} \over \partial q_k} \}</script><p>定义广义重力：</p>
-<script type="math/tex; mode=display">
-g_k = {\partial P \over \partial q_k}</script><p>最终得到欧拉-拉格朗日方程：</p>
-<script type="math/tex; mode=display">
-\sum_jd_{kj}(q)\ddot q_j+\sum_{i,j} c_{ijk}(q) \dot q_i\dot q_j - g_k(q)= \tau_k</script><p>方程左侧三项分别为：</p>
-<ol>
+{\partial L \over \partial q_k} = {1 \over 2}\sum_{i,j} {\partial d_{i,j} \over \partial q_k} \dot q_i \dot q_j - {\partial P \over \partial q_k}
+\]</span> 因此对于每个<span class="math inline">\(k=1,2,...n\)</span>，欧拉-拉格朗日方程可以写成： <span class="math display">\[
+\sum_jd_{kj}\ddot q_j+\sum_{i,j}\{ {\partial d_{kj}\over \partial q_i} -{1\over 2}{\partial d_{i,j} \over \partial q_k}\} \dot q_i\dot q_j - {\partial P \over \partial q_k}= \tau_k
+\]</span> 即： <span class="math display">\[
+\sum_jd_{kj}\ddot q_j+\sum_{i,j} {1\over 2}\{ {\partial d_{kj}\over \partial q_i} + {\partial d_{kj}\over \partial q_i} -{\partial d_{i,j} \over \partial q_k}\} \dot q_i\dot q_j - {\partial P \over \partial q_k}= \tau_k
+\]</span> 定义Christoffel symbol： <span class="math display">\[
+c_{ijk} = c_{jik} ={1\over 2}\{ {\partial d_{kj}\over \partial q_i} + {\partial d_{kj}\over \partial q_i} -{\partial d_{i,j} \over \partial q_k} \}
+\]</span> 定义广义重力： <span class="math display">\[
+g_k = {\partial P \over \partial q_k}
+\]</span> 最终得到欧拉-拉格朗日方程： <span class="math display">\[
+\sum_jd_{kj}(q)\ddot q_j+\sum_{i,j} c_{ijk}(q) \dot q_i\dot q_j - g_k(q)= \tau_k
+\]</span> 方程左侧三项分别为：</p>
+<ol type="1">
 <li>广义坐标的二阶导数：惯性项</li>
 <li>广义坐标一阶导数的二次型：离心力项+哥氏力项</li>
 <li>广义位置（0阶导数）重力项</li>
 </ol>
-<p>方程可简写为：</p>
-<script type="math/tex; mode=display">
-D(q)\ddot q+C(q,\dot q)\dot q+g(q) = \tau</script><h3 id="推导平面2关节机器人的动力学模型"><a href="#推导平面2关节机器人的动力学模型" class="headerlink" title="推导平面2关节机器人的动力学模型"></a>推导平面2关节机器人的动力学模型</h3><p>现在考虑下图中带有两个转动关节的平面机械臂。</p>
-<p><img src="https://img-blog.csdnimg.cn/20210113172528262.png" alt="在这里插入图片描述"></p>
-<p>要使用刚刚得到的欧拉-拉格朗日方程，就要与关节位置和关节速度相关的三个量：$D(q),C(q,\dot q),g(q)$。</p>
-<p>首先使用雅可比矩阵来计算动能，计算平移速度：</p>
-<script type="math/tex; mode=display">
+<p>方程可简写为： <span class="math display">\[
+D(q)\ddot q+C(q,\dot q)\dot q+g(q) = \tau
+\]</span></p>
+<h3 id="推导平面2关节机器人的动力学模型">推导平面2关节机器人的动力学模型</h3>
+<p>现在考虑下图中带有两个转动关节的平面机械臂。</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20210113172528262.png" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
+<p>要使用刚刚得到的欧拉-拉格朗日方程，就要与关节位置和关节速度相关的三个量：<span class="math inline">\(D(q),C(q,\dot q),g(q)\)</span>。</p>
+<p>首先使用雅可比矩阵来计算动能，计算平移速度： <span class="math display">\[
 v_{c1} = J_{v_{c1}}\dot q \\
 v_{c2} = J_{v_{c2}}\dot q \\
-J_{v_{c1}} = \begin{bmatrix}-l_c sin(q_1) & 0 \\ l_{c1}cos(q_1) & 0\\ 0 & 0 \\\end{bmatrix} \\
-J_{v_{c2}} = \begin{bmatrix}-l_1sin(q_1)-l_{c2}sin(q_1+q_2) & -l_{c2}sin(q_1+q_2) \\ l_1cos(q_1)+l_{c2}cos(q_1+q_2) & l_{c2}cos(q_1+q_2)\\ 0 & 0 \\\end{bmatrix}</script><p>平移部分对应的动能为：</p>
-<script type="math/tex; mode=display">
-{1\over 2}m_1 v^T_{c1}v_{c1}+{1\over2}m_2v^T_{c2}v_{c2} = {1\over 2}\dot q\{ m_1J^T_{v_{c1}}J_{v_{c1}} +m_2J^T_{v_{c2}}J_{v_{c2}}  \}\dot q</script><p>接下来考虑角速度项：</p>
-<script type="math/tex; mode=display">
+J_{v_{c1}} = \begin{bmatrix}-l_c sin(q_1) &amp; 0 \\ l_{c1}cos(q_1) &amp; 0\\ 0 &amp; 0 \\\end{bmatrix} \\
+J_{v_{c2}} = \begin{bmatrix}-l_1sin(q_1)-l_{c2}sin(q_1+q_2) &amp; -l_{c2}sin(q_1+q_2) \\ l_1cos(q_1)+l_{c2}cos(q_1+q_2) &amp; l_{c2}cos(q_1+q_2)\\ 0 &amp; 0 \\\end{bmatrix}
+\]</span> 平移部分对应的动能为： <span class="math display">\[
+{1\over 2}m_1 v^T_{c1}v_{c1}+{1\over2}m_2v^T_{c2}v_{c2} = {1\over 2}\dot q\{ m_1J^T_{v_{c1}}J_{v_{c1}} +m_2J^T_{v_{c2}}J_{v_{c2}}  \}\dot q
+\]</span> 接下来考虑角速度项： <span class="math display">\[
 \omega_1 = \dot q_1k \\
-\omega_2 = (\dot q_1+ \dot q_2)k</script><p>由于$\omega_i$与每个关节坐标系的z轴对齐，旋转动能可以简单表示为${1\over 2}I_i\omega_i^2$，其中$I_i$是转动惯量，它的轴线穿过连杆i的质心且平行于$z_i$轴。因此，就广义坐标而言，整个系统的旋转动能为：</p>
-<script type="math/tex; mode=display">
-{1\over 2}\dot q^T \{ I_1 \begin{bmatrix}1 &0 \\ 0&0 \end{bmatrix} + I_2 \begin{bmatrix} 1&1\\1&1 \end{bmatrix}\}\dot q</script><p>惯性矩阵：</p>
-<script type="math/tex; mode=display">
-D(q) = m_1J^T_{v_{c1}}J_{v_{c1}} +m_2J^T_{v_{c2}}J_{v_{c2}} + \begin{bmatrix} I_1+I_2&I_2 \\ I_2&I_2 \end{bmatrix} = \begin{bmatrix} d_{11}&d_{12} \\ d_{21}&d_{22} \end{bmatrix} \\</script><p>计算得：</p>
-<script type="math/tex; mode=display">
+\omega_2 = (\dot q_1+ \dot q_2)k
+\]</span> 由于<span class="math inline">\(\omega_i\)</span>与每个关节坐标系的z轴对齐，旋转动能可以简单表示为<span class="math inline">\({1\over 2}I_i\omega_i^2\)</span>，其中<span class="math inline">\(I_i\)</span>是转动惯量，它的轴线穿过连杆i的质心且平行于<span class="math inline">\(z_i\)</span>轴。因此，就广义坐标而言，整个系统的旋转动能为： <span class="math display">\[
+{1\over 2}\dot q^T \{ I_1 \begin{bmatrix}1 &amp;0 \\ 0&amp;0 \end{bmatrix} + I_2 \begin{bmatrix} 1&amp;1\\1&amp;1 \end{bmatrix}\}\dot q
+\]</span> 惯性矩阵： <span class="math display">\[
+D(q) = m_1J^T_{v_{c1}}J_{v_{c1}} +m_2J^T_{v_{c2}}J_{v_{c2}} + \begin{bmatrix} I_1+I_2&amp;I_2 \\ I_2&amp;I_2 \end{bmatrix} = \begin{bmatrix} d_{11}&amp;d_{12} \\ d_{21}&amp;d_{22} \end{bmatrix} \\
+\]</span> 计算得： <span class="math display">\[
 d_{11} =  m_1l_{c1}^2 + m_2(l_1^2+l^2_{c2}+2l_1l_{c2}cos(q_2))+I_1+I_2\\
 d_{12} = d_{21} = m_2(l^2_{c2}+l_1l_{c2}cos(q_2))+I_2 \\
-d_{22} = m_2l^2_{c2}+I_2</script><p>我们已经得到了惯性矩阵，接下来计算Christoffel符号$c_{ijk}$：</p>
-<script type="math/tex; mode=display">
+d_{22} = m_2l^2_{c2}+I_2
+\]</span> 我们已经得到了惯性矩阵，接下来计算Christoffel符号<span class="math inline">\(c_{ijk}\)</span>： <span class="math display">\[
 c_{111}= {1 \over 2}{\partial d_{11}\over \partial q_1} = 0 \\
 c_{121}= c_{211}= {1 \over 2}{\partial d_{11}\over \partial q_2} = -m_2l_1l_{c2}sin(q_2) = h \\
 c_{221}= {\partial d_{12}\over \partial q_2}-{1 \over 2}{\partial d_{11}\over \partial q_1} = h  \\
 c_{112}= {\partial d_{21}\over \partial q_1}-{1 \over 2}{\partial d_{11}\over \partial q_2} = -h  \\
 c_{122}= c_{212}=  {1 \over 2}{\partial d_{22}\over \partial q_1} = 0\\
-c_{222}= {1 \over 2}{\partial d_{22}\over \partial q_2} = 0 \\</script><p>接下来计算势能，机械臂的势能等于两个连杆势能之和。</p>
-<script type="math/tex; mode=display">
+c_{222}= {1 \over 2}{\partial d_{22}\over \partial q_2} = 0 \\
+\]</span></p>
+<p>接下来计算势能，机械臂的势能等于两个连杆势能之和。 <span class="math display">\[
 P_1 = m_1gl_{c1}sin(q_1) \\
 P_2 = m_2g(l_{2}sin(q_1)+l_{c2}sin(q_1+q_2))\\
-P = P_1+P_2 =(m_1l_{c1}+m_2l_1)gsin(q_1)+m_2l_{c2}gsin(q_1+q_2)</script><p>之前的广义重力$g_k$可变为：</p>
-<script type="math/tex; mode=display">
+P = P_1+P_2 =(m_1l_{c1}+m_2l_1)gsin(q_1)+m_2l_{c2}gsin(q_1+q_2)
+\]</span> 之前的广义重力<span class="math inline">\(g_k\)</span>可变为： <span class="math display">\[
 g_1 = {\partial P \over\partial q_1 } = (m_1l_{c1}+m_2l_1)gcos(q_1)+m_2l_{c2}gcos(q_1+q_2)  \\
-g_2 = {\partial P \over\partial q_2 } = m_2l_{c2}gcos(q_1+q_2)</script><p>最后可以写出系统的动力学方程：</p>
-<script type="math/tex; mode=display">
+g_2 = {\partial P \over\partial q_2 } = m_2l_{c2}gcos(q_1+q_2)
+\]</span> 最后可以写出系统的动力学方程： <span class="math display">\[
 d_{11}\ddot q_1+d_{12} \ddot q_2+c_{121}\dot q_1 \dot q_2 + c_{211}\dot q_2 \dot q_1 +c_{221}\dot q_2^2+g_1=\tau_1 \\
-d_{21} \ddot q_1+d_{22}\ddot q_2+c_{112}\dot q_1^2+g_2 = \tau_2</script><p>在这种情况下，原方程矩阵$C(q, \dot q)$由下式给出：</p>
-<script type="math/tex; mode=display">
-C = \begin{bmatrix}h\dot q_2 & h \dot q_2+h\dot q_1 \\
--h\dot q_1 & 0\end{bmatrix}</script>
+d_{21} \ddot q_1+d_{22}\ddot q_2+c_{112}\dot q_1^2+g_2 = \tau_2
+\]</span> 在这种情况下，原方程矩阵<span class="math inline">\(C(q, \dot q)\)</span>由下式给出： <span class="math display">\[
+C = \begin{bmatrix}h\dot q_2 &amp; h \dot q_2+h\dot q_1 \\
+-h\dot q_1 &amp; 0\end{bmatrix}
+\]</span></p>
+
     </div>
 
     
@@ -501,7 +516,7 @@ C = \begin{bmatrix}h\dot q_2 & h \dot q_2+h\dot q_1 \\
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%96%B9%E7%A8%8B"><span class="nav-number"></span> <span class="nav-text">机器人动力学方程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AC%A7%E6%8B%89-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%96%B9%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">欧拉 - 拉格朗日方程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E8%83%BD%E4%B8%8E%E5%8A%BF%E8%83%BD"><span class="nav-number">2.</span> <span class="nav-text">动能与势能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E8%83%BD%E8%A1%A8%E7%A4%BA"><span class="nav-number">2.1.</span> <span class="nav-text">动能表示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%BF%E8%83%BD%E8%A1%A8%E7%A4%BA"><span class="nav-number">2.2.</span> <span class="nav-text">势能表示</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E5%8A%A8%E6%96%B9%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">运动方程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E5%AF%BC%E5%B9%B3%E9%9D%A22%E5%85%B3%E8%8A%82%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">推导平面2关节机器人的动力学模型</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%96%B9%E7%A8%8B"><span class="nav-number"></span> <span class="nav-text">机器人动力学方程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AC%A7%E6%8B%89---%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%96%B9%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">欧拉 - 拉格朗日方程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E8%83%BD%E4%B8%8E%E5%8A%BF%E8%83%BD"><span class="nav-number">2.</span> <span class="nav-text">动能与势能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E8%83%BD%E8%A1%A8%E7%A4%BA"><span class="nav-number">2.1.</span> <span class="nav-text">动能表示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%BF%E8%83%BD%E8%A1%A8%E7%A4%BA"><span class="nav-number">2.2.</span> <span class="nav-text">势能表示</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E5%8A%A8%E6%96%B9%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">运动方程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E5%AF%BC%E5%B9%B3%E9%9D%A22%E5%85%B3%E8%8A%82%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">推导平面2关节机器人的动力学模型</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

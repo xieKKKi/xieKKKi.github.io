@@ -1,22 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>基于欧拉-拉格朗日方程的机器人动力学模型</title>
+    <url>/2021/01/13/%E5%9F%BA%E4%BA%8E%E6%AC%A7%E6%8B%89-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%96%B9%E7%A8%8B%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h3 id="摘要">摘要</h3>
+<p>如题。</p>
+<span id="more"></span>
+<p>（转自我的CSDN博客）</p>
+<h2 id="机器人动力学方程">机器人动力学方程</h2>
+<p>机器人动力学方程是描述机器人力和运动之间的关系的方程。只描述力和运动的关系，不考虑产生运动的力和扭矩。</p>
+<h3 id="欧拉---拉格朗日方程">欧拉 - 拉格朗日方程</h3>
+<p>欧拉-拉格朗日方程（OL）描述了处于完整约束下，并且约束力满足虚功原理的机械系统的<strong>力和运动随时间的变化</strong>。</p>
+<p>有两种推导方法，先介绍使用牛顿第二定律的推导方法。</p>
+<p>根据牛顿第二定律，某质点的运动方程是： <span class="math display">\[
+m\ddot y = f-mg
+\]</span> 先对时间求导，再对<span class="math inline">\(\dot y\)</span>求偏导，方程左侧可以写为： <span class="math display">\[
+m \ddot y = {d \over dt}(m \dot y)={d \over dt}{\partial \over \partial \dot y}({1 \over 2}m \dot y^2)={d \over dt}{\partial K \over \partial \dot y}
+\]</span> 其中<span class="math inline">\(K = {1 \over 2}m \dot y^2\)</span>，是动能。</p>
+<p>接着将重力表示为： <span class="math display">\[
+mg = {\partial \over \partial y}(mgy) = {\partial P \over \partial y}
+\]</span> 其中<span class="math inline">\(P = mgy\)</span>表示重力势能。</p>
+<p>定义拉格朗日算子<span class="math inline">\(L\)</span>，表示系统动能与势能之差： <span class="math display">\[
+L = K-P ={1 \over 2}m \dot y^2-mgy
+\]</span> 并且有： <span class="math display">\[
+{\partial L\over \partial \dot y} = {\partial K \over \partial \dot y},{\partial L \over \partial y} =-{\partial P \over \partial y}
+\]</span></p>
+<p>则初始的质点运动方程可化为： <span class="math display">\[
+{d \over dt}{\partial K \over \partial \dot y} = f-{\partial P \over \partial y}
+\]</span> 即： <span class="math display">\[
+{d \over dt}{\partial L \over \partial \dot y}-{\partial L \over \partial y} = f
+\]</span> 此方程被称为欧拉-拉格朗日方程。</p>
+<p>推广到n自由度的系统，得到： <span class="math display">\[
+{d \over dt}{\partial L \over \partial \dot q_k}-{\partial L \over \partial q_k} = \tau_k
+\]</span> 其中<span class="math inline">\(\tau_k\)</span>是与广义坐标<span class="math inline">\(q_k\)</span>相关的力。</p>
+<h3 id="动能与势能">动能与势能</h3>
+<p>欧拉-拉格朗日方程可以直接用来推导动力学方程，前提是我们能够以一组广义坐标来表示该系统的动能和势能。如果要让这能够得到实际应用，那么我们就必须能够针对一个n连杆机器人计算出他的动能和势能。接下来将推到刚性连杆机器人动能和势能的表达式。</p>
+<h4 id="动能表示">动能表示</h4>
+<p>刚体的动能可表示为平移动能和关于质心的旋转动能之和： <span class="math display">\[
+K = {1 \over 2}mv^Tv+{1\over 2}\omega^T Z\omega
+\]</span> <span class="math inline">\(Z\)</span>表示物体的惯性张量，是一个3*3的对称矩阵。</p>
+<p><span class="math inline">\(Z = RIR^T\)</span>，R是附体坐标系与惯性坐标系之间的姿态变换。</p>
+<p><span class="math inline">\(I\)</span>是附体坐标系中的惯性张量，仅取决于物体的形状和质量分布，与物体运动无关。 <img src="https://img-blog.csdnimg.cn/20210113172549829.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /></p>
+<p>速度<span class="math inline">\(v\)</span>和角速度<span class="math inline">\(\omega\)</span>需要转置，因为要考虑多个维度的方向。连杆上任意一点的现速度和角速度可通过雅可比矩阵和关节速度（关节变量的导数）来表示： <span class="math display">\[
+v_i = J_{v_i}q\dot q \\
+\omega_i = J_{\omega_i}q\dot q
+\]</span></p>
+<p>机器人总动能可表示为： <span class="math display">\[
+K = {1 \over 2}\dot q^T \sum_{i=1}^n[m_i\ {(J_{v_i}(q))}^T \ J_{v_i}(q) \ + \ (J_{\omega_i}(q))^T \ R_{i}(q) \ I_i \ (R_i(q))^T \ J_{\omega_i}(q)]\dot q
+\]</span> 用<span class="math inline">\(D(q)\)</span>来表示机器人的惯性矩阵： <span class="math display">\[
+D(q) \ = \ \sum_{i=1}^n[m_i\ {(J_{v_i}(q))}^T \ J_{v_i}(q) \ + \ (J_{\omega_i}(q))^T \ R_{i}(q) \ I_i \ (R_i(q))^T \ J_{\omega_i}(q)] \\
+K = {1 \over 2}\dot q^T D(q)\dot q
+\]</span> 机器人惯性矩阵<span class="math inline">\(D(q)\)</span>有如下特点：</p>
+<ol type="1">
+<li>只与机器人构型有关</li>
+<li>对称且正定</li>
+<li>动能总是非负的</li>
+</ol>
+<h4 id="势能表示">势能表示</h4>
+<p>在刚体动力学情形下，势能总是来源于重力。假设物体质量集中在质心，计算第<span class="math inline">\(i\)</span>个连杆的势能： <span class="math display">\[
+P_i = m_ig^Tr_{ci}
+\]</span> <span class="math inline">\(g\)</span>是惯性坐标系中的重力向量，<span class="math inline">\(r_{ci}\)</span>是连杆<span class="math inline">\(i\)</span>的质心坐标。机器人总势能为： <span class="math display">\[
+P = \sum_{i=1}^n P_i = \sum_{i=1}^n m_ig^Tr_{ci}
+\]</span> 在m、g保持不变的情况下，机器人势能只与广义坐标<span class="math inline">\(r_{ci}\)</span>有关。</p>
+<h3 id="运动方程">运动方程</h3>
+<p>上面我们得到了如下结果：</p>
+<p>系统动能是关于广义速度（坐标微分）的二次函数： <span class="math display">\[
+K = {1 \over 2}\dot q^T D(q)\dot q = {1 \over 2}\sum_{i,j}^n d_{i,j}(q) \dot q_i \dot q_j
+\]</span> 系统势能是关于广义坐标的函数，且与广义速度无关： <span class="math display">\[
+P =  \sum_{i=1}^n m_ig^Tr_{ci}
+\]</span> 欧拉-拉格朗日算子为： <span class="math display">\[
+L = K-P ={1 \over 2}\sum_{i,j}^n d_{i,j}(q) \dot q_i \dot q_j-P(q)
+\]</span> 欧拉-拉格朗日方程为： <span class="math display">\[
+{d \over dt}{\partial L \over \partial \dot q_k}-{\partial L \over \partial q_k} = \tau_k
+\]</span> 其中： <span class="math display">\[
+{\partial L \over \partial \dot q_k}= \sum_jd_{kj}\dot q_j\\
+{d \over dt}{\partial L \over \partial \dot q_k} = \sum_jd_{kj}\ddot q_j+\sum_{j}{d \over dt}d_{kj}\dot q_j \\ 
+\ \ \ \ \   \ \ \  \  \  \ \ \ \ \ = \sum_jd_{kj}\ddot q_j+\sum_{i,j}{\partial d_{kj}\over \partial q_i}\dot q_i\dot q_j \\
+{\partial L \over \partial q_k} = {1 \over 2}\sum_{i,j} {\partial d_{i,j} \over \partial q_k} \dot q_i \dot q_j - {\partial P \over \partial q_k}
+\]</span> 因此对于每个<span class="math inline">\(k=1,2,...n\)</span>，欧拉-拉格朗日方程可以写成： <span class="math display">\[
+\sum_jd_{kj}\ddot q_j+\sum_{i,j}\{ {\partial d_{kj}\over \partial q_i} -{1\over 2}{\partial d_{i,j} \over \partial q_k}\} \dot q_i\dot q_j - {\partial P \over \partial q_k}= \tau_k
+\]</span> 即： <span class="math display">\[
+\sum_jd_{kj}\ddot q_j+\sum_{i,j} {1\over 2}\{ {\partial d_{kj}\over \partial q_i} + {\partial d_{kj}\over \partial q_i} -{\partial d_{i,j} \over \partial q_k}\} \dot q_i\dot q_j - {\partial P \over \partial q_k}= \tau_k
+\]</span> 定义Christoffel symbol： <span class="math display">\[
+c_{ijk} = c_{jik} ={1\over 2}\{ {\partial d_{kj}\over \partial q_i} + {\partial d_{kj}\over \partial q_i} -{\partial d_{i,j} \over \partial q_k} \}
+\]</span> 定义广义重力： <span class="math display">\[
+g_k = {\partial P \over \partial q_k}
+\]</span> 最终得到欧拉-拉格朗日方程： <span class="math display">\[
+\sum_jd_{kj}(q)\ddot q_j+\sum_{i,j} c_{ijk}(q) \dot q_i\dot q_j - g_k(q)= \tau_k
+\]</span> 方程左侧三项分别为：</p>
+<ol type="1">
+<li>广义坐标的二阶导数：惯性项</li>
+<li>广义坐标一阶导数的二次型：离心力项+哥氏力项</li>
+<li>广义位置（0阶导数）重力项</li>
+</ol>
+<p>方程可简写为： <span class="math display">\[
+D(q)\ddot q+C(q,\dot q)\dot q+g(q) = \tau
+\]</span></p>
+<h3 id="推导平面2关节机器人的动力学模型">推导平面2关节机器人的动力学模型</h3>
+<p>现在考虑下图中带有两个转动关节的平面机械臂。</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20210113172528262.png" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
+<p>要使用刚刚得到的欧拉-拉格朗日方程，就要与关节位置和关节速度相关的三个量：<span class="math inline">\(D(q),C(q,\dot q),g(q)\)</span>。</p>
+<p>首先使用雅可比矩阵来计算动能，计算平移速度： <span class="math display">\[
+v_{c1} = J_{v_{c1}}\dot q \\
+v_{c2} = J_{v_{c2}}\dot q \\
+J_{v_{c1}} = \begin{bmatrix}-l_c sin(q_1) &amp; 0 \\ l_{c1}cos(q_1) &amp; 0\\ 0 &amp; 0 \\\end{bmatrix} \\
+J_{v_{c2}} = \begin{bmatrix}-l_1sin(q_1)-l_{c2}sin(q_1+q_2) &amp; -l_{c2}sin(q_1+q_2) \\ l_1cos(q_1)+l_{c2}cos(q_1+q_2) &amp; l_{c2}cos(q_1+q_2)\\ 0 &amp; 0 \\\end{bmatrix}
+\]</span> 平移部分对应的动能为： <span class="math display">\[
+{1\over 2}m_1 v^T_{c1}v_{c1}+{1\over2}m_2v^T_{c2}v_{c2} = {1\over 2}\dot q\{ m_1J^T_{v_{c1}}J_{v_{c1}} +m_2J^T_{v_{c2}}J_{v_{c2}}  \}\dot q
+\]</span> 接下来考虑角速度项： <span class="math display">\[
+\omega_1 = \dot q_1k \\
+\omega_2 = (\dot q_1+ \dot q_2)k
+\]</span> 由于<span class="math inline">\(\omega_i\)</span>与每个关节坐标系的z轴对齐，旋转动能可以简单表示为<span class="math inline">\({1\over 2}I_i\omega_i^2\)</span>，其中<span class="math inline">\(I_i\)</span>是转动惯量，它的轴线穿过连杆i的质心且平行于<span class="math inline">\(z_i\)</span>轴。因此，就广义坐标而言，整个系统的旋转动能为： <span class="math display">\[
+{1\over 2}\dot q^T \{ I_1 \begin{bmatrix}1 &amp;0 \\ 0&amp;0 \end{bmatrix} + I_2 \begin{bmatrix} 1&amp;1\\1&amp;1 \end{bmatrix}\}\dot q
+\]</span> 惯性矩阵： <span class="math display">\[
+D(q) = m_1J^T_{v_{c1}}J_{v_{c1}} +m_2J^T_{v_{c2}}J_{v_{c2}} + \begin{bmatrix} I_1+I_2&amp;I_2 \\ I_2&amp;I_2 \end{bmatrix} = \begin{bmatrix} d_{11}&amp;d_{12} \\ d_{21}&amp;d_{22} \end{bmatrix} \\
+\]</span> 计算得： <span class="math display">\[
+d_{11} =  m_1l_{c1}^2 + m_2(l_1^2+l^2_{c2}+2l_1l_{c2}cos(q_2))+I_1+I_2\\
+d_{12} = d_{21} = m_2(l^2_{c2}+l_1l_{c2}cos(q_2))+I_2 \\
+d_{22} = m_2l^2_{c2}+I_2
+\]</span> 我们已经得到了惯性矩阵，接下来计算Christoffel符号<span class="math inline">\(c_{ijk}\)</span>： <span class="math display">\[
+c_{111}= {1 \over 2}{\partial d_{11}\over \partial q_1} = 0 \\
+c_{121}= c_{211}= {1 \over 2}{\partial d_{11}\over \partial q_2} = -m_2l_1l_{c2}sin(q_2) = h \\
+c_{221}= {\partial d_{12}\over \partial q_2}-{1 \over 2}{\partial d_{11}\over \partial q_1} = h  \\
+c_{112}= {\partial d_{21}\over \partial q_1}-{1 \over 2}{\partial d_{11}\over \partial q_2} = -h  \\
+c_{122}= c_{212}=  {1 \over 2}{\partial d_{22}\over \partial q_1} = 0\\
+c_{222}= {1 \over 2}{\partial d_{22}\over \partial q_2} = 0 \\
+\]</span></p>
+<p>接下来计算势能，机械臂的势能等于两个连杆势能之和。 <span class="math display">\[
+P_1 = m_1gl_{c1}sin(q_1) \\
+P_2 = m_2g(l_{2}sin(q_1)+l_{c2}sin(q_1+q_2))\\
+P = P_1+P_2 =(m_1l_{c1}+m_2l_1)gsin(q_1)+m_2l_{c2}gsin(q_1+q_2)
+\]</span> 之前的广义重力<span class="math inline">\(g_k\)</span>可变为： <span class="math display">\[
+g_1 = {\partial P \over\partial q_1 } = (m_1l_{c1}+m_2l_1)gcos(q_1)+m_2l_{c2}gcos(q_1+q_2)  \\
+g_2 = {\partial P \over\partial q_2 } = m_2l_{c2}gcos(q_1+q_2)
+\]</span> 最后可以写出系统的动力学方程： <span class="math display">\[
+d_{11}\ddot q_1+d_{12} \ddot q_2+c_{121}\dot q_1 \dot q_2 + c_{211}\dot q_2 \dot q_1 +c_{221}\dot q_2^2+g_1=\tau_1 \\
+d_{21} \ddot q_1+d_{22}\ddot q_2+c_{112}\dot q_1^2+g_2 = \tau_2
+\]</span> 在这种情况下，原方程矩阵<span class="math inline">\(C(q, \dot q)\)</span>由下式给出： <span class="math display">\[
+C = \begin{bmatrix}h\dot q_2 &amp; h \dot q_2+h\dot q_1 \\
+-h\dot q_1 &amp; 0\end{bmatrix}
+\]</span></p>
+]]></content>
+      <categories>
+        <category>机器人学</category>
+      </categories>
+      <tags>
+        <tag>机器人学</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>从零开始搭建个人网站</title>
     <url>/2021/04/24/%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>闲来无事就想着搭一个个人网站来玩玩。这里记录了我整个网站的搭建过程，可供参考。</p>
+    <content><![CDATA[<h3 id="前言">前言</h3>
+<p>闲来无事就想着搭一个个人网站来玩玩。这里记录了我整个网站的搭建过程，可供参考。</p>
 <span id="more"></span>
-<h3 id="安装nodejs"><a href="#安装nodejs" class="headerlink" title="安装nodejs"></a>安装nodejs</h3><p>前往nodejs官网<a href="https://nodejs.org/en/">https://nodejs.org/en/</a> 下载nodejs长期支持版。</p>
-<p><img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423142344382.png" alt="image-20210423142344382"></p>
+<h3 id="安装nodejs">安装nodejs</h3>
+<p>前往nodejs官网https://nodejs.org/en/ 下载nodejs长期支持版。</p>
+<figure>
+<img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423142344382.png" alt="image-20210423142344382" /><figcaption aria-hidden="true">image-20210423142344382</figcaption>
+</figure>
 <p>一路默认安装即可。安装完成后得到nodejs和npm两个工具。</p>
 <p>按win键，输入cmd，以管理员身份运行。</p>
-<p><img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423143740092.png" alt="image-20210423143740092"></p>
+<figure>
+<img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423143740092.png" alt="image-20210423143740092" /><figcaption aria-hidden="true">image-20210423143740092</figcaption>
+</figure>
 <p>分别输入</p>
 <figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line"><span class="keyword">node</span> <span class="title">-v</span></span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
 <p>可以看到刚刚安装的软件版本。</p>
-<p><img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423143927022.png" alt="image-20210423143927022"></p>
-<h3 id="安装cnpm"><a href="#安装cnpm" class="headerlink" title="安装cnpm"></a>安装cnpm</h3><p>利用npm安装cnpm淘宝镜像源：</p>
+<figure>
+<img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423143927022.png" alt="image-20210423143927022" /><figcaption aria-hidden="true">image-20210423143927022</figcaption>
+</figure>
+<h3 id="安装cnpm">安装cnpm</h3>
+<p>利用npm安装cnpm淘宝镜像源：</p>
 <figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">npm install -g cnpm --registry=https:<span class="regexp">//</span>registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423144628884.png" alt="image-20210423144628884"></p>
+<figure>
+<img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423144628884.png" alt="image-20210423144628884" /><figcaption aria-hidden="true">image-20210423144628884</figcaption>
+</figure>
 <p>安装完成后输入</p>
 <figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">cnpm -v</span></span><br></pre></td></tr></table></figure>
 <p>会显示cnpm信息。</p>
@@ -24,31 +185,49 @@
 <figure class="highlight avrasm"><table><tr><td class="code"><pre><span class="line">cnpm install -g hexo-<span class="keyword">cli</span></span><br></pre></td></tr></table></figure>
 <p>安装完成后输入：</p>
 <figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo -v</span></span><br></pre></td></tr></table></figure>
-<p>可以看到hexo版本信息  。</p>
-<h3 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h3><p>从git官网下载一个git安装包，官网下载地址 <a href="http://www.git-scm.com/download/">http://www.git-scm.com/download/</a></p>
-<p><img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423150542235.png" alt="image-20210423150542235"></p>
+<p>可以看到hexo版本信息 。</p>
+<h3 id="安装git">安装git</h3>
+<p>从git官网下载一个git安装包，官网下载地址 http://www.git-scm.com/download/</p>
+<figure>
+<img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423150542235.png" alt="image-20210423150542235" /><figcaption aria-hidden="true">image-20210423150542235</figcaption>
+</figure>
 <p>一路默认安装即可。</p>
 <p>之后在系统环境变量中添加：</p>
 <figure class="highlight taggerscript"><table><tr><td class="code"><pre><span class="line">C:<span class="symbol">\P</span>rogram Files<span class="symbol">\G</span>it<span class="symbol">\c</span>md</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423151040119.png" alt="image-20210423151040119"></p>
+<figure>
+<img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423151040119.png" alt="image-20210423151040119" /><figcaption aria-hidden="true">image-20210423151040119</figcaption>
+</figure>
 <p>完成后重启进入命令行，输入</p>
 <figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">git</span></span><br></pre></td></tr></table></figure>
 <p>出现一下内容说明安装成功：</p>
-<p><img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423151918508.png" alt="image-20210423151918508"></p>
-<h3 id="使用hexo来搭建网站"><a href="#使用hexo来搭建网站" class="headerlink" title="使用hexo来搭建网站"></a>使用hexo来搭建网站</h3><p>在你喜欢的位置新建一个空文件夹，然后在命令行里进入该文件夹（使用cd命令更改命令行目录，不会的可以百度一下）。例如我的空文件夹是Blog。注意该命令行仍然需要管理员权限。</p>
-<p><img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423145530310.png" alt="image-20210423145530310"></p>
+<figure>
+<img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423151918508.png" alt="image-20210423151918508" /><figcaption aria-hidden="true">image-20210423151918508</figcaption>
+</figure>
+<h3 id="使用hexo来搭建网站">使用hexo来搭建网站</h3>
+<p>在你喜欢的位置新建一个空文件夹，然后在命令行里进入该文件夹（使用cd命令更改命令行目录，不会的可以百度一下）。例如我的空文件夹是Blog。注意该命令行仍然需要管理员权限。</p>
+<figure>
+<img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423145530310.png" alt="image-20210423145530310" /><figcaption aria-hidden="true">image-20210423145530310</figcaption>
+</figure>
 <p>初始化：</p>
 <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">hexo <span class="keyword">init</span></span><br></pre></td></tr></table></figure>
 <p>初始化完成后可以在当前目录看到一些hexo生成的博客基础框架文件。</p>
-<p><img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423152145712.png" alt="image-20210423152145712"></p>
+<figure>
+<img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423152145712.png" alt="image-20210423152145712" /><figcaption aria-hidden="true">image-20210423152145712</figcaption>
+</figure>
 <p>输入：</p>
 <figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo s</span></span><br></pre></td></tr></table></figure>
-<p>启动博客。输出提示我们到<a href="http://localhost:4000这个本地地址访问博客。">http://localhost:4000这个本地地址访问博客。</a></p>
-<p><img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423152255670.png" alt="image-20210423152255670"></p>
+<p>启动博客。输出提示我们到http://localhost:4000这个本地地址访问博客。</p>
+<figure>
+<img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423152255670.png" alt="image-20210423152255670" /><figcaption aria-hidden="true">image-20210423152255670</figcaption>
+</figure>
 <p>在浏览器打开这个地址：</p>
-<p><img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423152402602.png" alt="image-20210423152402602"></p>
+<figure>
+<img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423152402602.png" alt="image-20210423152402602" /><figcaption aria-hidden="true">image-20210423152402602</figcaption>
+</figure>
 <p>可以看到hexo已经为我们创建了一篇文章，这是一个简单的教程，可以在本地目录Blog/source/_posts里看到。</p>
-<p><img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423152532109.png" alt="image-20210423152532109"></p>
+<figure>
+<img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423152532109.png" alt="image-20210423152532109" /><figcaption aria-hidden="true">image-20210423152532109</figcaption>
+</figure>
 <p>如果要新建一篇博文，直接在命令行中输入:</p>
 <figure class="highlight actionscript"><table><tr><td class="code"><pre><span class="line">hexo <span class="keyword">new</span> <span class="string">&quot;搭建个人网站教程&quot;</span></span><br></pre></td></tr></table></figure>
 <p>可以看到目录下已经生成了：搭建个人网站教程.md，修改md文件内容即可。</p>
@@ -57,15 +236,22 @@
 <p>重新生成，再输入：</p>
 <figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo s</span></span><br></pre></td></tr></table></figure>
 <p>再打开网页就可以看到刚刚写的新博客了。</p>
-<p><img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423153738959.png" alt="image-20210423153738959"></p>
+<figure>
+<img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423153738959.png" alt="image-20210423153738959" /><figcaption aria-hidden="true">image-20210423153738959</figcaption>
+</figure>
 <p>至此本地hexo本地博客已经搭建完成。</p>
-<h3 id="将博客部署到github"><a href="#将博客部署到github" class="headerlink" title="将博客部署到github"></a>将博客部署到github</h3><p>刚刚得到的博客网站是只能在本地访问的，要能够远程访问，可以将博客部署到github上，这是一个免费的办法。</p>
+<h3 id="将博客部署到github">将博客部署到github</h3>
+<p>刚刚得到的博客网站是只能在本地访问的，要能够远程访问，可以将博客部署到github上，这是一个免费的办法。</p>
 <p>登录github，新建一个仓库，仓库名称为：你的昵称.github.io。注意这里命名一定要规范，不然后面会出问题。</p>
-<p><img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423155136301.png" alt="image-20210423155136301"></p>
+<figure>
+<img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423155136301.png" alt="image-20210423155136301" /><figcaption aria-hidden="true">image-20210423155136301</figcaption>
+</figure>
 <p>新建完成后回到命令行，目录仍然是刚刚的Blog目录。我们接下来要在此目录下安装git的插件。</p>
 <figure class="highlight ada"><table><tr><td class="code"><pre><span class="line">cnpm install <span class="comment">--save hexo-deployer-git</span></span><br></pre></td></tr></table></figure>
 <p>用记事本打开Blog目录下的_config.yml文件，找到最下面type这一行，做如下修改：</p>
-<p><img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423160059850.png" alt="image-20210423160059850"></p>
+<figure>
+<img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423160059850.png" alt="image-20210423160059850" /><figcaption aria-hidden="true">image-20210423160059850</figcaption>
+</figure>
 <p>repo后面改成你自己刚刚生成的仓库地址。每行前面空两格，冒号是英文，后面有一个空格。保存。</p>
 <p>然后输入设置用户名和邮件：</p>
 <figure class="highlight isbl"><table><tr><td class="code"><pre><span class="line"><span class="variable">git</span> <span class="variable">config</span> --<span class="variable">global</span> <span class="variable">user.email</span> <span class="function"><span class="title">xxx</span>(你的邮箱)</span></span><br><span class="line"><span class="variable">git</span> <span class="variable">config</span> --<span class="variable">global</span> <span class="variable">user.name</span> <span class="function"><span class="title">xxx</span>(你的用户名，自定义)</span></span><br></pre></td></tr></table></figure>
@@ -75,7 +261,9 @@
 <p>完成后刷新你的github仓库，可以看到已经更新了。</p>
 <p>接着直接访问：</p>
 <figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">https:<span class="regexp">//</span>xiekkki.github.io/</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423161354803.png" alt="image-20210423161354803"></p>
+<figure>
+<img src="https://raw.githubusercontent.com/xieKKKi/myBlogImages/master/imgs/image-20210423161354803.png" alt="image-20210423161354803" /><figcaption aria-hidden="true">image-20210423161354803</figcaption>
+</figure>
 <p>大功告成。</p>
 ]]></content>
       <categories>
@@ -87,167 +275,36 @@
       </tags>
   </entry>
   <entry>
-    <title>基于欧拉-拉格朗日方程的机器人动力学模型</title>
-    <url>/2021/01/13/%E5%9F%BA%E4%BA%8E%E6%AC%A7%E6%8B%89-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%96%B9%E7%A8%8B%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>如题。</p>
-<span id="more"></span>
-<p>（转自我的CSDN博客）</p>
-<h2 id="机器人动力学方程"><a href="#机器人动力学方程" class="headerlink" title="机器人动力学方程"></a>机器人动力学方程</h2><p>机器人动力学方程是描述机器人力和运动之间的关系的方程。只描述力和运动的关系，不考虑产生运动的力和扭矩。</p>
-<h3 id="欧拉-拉格朗日方程"><a href="#欧拉-拉格朗日方程" class="headerlink" title="欧拉 - 拉格朗日方程"></a>欧拉 - 拉格朗日方程</h3><p>欧拉-拉格朗日方程（OL）描述了处于完整约束下，并且约束力满足虚功原理的机械系统的<strong>力和运动随时间的变化</strong>。</p>
-<p>有两种推导方法，先介绍使用牛顿第二定律的推导方法。</p>
-<p>根据牛顿第二定律，某质点的运动方程是：</p>
-<script type="math/tex; mode=display">
-m\ddot y = f-mg</script><p>先对时间求导，再对$\dot y$求偏导，方程左侧可以写为：</p>
-<script type="math/tex; mode=display">
-m \ddot y = {d \over dt}(m \dot y)={d \over dt}{\partial \over \partial \dot y}({1 \over 2}m \dot y^2)={d \over dt}{\partial K \over \partial \dot y}</script><p>其中$K = {1 \over 2}m \dot y^2$，是动能。</p>
-<p>接着将重力表示为：</p>
-<script type="math/tex; mode=display">
-mg = {\partial \over \partial y}(mgy) = {\partial P \over \partial y}</script><p>其中$P = mgy$表示重力势能。</p>
-<p>定义拉格朗日算子$L$，表示系统动能与势能之差：</p>
-<script type="math/tex; mode=display">
-L = K-P ={1 \over 2}m \dot y^2-mgy</script><p>并且有：</p>
-<script type="math/tex; mode=display">
-{\partial L\over \partial \dot y} = {\partial K \over \partial \dot y},{\partial L \over \partial y} =-{\partial P \over \partial y}</script><p>则初始的质点运动方程可化为：</p>
-<script type="math/tex; mode=display">
-{d \over dt}{\partial K \over \partial \dot y} = f-{\partial P \over \partial y}</script><p>即：</p>
-<script type="math/tex; mode=display">
-{d \over dt}{\partial L \over \partial \dot y}-{\partial L \over \partial y} = f</script><p>此方程被称为欧拉-拉格朗日方程。</p>
-<p>推广到n自由度的系统，得到：</p>
-<script type="math/tex; mode=display">
-{d \over dt}{\partial L \over \partial \dot q_k}-{\partial L \over \partial q_k} = \tau_k</script><p>其中$\tau_k$是与广义坐标$q_k$相关的力。</p>
-<h3 id="动能与势能"><a href="#动能与势能" class="headerlink" title="动能与势能"></a>动能与势能</h3><p>欧拉-拉格朗日方程可以直接用来推导动力学方程，前提是我们能够以一组广义坐标来表示该系统的动能和势能。如果要让这能够得到实际应用，那么我们就必须能够针对一个n连杆机器人计算出他的动能和势能。接下来将推到刚性连杆机器人动能和势能的表达式。</p>
-<h4 id="动能表示"><a href="#动能表示" class="headerlink" title="动能表示"></a>动能表示</h4><p>刚体的动能可表示为平移动能和关于质心的旋转动能之和：</p>
-<script type="math/tex; mode=display">
-K = {1 \over 2}mv^Tv+{1\over 2}\omega^T Z\omega</script><p>$Z$表示物体的惯性张量，是一个3*3的对称矩阵。</p>
-<p>$Z = RIR^T$，R是附体坐标系与惯性坐标系之间的姿态变换。</p>
-<p>$I$是附体坐标系中的惯性张量，仅取决于物体的形状和质量分布，与物体运动无关。<br><img src="https://img-blog.csdnimg.cn/20210113172549829.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>速度$v$和角速度$\omega$需要转置，因为要考虑多个维度的方向。连杆上任意一点的现速度和角速度可通过雅可比矩阵和关节速度（关节变量的导数）来表示：</p>
-<script type="math/tex; mode=display">
-v_i = J_{v_i}q\dot q \\
-\omega_i = J_{\omega_i}q\dot q</script><p>机器人总动能可表示为：</p>
-<script type="math/tex; mode=display">
-K = {1 \over 2}\dot q^T \sum_{i=1}^n[m_i\ {(J_{v_i}(q))}^T \ J_{v_i}(q) \ + \ (J_{\omega_i}(q))^T \ R_{i}(q) \ I_i \ (R_i(q))^T \ J_{\omega_i}(q)]\dot q</script><p>用$D(q)$来表示机器人的惯性矩阵：</p>
-<script type="math/tex; mode=display">
-D(q) \ = \ \sum_{i=1}^n[m_i\ {(J_{v_i}(q))}^T \ J_{v_i}(q) \ + \ (J_{\omega_i}(q))^T \ R_{i}(q) \ I_i \ (R_i(q))^T \ J_{\omega_i}(q)] \\
-K = {1 \over 2}\dot q^T D(q)\dot q</script><p>机器人惯性矩阵$D(q)$有如下特点：</p>
-<ol>
-<li>只与机器人构型有关</li>
-<li>对称且正定</li>
-<li>动能总是非负的</li>
-</ol>
-<h4 id="势能表示"><a href="#势能表示" class="headerlink" title="势能表示"></a>势能表示</h4><p>在刚体动力学情形下，势能总是来源于重力。假设物体质量集中在质心，计算第$i$个连杆的势能：</p>
-<script type="math/tex; mode=display">
-P_i = m_ig^Tr_{ci}</script><p>$g$是惯性坐标系中的重力向量，$r_{ci}$是连杆$i$的质心坐标。机器人总势能为：</p>
-<script type="math/tex; mode=display">
-P = \sum_{i=1}^n P_i = \sum_{i=1}^n m_ig^Tr_{ci}</script><p>在m、g保持不变的情况下，机器人势能只与广义坐标$r_{ci}$有关。</p>
-<h3 id="运动方程"><a href="#运动方程" class="headerlink" title="运动方程"></a>运动方程</h3><p>上面我们得到了如下结果：</p>
-<p>系统动能是关于广义速度（坐标微分）的二次函数：</p>
-<script type="math/tex; mode=display">
-K = {1 \over 2}\dot q^T D(q)\dot q = {1 \over 2}\sum_{i,j}^n d_{i,j}(q) \dot q_i \dot q_j</script><p>系统势能是关于广义坐标的函数，且与广义速度无关：</p>
-<script type="math/tex; mode=display">
-P =  \sum_{i=1}^n m_ig^Tr_{ci}</script><p>欧拉-拉格朗日算子为：</p>
-<script type="math/tex; mode=display">
-L = K-P ={1 \over 2}\sum_{i,j}^n d_{i,j}(q) \dot q_i \dot q_j-P(q)</script><p>欧拉-拉格朗日方程为：</p>
-<script type="math/tex; mode=display">
-{d \over dt}{\partial L \over \partial \dot q_k}-{\partial L \over \partial q_k} = \tau_k</script><p>其中：</p>
-<script type="math/tex; mode=display">
-{\partial L \over \partial \dot q_k}= \sum_jd_{kj}\dot q_j\\
-{d \over dt}{\partial L \over \partial \dot q_k} = \sum_jd_{kj}\ddot q_j+\sum_{j}{d \over dt}d_{kj}\dot q_j \\ 
-\ \ \ \ \   \ \ \  \  \  \ \ \ \ \ = \sum_jd_{kj}\ddot q_j+\sum_{i,j}{\partial d_{kj}\over \partial q_i}\dot q_i\dot q_j \\
-{\partial L \over \partial q_k} = {1 \over 2}\sum_{i,j} {\partial d_{i,j} \over \partial q_k} \dot q_i \dot q_j - {\partial P \over \partial q_k}</script><p>因此对于每个$k=1,2,…n$，欧拉-拉格朗日方程可以写成：</p>
-<script type="math/tex; mode=display">
-\sum_jd_{kj}\ddot q_j+\sum_{i,j}\{ {\partial d_{kj}\over \partial q_i} -{1\over 2}{\partial d_{i,j} \over \partial q_k}\} \dot q_i\dot q_j - {\partial P \over \partial q_k}= \tau_k</script><p>即：</p>
-<script type="math/tex; mode=display">
-\sum_jd_{kj}\ddot q_j+\sum_{i,j} {1\over 2}\{ {\partial d_{kj}\over \partial q_i} + {\partial d_{kj}\over \partial q_i} -{\partial d_{i,j} \over \partial q_k}\} \dot q_i\dot q_j - {\partial P \over \partial q_k}= \tau_k</script><p>定义Christoffel symbol：</p>
-<script type="math/tex; mode=display">
-c_{ijk} = c_{jik} ={1\over 2}\{ {\partial d_{kj}\over \partial q_i} + {\partial d_{kj}\over \partial q_i} -{\partial d_{i,j} \over \partial q_k} \}</script><p>定义广义重力：</p>
-<script type="math/tex; mode=display">
-g_k = {\partial P \over \partial q_k}</script><p>最终得到欧拉-拉格朗日方程：</p>
-<script type="math/tex; mode=display">
-\sum_jd_{kj}(q)\ddot q_j+\sum_{i,j} c_{ijk}(q) \dot q_i\dot q_j - g_k(q)= \tau_k</script><p>方程左侧三项分别为：</p>
-<ol>
-<li>广义坐标的二阶导数：惯性项</li>
-<li>广义坐标一阶导数的二次型：离心力项+哥氏力项</li>
-<li>广义位置（0阶导数）重力项</li>
-</ol>
-<p>方程可简写为：</p>
-<script type="math/tex; mode=display">
-D(q)\ddot q+C(q,\dot q)\dot q+g(q) = \tau</script><h3 id="推导平面2关节机器人的动力学模型"><a href="#推导平面2关节机器人的动力学模型" class="headerlink" title="推导平面2关节机器人的动力学模型"></a>推导平面2关节机器人的动力学模型</h3><p>现在考虑下图中带有两个转动关节的平面机械臂。</p>
-<p><img src="https://img-blog.csdnimg.cn/20210113172528262.png" alt="在这里插入图片描述"></p>
-<p>要使用刚刚得到的欧拉-拉格朗日方程，就要与关节位置和关节速度相关的三个量：$D(q),C(q,\dot q),g(q)$。</p>
-<p>首先使用雅可比矩阵来计算动能，计算平移速度：</p>
-<script type="math/tex; mode=display">
-v_{c1} = J_{v_{c1}}\dot q \\
-v_{c2} = J_{v_{c2}}\dot q \\
-J_{v_{c1}} = \begin{bmatrix}-l_c sin(q_1) & 0 \\ l_{c1}cos(q_1) & 0\\ 0 & 0 \\\end{bmatrix} \\
-J_{v_{c2}} = \begin{bmatrix}-l_1sin(q_1)-l_{c2}sin(q_1+q_2) & -l_{c2}sin(q_1+q_2) \\ l_1cos(q_1)+l_{c2}cos(q_1+q_2) & l_{c2}cos(q_1+q_2)\\ 0 & 0 \\\end{bmatrix}</script><p>平移部分对应的动能为：</p>
-<script type="math/tex; mode=display">
-{1\over 2}m_1 v^T_{c1}v_{c1}+{1\over2}m_2v^T_{c2}v_{c2} = {1\over 2}\dot q\{ m_1J^T_{v_{c1}}J_{v_{c1}} +m_2J^T_{v_{c2}}J_{v_{c2}}  \}\dot q</script><p>接下来考虑角速度项：</p>
-<script type="math/tex; mode=display">
-\omega_1 = \dot q_1k \\
-\omega_2 = (\dot q_1+ \dot q_2)k</script><p>由于$\omega_i$与每个关节坐标系的z轴对齐，旋转动能可以简单表示为${1\over 2}I_i\omega_i^2$，其中$I_i$是转动惯量，它的轴线穿过连杆i的质心且平行于$z_i$轴。因此，就广义坐标而言，整个系统的旋转动能为：</p>
-<script type="math/tex; mode=display">
-{1\over 2}\dot q^T \{ I_1 \begin{bmatrix}1 &0 \\ 0&0 \end{bmatrix} + I_2 \begin{bmatrix} 1&1\\1&1 \end{bmatrix}\}\dot q</script><p>惯性矩阵：</p>
-<script type="math/tex; mode=display">
-D(q) = m_1J^T_{v_{c1}}J_{v_{c1}} +m_2J^T_{v_{c2}}J_{v_{c2}} + \begin{bmatrix} I_1+I_2&I_2 \\ I_2&I_2 \end{bmatrix} = \begin{bmatrix} d_{11}&d_{12} \\ d_{21}&d_{22} \end{bmatrix} \\</script><p>计算得：</p>
-<script type="math/tex; mode=display">
-d_{11} =  m_1l_{c1}^2 + m_2(l_1^2+l^2_{c2}+2l_1l_{c2}cos(q_2))+I_1+I_2\\
-d_{12} = d_{21} = m_2(l^2_{c2}+l_1l_{c2}cos(q_2))+I_2 \\
-d_{22} = m_2l^2_{c2}+I_2</script><p>我们已经得到了惯性矩阵，接下来计算Christoffel符号$c_{ijk}$：</p>
-<script type="math/tex; mode=display">
-c_{111}= {1 \over 2}{\partial d_{11}\over \partial q_1} = 0 \\
-c_{121}= c_{211}= {1 \over 2}{\partial d_{11}\over \partial q_2} = -m_2l_1l_{c2}sin(q_2) = h \\
-c_{221}= {\partial d_{12}\over \partial q_2}-{1 \over 2}{\partial d_{11}\over \partial q_1} = h  \\
-c_{112}= {\partial d_{21}\over \partial q_1}-{1 \over 2}{\partial d_{11}\over \partial q_2} = -h  \\
-c_{122}= c_{212}=  {1 \over 2}{\partial d_{22}\over \partial q_1} = 0\\
-c_{222}= {1 \over 2}{\partial d_{22}\over \partial q_2} = 0 \\</script><p>接下来计算势能，机械臂的势能等于两个连杆势能之和。</p>
-<script type="math/tex; mode=display">
-P_1 = m_1gl_{c1}sin(q_1) \\
-P_2 = m_2g(l_{2}sin(q_1)+l_{c2}sin(q_1+q_2))\\
-P = P_1+P_2 =(m_1l_{c1}+m_2l_1)gsin(q_1)+m_2l_{c2}gsin(q_1+q_2)</script><p>之前的广义重力$g_k$可变为：</p>
-<script type="math/tex; mode=display">
-g_1 = {\partial P \over\partial q_1 } = (m_1l_{c1}+m_2l_1)gcos(q_1)+m_2l_{c2}gcos(q_1+q_2)  \\
-g_2 = {\partial P \over\partial q_2 } = m_2l_{c2}gcos(q_1+q_2)</script><p>最后可以写出系统的动力学方程：</p>
-<script type="math/tex; mode=display">
-d_{11}\ddot q_1+d_{12} \ddot q_2+c_{121}\dot q_1 \dot q_2 + c_{211}\dot q_2 \dot q_1 +c_{221}\dot q_2^2+g_1=\tau_1 \\
-d_{21} \ddot q_1+d_{22}\ddot q_2+c_{112}\dot q_1^2+g_2 = \tau_2</script><p>在这种情况下，原方程矩阵$C(q, \dot q)$由下式给出：</p>
-<script type="math/tex; mode=display">
-C = \begin{bmatrix}h\dot q_2 & h \dot q_2+h\dot q_1 \\
--h\dot q_1 & 0\end{bmatrix}</script>]]></content>
-      <categories>
-        <category>机器人学</category>
-      </categories>
-      <tags>
-        <tag>机器人学</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>独立关节PD控制及其matlab simulink仿真</title>
     <url>/2021/01/14/%E7%8B%AC%E7%AB%8B%E5%85%B3%E8%8A%82PD%E6%8E%A7%E5%88%B6%E5%8F%8A%E5%85%B6matlab%20simulink%E4%BB%BF%E7%9C%9F/</url>
-    <content><![CDATA[<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>如题。</p>
+    <content><![CDATA[<h3 id="摘要">摘要</h3>
+<p>如题。</p>
 <span id="more"></span>
 <p>（转自我的CSDN博客）</p>
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>机器人控制常采用PD控制和PID控制，其优点是控制律简单，易于实现，无需建模。</p>
+<h3 id="原理">原理</h3>
+<p>机器人控制常采用PD控制和PID控制，其优点是控制律简单，易于实现，无需建模。</p>
 <p>当忽略重力和外力干扰时，采用独立的PD控制，能满足机器人定点控制的要求。</p>
-<p>根据欧拉-拉格朗日方程建立n连杆机器人的动力学模型：</p>
-<script type="math/tex; mode=display">
-D(q)\ddot q+C(q,\dot q)\dot q+g(q)=\tau</script><p>其中D代表惯性项，C代表向心力项/哥氏力项，g代表重力项，q代表关节坐标，<script type="math/tex">\tau</script>代表了系统广义力。</p>
-<p>PID控制基于误差，设固定的期望位置为 <script type="math/tex">q_d</script>，跟踪误差为<script type="math/tex">e=q_d-q</script>，由于<script type="math/tex">q_d</script>为常数，<script type="math/tex">\dot q_d=\ddot q_d =0</script>。</p>
-<p>PD控制律为：</p>
-<script type="math/tex; mode=display">
-\tau = K_d \dot e + K_p e</script><p>忽略重力，机器人方程表示为：</p>
-<script type="math/tex; mode=display">
-D(q)(0 - \ddot q)+C(q,\dot q)(0 -\dot q)=- \tau</script><p>进一步化为：</p>
-<script type="math/tex; mode=display">
-D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e =-K_p e</script><p>考虑如下二连杆机器人系统：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210114154010661.png" alt="在这里插入图片描述"></p>
+<p>根据欧拉-拉格朗日方程建立n连杆机器人的动力学模型： <span class="math display">\[
+D(q)\ddot q+C(q,\dot q)\dot q+g(q)=\tau
+\]</span> 其中D代表惯性项，C代表向心力项/哥氏力项，g代表重力项，q代表关节坐标，<span class="math display">\[\tau\]</span>代表了系统广义力。</p>
+<p>PID控制基于误差，设固定的期望位置为 <span class="math display">\[ q_d \]</span>，跟踪误差为<span class="math display">\[e=q_d-q\]</span>，由于<span class="math display">\[q_d\]</span>为常数，<span class="math display">\[\dot q_d=\ddot q_d =0\]</span>。</p>
+<p>PD控制律为： <span class="math display">\[
+\tau = K_d \dot e + K_p e
+\]</span> 忽略重力，机器人方程表示为： <span class="math display">\[
+D(q)(0 - \ddot q)+C(q,\dot q)(0 -\dot q)=- \tau
+\]</span> 进一步化为： <span class="math display">\[
+D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e =-K_p e
+\]</span></p>
+<p>考虑如下二连杆机器人系统：</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20210114154010661.png" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>其中：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210114154059646.png" alt=""></p>
-<p>实例化，假设<script type="math/tex">p=[2.90{\,} 0.76 {\,}0.87]^T, q_0 =[0 {\,}0]^T, \dot q_0 = [0{\,} 0 ]^T</script>,目标位置<script type="math/tex">q_d(0)=[1.0 {\,}1.0]^T</script>，取<script type="math/tex">K_p=\begin{bmatrix}100 &0\\0&100 \end{bmatrix}, K_d=\begin{bmatrix}100 &0\\0&100 \end{bmatrix}</script>。</p>
-<p>得到：</p>
-<script type="math/tex; mode=display">
-D(q)=\begin{bmatrix}3.66+1.74\cos q_2 &0.76+0.87\cos q_2\\0.76+0.87\cos q_2&0.76 \end{bmatrix}, C(q,\dot q)=\begin{bmatrix}-0.87 \dot q_2\sin q_2 &-0.87(\dot q_1 + \dot q_2)\sin q_2\\0.87 \dot q_1\sin q_2&0 \end{bmatrix}</script><p>代入刚刚得到的机器人方程，并选取系统状态变量<script type="math/tex">[θ_1,\dot θ_1 ,θ_2,\dot θ_2] = [q_1,\dot q_1, q_2,\dot q_2]</script>：</p>
-<script type="math/tex; mode=display">
+<p><img src="https://img-blog.csdnimg.cn/20210114154059646.png" /></p>
+<p>实例化，假设<span class="math display">\[ p=[2.90{\,} 0.76 {\,}0.87]^T, q_0 =[0 {\,}0]^T, \dot q_0 = [0{\,} 0 ]^T\]</span>,目标位置<span class="math display">\[q_d(0)=[1.0 {\,}1.0]^T\]</span>，取<span class="math display">\[K_p=\begin{bmatrix}100 &amp;0\\0&amp;100 \end{bmatrix}, K_d=\begin{bmatrix}100 &amp;0\\0&amp;100 \end{bmatrix}\]</span>。</p>
+<p>得到： <span class="math display">\[
+D(q)=\begin{bmatrix}3.66+1.74\cos q_2 &amp;0.76+0.87\cos q_2\\0.76+0.87\cos q_2&amp;0.76 \end{bmatrix}, C(q,\dot q)=\begin{bmatrix}-0.87 \dot q_2\sin q_2 &amp;-0.87(\dot q_1 + \dot q_2)\sin q_2\\0.87 \dot q_1\sin q_2&amp;0 \end{bmatrix}
+\]</span> 代入刚刚得到的机器人方程，并选取系统状态变量<span class="math display">\[[θ_1,\dot θ_1 ,θ_2,\dot θ_2] = [q_1,\dot q_1, q_2,\dot q_2]\]</span>： <span class="math display">\[
 \begin{cases}
 \dot θ_1 = \dot  θ_1 \\
 \ddot \theta_1 = {τ_1-(0.76+0.87cosθ_2 ) \ddot θ_2  + 0.87sin(θ_2 )\dot θ_1 \dot θ_2 +0.87(\dot θ_1 +\dot θ_2)sinθ_2 \dot θ_2 \over (3.66+1.74cosθ_2 )} \\
@@ -255,30 +312,46 @@ D(q)=\begin{bmatrix}3.66+1.74\cos q_2 &0.76+0.87\cos q_2\\0.76+0.87\cos q_2&0.76
 \ddot \theta_2 = {τ_2-(0.76+0.87cosθ_2 ) \ddot θ_1 -0.87sinθ_2 (\dot θ_1 )^2 \over 0.76}\\
 \tau_1 = K_p(q_{d1}-q_1)-K_d \dot q_1 \\
 \tau_2 = K_p(q_{d2}-q_2)-K_d \dot q_2
-\end{cases}</script><h3 id="Matlab-simulink-仿真建模"><a href="#Matlab-simulink-仿真建模" class="headerlink" title="Matlab/simulink 仿真建模"></a>Matlab/simulink 仿真建模</h3><p>依据上面得到的式子建立matlab simulink仿真模型：</p>
+\end{cases}
+\]</span></p>
+<h3 id="matlabsimulink-仿真建模">Matlab/simulink 仿真建模</h3>
+<p>依据上面得到的式子建立matlab simulink仿真模型：</p>
 <p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-r7H7RAFz-1610609990391)(image-20210107132308822.png)]</p>
-<p>注意计算<script type="math/tex">\ddot q_1, \ddot q_2</script>使用函数模块时候不能选择这个：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210114154137426.png" alt="在这里插入图片描述"></p>
+<p>注意计算<span class="math display">\[\ddot q_1, \ddot q_2\]</span>使用函数模块时候不能选择这个：</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20210114154137426.png" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>否则就会报错：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210114154143373.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20210114154143373.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>要选择这个：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210114154152376.png" alt="在这里插入图片描述"></p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20210114154152376.png" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>示波器输出波形为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210114154202354.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>修改Kp，Kd，使得<script type="math/tex">K_p=\begin{bmatrix}1000&0\\0&1000 \end{bmatrix}, K_d=\begin{bmatrix}100 &0\\0&100 \end{bmatrix}</script>，得到：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210114154214127.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20210114154202354.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
+<p>修改Kp，Kd，使得<span class="math display">\[K_p=\begin{bmatrix}1000&amp;0\\0&amp;1000 \end{bmatrix}, K_d=\begin{bmatrix}100 &amp;0\\0&amp;100 \end{bmatrix}\]</span>，得到：</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20210114154214127.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>调节时间缩短，响应变快。</p>
-<p>修改Kp，Kd，使得<script type="math/tex">K_p=\begin{bmatrix}100&0\\0&100 \end{bmatrix}, K_d=\begin{bmatrix}10 &0\\0&10 \end{bmatrix}</script>，得到：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210114154222903.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>修改Kp，Kd，使得<span class="math display">\[K_p=\begin{bmatrix}100&amp;0\\0&amp;100 \end{bmatrix}, K_d=\begin{bmatrix}10 &amp;0\\0&amp;10 \end{bmatrix}\]</span>，得到：</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20210114154222903.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>出现过多超调，响应时间变长。</p>
-<h3 id="加入重力补偿"><a href="#加入重力补偿" class="headerlink" title="加入重力补偿"></a>加入重力补偿</h3><p>事实上完全不受外力，没有干扰的机械手系统是不存在的，独立的PD控制只是基础，可以作为参考来对系统进行分析。如果加入重力补偿，PD控制律变为：</p>
-<script type="math/tex; mode=display">
-\tau = K_d \dot e + K_p e + \hat G(q)</script><p>其中<script type="math/tex">\hat G(q)</script>表示对重力矩的估计值。</p>
-<p>机器人方程为：</p>
-<script type="math/tex; mode=display">
-D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e + K_p e+\hat G(q)-G(q)=0</script><p>对重力矩的估计方法有如下两类：</p>
-<ol>
-<li>当对重力矩估计准确时候，<script type="math/tex">\hat G(q), G(q)</script>抵消，方程退化为上面的独立PD控制。</li>
+<h3 id="加入重力补偿">加入重力补偿</h3>
+<p>事实上完全不受外力，没有干扰的机械手系统是不存在的，独立的PD控制只是基础，可以作为参考来对系统进行分析。如果加入重力补偿，PD控制律变为： <span class="math display">\[
+\tau = K_d \dot e + K_p e + \hat G(q)
+\]</span> 其中<span class="math display">\[\hat G(q)\]</span>表示对重力矩的估计值。</p>
+<p>机器人方程为： <span class="math display">\[
+D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e + K_p e+\hat G(q)-G(q)=0
+\]</span> 对重力矩的估计方法有如下两类：</p>
+<ol type="1">
+<li>当对重力矩估计准确时候，<span class="math display">\[\hat G(q), G(q)\]</span>抵消，方程退化为上面的独立PD控制。</li>
 <li>当对重力矩的估计值不准确时候，需要设计重力补偿算法。目前代表性的重力补偿PD控制算法有在线估计的和固定的重力补偿PD控制。其中在线补偿更为准确，但是会消耗更多的计算资源，固定的补偿特性与之相反。</li>
 </ol>
 ]]></content>
@@ -292,34 +365,31 @@ D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e + K_p e+\hat
   <entry>
     <title>自制电吉他效果器 DIY PCB（一）前言</title>
     <url>/2020/03/26/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E4%B8%80%EF%BC%89%E5%89%8D%E8%A8%80/</url>
-    <content><![CDATA[<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>相信弹吉他的朋友都对设备有特别的爱好，但是很多人（特别是学生群体）往往很难有充足的资金去购买想要的设备。</p>
+    <content><![CDATA[<h3 id="摘要">摘要</h3>
+<p>相信弹吉他的朋友都对设备有特别的爱好，但是很多人（特别是学生群体）往往很难有充足的资金去购买想要的设备。</p>
 <p>笔者当然也属于这个群体，于是想到了自己动手制作效果器。由于在网上很难搜到其他具体的介绍如何DIY效果器的方法，特别是用pcb制作的，接下来介绍的方法都是笔者自己摸索出来的，如有不合适的地方，请见谅。</p>
 <span id="more"></span>
 <p>（转自我的CSDN博客）</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在电吉他三件套（吉他、效果器、音箱）中，最容易自己动手做的大概就是效果器了。吉他本身的制作对工艺有很高要求，而音箱涉及到大功率高电压，自制可能会有安全问题。效果器只用9v电池供电，内部电路有的也很简单，外壳自制党要求不高的话可以不做，相比就更友好了。</p>
-<p>最后的成品大概是这样的：<br><img src="https://img-blog.csdnimg.cn/20200423231440491.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这是本人设计的一块带过载、失真和EQ的效果器。<br>名为 “<strong>Icecream</strong>”。</p>
-<h2 id="需要掌握的知识和技能"><a href="#需要掌握的知识和技能" class="headerlink" title="需要掌握的知识和技能"></a>需要掌握的知识和技能</h2><ul>
+<h2 id="前言">前言</h2>
+<p>在电吉他三件套（吉他、效果器、音箱）中，最容易自己动手做的大概就是效果器了。吉他本身的制作对工艺有很高要求，而音箱涉及到大功率高电压，自制可能会有安全问题。效果器只用9v电池供电，内部电路有的也很简单，外壳自制党要求不高的话可以不做，相比就更友好了。</p>
+<p>最后的成品大概是这样的： <img src="https://img-blog.csdnimg.cn/20200423231440491.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 这是本人设计的一块带过载、失真和EQ的效果器。 名为 “<strong>Icecream</strong>”。</p>
+<h2 id="需要掌握的知识和技能">需要掌握的知识和技能</h2>
+<ul>
 <li><strong>基本的模拟电子电路知识</strong></li>
 <li><strong>Altium Designer</strong> 或者其他 pcb 制作软件</li>
 <li><strong>焊接技术</strong></li>
 </ul>
-<h2 id="成本"><a href="#成本" class="headerlink" title="成本"></a>成本</h2><ul>
+<h2 id="成本">成本</h2>
+<ul>
 <li><strong>pcb小批量制作</strong>：各家5-30元不等（打样5块板）</li>
 <li><strong>元器件</strong>：50元左右，用更好的器件会更贵（上不封顶），购买一次元件可以用很多次</li>
 <li><strong>电烙铁和焊锡</strong>：70到上百，要是有就省钱了。</li>
 <li><strong>万用表</strong>：非必须，建议购买，几十块。</li>
 </ul>
 <p>以上的后三项都是可以多次使用的，我再次制作的时候基本就只需要花pcb的钱了，也有可能需要再补充少量元件。</p>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>后续我将会花几篇的篇幅来具体讲解如何自制效果器。</p>
-<p> **1. 前言</p>
-<ol>
-<li>电路图分析</li>
-<li>PCB原理图与封装 上</li>
-<li>PCB原理图与封装 下</li>
-<li>布局与接线</li>
-<li>焊接</li>
-<li>总结**</li>
-</ol>
+<h2 id="目录">目录</h2>
+<p>后续我将会花几篇的篇幅来具体讲解如何自制效果器。</p>
+<p><strong>1. 前言 2. 电路图分析 3. PCB原理图与封装 上 4. PCB原理图与封装 下 5. 布局与接线 6. 焊接 7. 总结</strong></p>
 <p>请听下回分解。</p>
 ]]></content>
       <categories>
@@ -335,26 +405,27 @@ D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e + K_p e+\hat
   <entry>
     <title>自制电吉他效果器 DIY PCB（三）原理图与封装 上</title>
     <url>/2020/04/27/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E4%B8%89%EF%BC%89%E5%8E%9F%E7%90%86%E5%9B%BE%E4%B8%8E%E5%B0%81%E8%A3%85%20%E4%B8%8A/</url>
-    <content><![CDATA[<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>了解了电路原理，接下来我们打开<strong>Altium Designer</strong>开始画图吧。<br>熟悉其他PCB设计软件的也可以，大致思路是一样的。由于本人只会AD，这里使用<strong>AD20</strong>进行演示。</p>
+    <content><![CDATA[<h3 id="摘要">摘要</h3>
+<p>了解了电路原理，接下来我们打开<strong>Altium Designer</strong>开始画图吧。 熟悉其他PCB设计软件的也可以，大致思路是一样的。由于本人只会AD，这里使用<strong>AD20</strong>进行演示。</p>
 <span id="more"></span>
 <p>（转自我的CSDN博客）</p>
 <p>这里将不会对软件使用进行详细讲解，<strong>重点说明针对效果器PCB绘制需要注意的事项。</strong></p>
 <p>不会PCB软件的朋友建议找视频或者博客学一学，只需要掌握最基本的两层板绘制就行了。有人可能想试试不用pcb直接用洞洞板手焊，应对十分简单的电路确实可行，但是稍微一复杂，焊接和调试的花费的精力可能会比学习pcb还要多哦。如果以后还想继续尝试，最好还是学一下pcb。现在就打开B站或者另一个博客开始学习吧。</p>
-<p>建议不会AD的朋友能跟着教程画一遍完整的pcb再看下面的内容。</p>
-<h2 id="原理图"><a href="#原理图" class="headerlink" title="原理图"></a>原理图</h2><p>依旧是<a href="https://blog.csdn.net/qq_41342525/article/details/105522483">上回</a>说过的<strong>失真效果器</strong>，首先来画原理图，直接来看看画好之后是什么样吧。<br><img src="https://img-blog.csdnimg.cn/20200423205458684.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>乍看过去，好像和上回说的不一样啊，怎么回事？</p>
+<p>建议不会AD的朋友能跟着教程画一遍完整的pcb再看下面的内容。 ## 原理图 依旧是<a href="https://blog.csdn.net/qq_41342525/article/details/105522483">上回</a>说过的<strong>失真效果器</strong>，首先来画原理图，直接来看看画好之后是什么样吧。 <img src="https://img-blog.csdnimg.cn/20200423205458684.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 乍看过去，好像和上回说的不一样啊，怎么回事？</p>
 <p>仔细观察，我这里将原理图分成了<strong>4个模块</strong>，接下来我们分模块进行讲解。</p>
-<h2 id="AMP模块"><a href="#AMP模块" class="headerlink" title="AMP模块"></a>AMP模块</h2><p><img src="https://img-blog.csdnimg.cn/20200423210041658.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>大家看看这个部分，是不是就几乎和上回给大家介绍的电路一模一样呢？<br><img src="https://img-blog.csdnimg.cn/20200423210228248.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>不同之处</strong>是：<br>输入输出与开关的连接没有体现出来，但是我已经把它们画到SWITCH模块中去了。<br>5v(4.5v)偏置也被独立了出去，这里只用网络标签表示。</p>
-<p><strong>在绘制原理图的时候需要注意的：</strong><br>新学的朋友不要忘记给芯片接电源和接地哦，有的原理图会省略，但是在PCB原理图里可千万不能省。<br><img src="https://img-blog.csdnimg.cn/20200423211440601.png" alt="在这里插入图片描述">        <img src="https://img-blog.csdnimg.cn/2020042321151221.png" alt="在这里插入图片描述"><br>这里的初始原理图中有的元件没有标注单位。<br>电阻如果没有写单位，默认单位就是Ω，如果是KΩ，会加上单位K。<br>电容默认单位是uF。</p>
+<h2 id="amp模块">AMP模块</h2>
+<p><img src="https://img-blog.csdnimg.cn/20200423210041658.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 大家看看这个部分，是不是就几乎和上回给大家介绍的电路一模一样呢？ <img src="https://img-blog.csdnimg.cn/20200423210228248.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> <strong>不同之处</strong>是： 输入输出与开关的连接没有体现出来，但是我已经把它们画到SWITCH模块中去了。 5v(4.5v)偏置也被独立了出去，这里只用网络标签表示。</p>
+<p><strong>在绘制原理图的时候需要注意的：</strong> 新学的朋友不要忘记给芯片接电源和接地哦，有的原理图会省略，但是在PCB原理图里可千万不能省。 <img src="https://img-blog.csdnimg.cn/20200423211440601.png" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/2020042321151221.png" alt="在这里插入图片描述" /> 这里的初始原理图中有的元件没有标注单位。 电阻如果没有写单位，默认单位就是Ω，如果是KΩ，会加上单位K。 电容默认单位是uF。</p>
 <p><strong>封装选择：</strong></p>
-<p><strong>电阻和无极性电容</strong>我一律选择的是0805贴片封装。<img src="https://img-blog.csdnimg.cn/2020042321212922.png" alt="在这里插入图片描述">        <img src="https://img-blog.csdnimg.cn/20200423212156502.png" alt="在这里插入图片描述"><br>有朋友可能会觉得贴片封装不好焊接，但个人认为熟练后贴片焊接是会比直插式焊接效率更高的。</p>
-<p><strong>音质方面</strong>，大家可能有见过一些比较经典的效果器内部的元件都是直插电阻电容的，我觉得那可能是因为以前SMT贴片技术还不成熟。我拆过Orange的小小强电子管箱头，里面的大部分电阻都是贴片的。<br>实际上，<strong>电路的设计和PCB的质量</strong>可能比元件的选型对音质的影响更大。另外，很多发烧友说的什么玄学感觉，很多时候靠<strong>调节EQ和音量就可以解决</strong>哦。<br>有一定电路知识的朋友在玩音箱设备的时候，希望都能<strong>理性思考，用所学的知识进行分析，不要陷入玄学之中。</strong></p>
-<p>当然我不是说元件选型不重要，<strong>在一些关键环节还是需要好一点的元件</strong>，比如我们希望电容的内部电阻阻值小一点的时候就应该选择好一点的电容。但是我们这里就不讲究什么发烧级的元件了，能满足需求就行了。<strong>在已经熟悉如何自制效果器之后，可以尝试更好的元器件。</strong><br><img src="https://img-blog.csdnimg.cn/20200423214639129.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>常用的0805贴片电阻电容包在某宝十块钱左右就能买到。<br>想用其他封装也行，贴片比如0603、1206（我上面就是买错了买成了1206），或者直插，其实都可以，看个人喜好。<br>在购买时请注意你所购买的大礼包里有没有包含你需要的元件哦。有的时候初始电路图里会出现比较不常见的阻值，这个时候可以用相近的替代，或者换一个大礼包。</p>
-<p><strong>极性电容</strong>一般选择电解电容<br><img src="https://img-blog.csdnimg.cn/20200423221925966.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>把1uf，4.7uf，10uf，47uf，100uf，470uf这几个型号都多买一些就对了，几块钱买他一大把。还有音频专用的电解电容，有兴趣的可以试试，不会贵很多。</p>
-<p><strong>运放芯片</strong>一般是选择DIP-8封装，也就是直插的8脚封装。不选贴片原因很简单，真的不好焊，而且选直插还有一个好处，稍后再说。<br><img src="https://img-blog.csdnimg.cn/20200423215436286.png" alt="在这里插入图片描述"><br>我们这里的741很幸运在AD的自带原理图库里找到了。<br><img src="https://img-blog.csdnimg.cn/20200423220336730.png" alt="在这里插入图片描述"><br>有的时候会出现有的芯片型号找不到的情况，这个时候自己简单画一个就行啦。像这样，我画了一个效果器常见的运放TL072作为示例。<br><img src="https://img-blog.csdnimg.cn/20200423215627787.png" alt="在这里插入图片描述"><br>如果有好好学AD的朋友应该知道，这就是一个简单的矩形，加上了8个引脚，再给他命个名就行了。<strong>唯一需要注意的是引脚的顺序请务必不要搞错了。</strong></p>
-<p>芯片在也是在某宝直接买就行了，一般几毛钱到一两块钱就能买到。反正这么便宜，请一次多买几个。<br>此外，还可以购买芯片插座，这就是我之前说的好处。有了插座之后，当你手头有可以替代的芯片的时候，就可以<strong>直接拔下来替换</strong>，看看音色会有什么变化。<br>比如，上面说的741运放，可以选择UA741，也可以选择LM741，在查阅更过芯片的手册后，你会发现甚至还有更多的型号可以选择，几乎是个单运算放大器都可以试试。<br>当然，我是试过的，我得出的结论是，还是电路的设计和PCB质量对音色影响比较大。<br><img src="https://img-blog.csdnimg.cn/20200423220918947.png" alt="在这里插入图片描述"><br>也很便宜，几块钱买一大把。</p>
-<p><strong>二极管</strong>，有的电路会说明型号，这里不说就选用1N4184，贴片直插皆可。也很便宜。<br><img src="https://img-blog.csdnimg.cn/20200423222308901.png" alt="在这里插入图片描述">   <img src="https://img-blog.csdnimg.cn/20200423222321659.png" alt="在这里插入图片描述">  <img src="https://img-blog.csdnimg.cn/20200423222542877.png" alt="在这里插入图片描述"></p>
-<p><strong>电位器</strong>，一定要选择可以用手扭的，并且旋转一圈就能完事的。个人选的是这种。这就是典型的音箱设备用的电位器。一般是几毛钱一个，稍好一点的几块钱一个。我看到某宝有些几十上百的电位器，大家可以开动脑筋想想不过是一个滑动变阻器而已到底能玩出什么花来。<br><img src="https://img-blog.csdnimg.cn/20200423222914426.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>我们这里计划是要把电位器作为直插式元件焊接到PCB板上，而不是通过导线连接，所以在AD有要有对应的PCB封装。<br>注意前面介绍的元件都是有现成的封装的，可以直接在AD自带的原理图库和封装库中找到，如果没有应该也可以百度到。<br>而这里的电位器大家很可能找不到对应的封装了，所以我们要自己画。（我上面那个不是自己画的）</p>
-<p>先画一个原理图。一个小矩形加上三个引脚。<br><img src="https://img-blog.csdnimg.cn/20200423224232142.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>为其添加封装，注意引脚序号对应。<br><img src="https://img-blog.csdnimg.cn/20200423224421853.png" alt="在这里插入图片描述"><br>这里的白色矩形框只起到提示作用，可以自己限定范围，但是<strong>三个焊盘的尺寸和相对位置需要严格限定</strong>。<br>如何确定？查阅你所购买的电位器的商品详情页面。找到电位器工程图。<br><img src="https://img-blog.csdnimg.cn/20200423224638644.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>由图可知，电位器三个引脚间距是5mm，那么我们就把距离定位5mm。引脚直径是1.2mm，但一般会预留更大的空间，可以把孔径定位1.6mm左右。<br>上面提到的白色框可以根据工程图来自行设计大小，能表示电位器占据的空间即可。</p>
+<p><strong>电阻和无极性电容</strong>我一律选择的是0805贴片封装。<img src="https://img-blog.csdnimg.cn/2020042321212922.png" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200423212156502.png" alt="在这里插入图片描述" /> 有朋友可能会觉得贴片封装不好焊接，但个人认为熟练后贴片焊接是会比直插式焊接效率更高的。</p>
+<p><strong>音质方面</strong>，大家可能有见过一些比较经典的效果器内部的元件都是直插电阻电容的，我觉得那可能是因为以前SMT贴片技术还不成熟。我拆过Orange的小小强电子管箱头，里面的大部分电阻都是贴片的。 实际上，<strong>电路的设计和PCB的质量</strong>可能比元件的选型对音质的影响更大。另外，很多发烧友说的什么玄学感觉，很多时候靠<strong>调节EQ和音量就可以解决</strong>哦。 有一定电路知识的朋友在玩音箱设备的时候，希望都能<strong>理性思考，用所学的知识进行分析，不要陷入玄学之中。</strong></p>
+<p>当然我不是说元件选型不重要，<strong>在一些关键环节还是需要好一点的元件</strong>，比如我们希望电容的内部电阻阻值小一点的时候就应该选择好一点的电容。但是我们这里就不讲究什么发烧级的元件了，能满足需求就行了。<strong>在已经熟悉如何自制效果器之后，可以尝试更好的元器件。</strong> <img src="https://img-blog.csdnimg.cn/20200423214639129.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 常用的0805贴片电阻电容包在某宝十块钱左右就能买到。 想用其他封装也行，贴片比如0603、1206（我上面就是买错了买成了1206），或者直插，其实都可以，看个人喜好。 在购买时请注意你所购买的大礼包里有没有包含你需要的元件哦。有的时候初始电路图里会出现比较不常见的阻值，这个时候可以用相近的替代，或者换一个大礼包。</p>
+<p><strong>极性电容</strong>一般选择电解电容 <img src="https://img-blog.csdnimg.cn/20200423221925966.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 把1uf，4.7uf，10uf，47uf，100uf，470uf这几个型号都多买一些就对了，几块钱买他一大把。还有音频专用的电解电容，有兴趣的可以试试，不会贵很多。</p>
+<p><strong>运放芯片</strong>一般是选择DIP-8封装，也就是直插的8脚封装。不选贴片原因很简单，真的不好焊，而且选直插还有一个好处，稍后再说。 <img src="https://img-blog.csdnimg.cn/20200423215436286.png" alt="在这里插入图片描述" /> 我们这里的741很幸运在AD的自带原理图库里找到了。 <img src="https://img-blog.csdnimg.cn/20200423220336730.png" alt="在这里插入图片描述" /> 有的时候会出现有的芯片型号找不到的情况，这个时候自己简单画一个就行啦。像这样，我画了一个效果器常见的运放TL072作为示例。 <img src="https://img-blog.csdnimg.cn/20200423215627787.png" alt="在这里插入图片描述" /> 如果有好好学AD的朋友应该知道，这就是一个简单的矩形，加上了8个引脚，再给他命个名就行了。<strong>唯一需要注意的是引脚的顺序请务必不要搞错了。</strong></p>
+<p>芯片在也是在某宝直接买就行了，一般几毛钱到一两块钱就能买到。反正这么便宜，请一次多买几个。 此外，还可以购买芯片插座，这就是我之前说的好处。有了插座之后，当你手头有可以替代的芯片的时候，就可以<strong>直接拔下来替换</strong>，看看音色会有什么变化。 比如，上面说的741运放，可以选择UA741，也可以选择LM741，在查阅更过芯片的手册后，你会发现甚至还有更多的型号可以选择，几乎是个单运算放大器都可以试试。 当然，我是试过的，我得出的结论是，还是电路的设计和PCB质量对音色影响比较大。 <img src="https://img-blog.csdnimg.cn/20200423220918947.png" alt="在这里插入图片描述" /> 也很便宜，几块钱买一大把。</p>
+<p><strong>二极管</strong>，有的电路会说明型号，这里不说就选用1N4184，贴片直插皆可。也很便宜。 <img src="https://img-blog.csdnimg.cn/20200423222308901.png" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200423222321659.png" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200423222542877.png" alt="在这里插入图片描述" /></p>
+<p><strong>电位器</strong>，一定要选择可以用手扭的，并且旋转一圈就能完事的。个人选的是这种。这就是典型的音箱设备用的电位器。一般是几毛钱一个，稍好一点的几块钱一个。我看到某宝有些几十上百的电位器，大家可以开动脑筋想想不过是一个滑动变阻器而已到底能玩出什么花来。 <img src="https://img-blog.csdnimg.cn/20200423222914426.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 我们这里计划是要把电位器作为直插式元件焊接到PCB板上，而不是通过导线连接，所以在AD有要有对应的PCB封装。 注意前面介绍的元件都是有现成的封装的，可以直接在AD自带的原理图库和封装库中找到，如果没有应该也可以百度到。 而这里的电位器大家很可能找不到对应的封装了，所以我们要自己画。（我上面那个不是自己画的）</p>
+<p>先画一个原理图。一个小矩形加上三个引脚。 <img src="https://img-blog.csdnimg.cn/20200423224232142.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 为其添加封装，注意引脚序号对应。 <img src="https://img-blog.csdnimg.cn/20200423224421853.png" alt="在这里插入图片描述" /> 这里的白色矩形框只起到提示作用，可以自己限定范围，但是<strong>三个焊盘的尺寸和相对位置需要严格限定</strong>。 如何确定？查阅你所购买的电位器的商品详情页面。找到电位器工程图。 <img src="https://img-blog.csdnimg.cn/20200423224638644.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 由图可知，电位器三个引脚间距是5mm，那么我们就把距离定位5mm。引脚直径是1.2mm，但一般会预留更大的空间，可以把孔径定位1.6mm左右。 上面提到的白色框可以根据工程图来自行设计大小，能表示电位器占据的空间即可。</p>
 <p>AMP模块说明完毕。</p>
 <p>这部分太长了，分成上下篇。下回再分解。</p>
 ]]></content>
@@ -371,25 +442,30 @@ D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e + K_p e+\hat
   <entry>
     <title>自制电吉他效果器 DIY PCB（二）电路图分析</title>
     <url>/2020/04/14/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E4%BA%8C%EF%BC%89%E7%94%B5%E8%B7%AF%E5%9B%BE%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>要自制一款效果器，看懂电路图是必须的，即使你已经有了完整的设计电路图，在电路的绘制以及焊接的时候电路知识都会用到。</p>
+    <content><![CDATA[<h3 id="摘要">摘要</h3>
+<p>要自制一款效果器，看懂电路图是必须的，即使你已经有了完整的设计电路图，在电路的绘制以及焊接的时候电路知识都会用到。</p>
 <span id="more"></span>
 <p>（转自我的CSDN博客）</p>
-<h1 id="电路图分析"><a href="#电路图分析" class="headerlink" title="电路图分析"></a>电路图分析</h1><p>在效果器电路中，比较简单的是<strong>过载失真类</strong>效果器的电路。混响延迟等与声相有关的由于电路比较复杂本人也没有尝试过。其他的例如EQ、哇音等等效果器复杂程度依设计各不相同，在能做出过载失真类效果器后，可以自行尝试。</p>
-<p>我这里主要为大家介绍失真效果器。<br>来看一张电路图：<br><img src="https://img-blog.csdnimg.cn/20200414220701871.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这是一款非常经典的失真效果器的电路图，具体型号我就不说了。</p>
+<h1 id="电路图分析">电路图分析</h1>
+<p>在效果器电路中，比较简单的是<strong>过载失真类</strong>效果器的电路。混响延迟等与声相有关的由于电路比较复杂本人也没有尝试过。其他的例如EQ、哇音等等效果器复杂程度依设计各不相同，在能做出过载失真类效果器后，可以自行尝试。</p>
+<p>我这里主要为大家介绍失真效果器。 来看一张电路图： <img src="https://img-blog.csdnimg.cn/20200414220701871.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 这是一款非常经典的失真效果器的电路图，具体型号我就不说了。</p>
 <p>它的设计也非常简单，我们把它简单分成几个模块来分析一下。</p>
-<h2 id="放大模块（失真源）"><a href="#放大模块（失真源）" class="headerlink" title="放大模块（失真源）"></a>放大模块（失真源）</h2><p><img src="https://img-blog.csdnimg.cn/20200414221347958.png" alt="在这里插入图片描述"><br>这是一个<strong>运算放大电路</strong>，用的是学过模电的同学都很熟悉的741运放。不熟悉741的可以百度一下741的用户手册。</p>
+<h2 id="放大模块失真源">放大模块（失真源）</h2>
+<p><img src="https://img-blog.csdnimg.cn/20200414221347958.png" alt="在这里插入图片描述" /> 这是一个<strong>运算放大电路</strong>，用的是学过模电的同学都很熟悉的741运放。不熟悉741的可以百度一下741的用户手册。</p>
 <p><strong>吉他输入的电流信号可以理解为正弦波，是交流信号，3脚和6脚接入的电容目的是隔直流，通交流。</strong></p>
 <p><strong>500K的电位器决定了放大倍数，这个电位器对应的就是效果器上的GAIN旋钮。</strong></p>
-<p><strong>运放使用9v直流电源供电，造成失真的原因是，当放大倍数足够大的时候，输入信号电压*放大倍数超过9v（或者低于0v），信号削波。</strong></p>
-<h2 id="4-5v供电模块"><a href="#4-5v供电模块" class="headerlink" title="4.5v供电模块"></a>4.5v供电模块</h2><p><img src="https://img-blog.csdnimg.cn/20200414222355701.png" alt="在这里插入图片描述"><br>这里用两个10k电阻串联，接入9v电源和地之间，产生4.5v偏置电压，接入运放3脚。<br><strong>这样做的目的是提供直流偏置。吉他输入信号是在0v上下波动的，4.5v偏置电压可以将其抬升至电源电压范围 0-9v 的中间位置，进行放大。</strong></p>
+<p>**运放使用9v直流电源供电，造成失真的原因是，当放大倍数足够大的时候，输入信号电压*放大倍数超过9v（或者低于0v），信号削波。**</p>
+<h2 id="v供电模块">4.5v供电模块</h2>
+<p><img src="https://img-blog.csdnimg.cn/20200414222355701.png" alt="在这里插入图片描述" /> 这里用两个10k电阻串联，接入9v电源和地之间，产生4.5v偏置电压，接入运放3脚。 <strong>这样做的目的是提供直流偏置。吉他输入信号是在0v上下波动的，4.5v偏置电压可以将其抬升至电源电压范围 0-9v 的中间位置，进行放大。</strong></p>
 <p>一般的效果器都会使用这样的直流偏置方案。</p>
-<p><strong>另外，10uf的极性电容是一个滤波电容，目的是滤除电源的高频噪声。同样的，我们在9v的电源处也要接入滤波电容，常用的规格是47uf或100uf的电解电容。</strong></p>
-<h2 id="EQ调节模块"><a href="#EQ调节模块" class="headerlink" title="EQ调节模块"></a>EQ调节模块</h2><p><img src="https://img-blog.csdnimg.cn/20200414223037354.png" alt="在这里插入图片描述"><br><strong>这是一个简单的无源一阶滤波器，对应的是效果器上的TONE钮。</strong></p>
-<p>右边两个跟滤波器无关，顺便说一下，这是两个稳压二极管，常用型号是1N4148.<br><img src="https://img-blog.csdnimg.cn/20200414223307583.png" alt="在这里插入图片描述"><br>独立的虚线框里表示的是另一种<strong>替代方案</strong>。</p>
-<h2 id="其他部分"><a href="#其他部分" class="headerlink" title="其他部分"></a>其他部分</h2><p><img src="https://img-blog.csdnimg.cn/20200414223649520.png" alt="在这里插入图片描述"><br><strong>50K电位器控制输出的音量，对应VOLUME钮。</strong></p>
+<p><strong>另外，10uf的极性电容是一个滤波电容，目的是滤除电源的高频噪声。同样的，我们在9v的电源处也要接入滤波电容，常用的规格是47uf或100uf的电解电容。</strong> ## EQ调节模块 <img src="https://img-blog.csdnimg.cn/20200414223037354.png" alt="在这里插入图片描述" /> <strong>这是一个简单的无源一阶滤波器，对应的是效果器上的TONE钮。</strong></p>
+<p>右边两个跟滤波器无关，顺便说一下，这是两个稳压二极管，常用型号是1N4148. <img src="https://img-blog.csdnimg.cn/20200414223307583.png" alt="在这里插入图片描述" /> 独立的虚线框里表示的是另一种<strong>替代方案</strong>。</p>
+<h2 id="其他部分">其他部分</h2>
+<p><img src="https://img-blog.csdnimg.cn/20200414223649520.png" alt="在这里插入图片描述" /> <strong>50K电位器控制输出的音量，对应VOLUME钮。</strong></p>
 <p><strong>SW表示开关，控制output接受放大后的信号还是bypass的信号。</strong></p>
 <p>一般的效果器还有信号指示灯，比较简单，在之后画原理图的时候再看不迟。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一个简单而又经典的失真效果器就介绍完了，信号主要经过的处理是</p>
+<h2 id="总结">总结</h2>
+<p>一个简单而又经典的失真效果器就介绍完了，信号主要经过的处理是</p>
 <p><strong>加直流偏置，741放大，滤波器调节EQ，调节输出电平。</strong></p>
 <p>是不是觉得难度其实也不大呢？接下来让我们继续学习，试着将它亲手做出来吧。</p>
 <p>且听下回分解。</p>
@@ -405,43 +481,93 @@ D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e + K_p e+\hat
       </tags>
   </entry>
   <entry>
-    <title>自制电吉他效果器 DIY PCB（一）前言</title>
-    <url>/2020/05/10/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E4%BA%94%EF%BC%89%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8E%A5%E7%BA%BF/</url>
-    <content><![CDATA[<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>上回我们已经完成了原理的绘制和封装的选择，接下来我们完成设计PCB的后续步骤。</p>
+    <title>自制电吉他效果器 DIY PCB（六）后记</title>
+    <url>/2021/05/01/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E5%85%AD%EF%BC%89%E5%90%8E%E8%AE%B0/</url>
+    <content><![CDATA[<h3 id="摘要">摘要</h3>
+<p>出了点问题。但还是要收个尾。</p>
 <span id="more"></span>
 <p>（转自我的CSDN博客）</p>
-<p>完成原理图标注，检查无误后，在‘设计’中update PCB即可在已经创建的pcb文件中生成所有元件。如图。<br>注意在原理图标注时，<strong>不妨为一些比较重要的元件取一个特殊的名字</strong>。比如失真、音色、音量旋钮，输入输出接口、LED等等。<br><img src="https://img-blog.csdnimg.cn/20200506202816756.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>在文档选择那一栏右键可以选择垂直分割文档。在原理图选择某个或某些元件，pcb对应的元件会高亮显示。这样比较方便观察和布局。<br><img src="https://img-blog.csdnimg.cn/20200506203550812.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>如果有好好学怎么画pcb的朋友应该对布局方法有大致了解。<br>由于我们这里画的板子比较简单，其实讲究的不是太多。</p>
-<h3 id="先布置大块头"><a href="#先布置大块头" class="headerlink" title="先布置大块头"></a>先布置大块头</h3><p>首先，<strong>电位器、输入输出接口和电源三样必须摆在板子边缘</strong>。这几个需要<strong>首先考虑</strong>。因为<strong>脚钉</strong>的体积也比较大，所以在确定初始布局的时候也把他考虑进来好了。<br>具体位置看个人喜好。我这里给出一个示例，这次我想把所有接口都放在底下，旋钮都放在上面。并且在四角都稍微留了一点空间，方便后面在四角打孔固定螺丝。<br>各位可以根据自己喜欢的风格设计，比如把电源放在上面，输入输出接口一左一右等等。<br>有些朋友可能无法确定板子应该画多大，其实我这里也是大致估计的。先把上面这些大元件摆好，再留出一部分空间放剩下的零碎元件即可。<strong>板子大小可能在后续还要微调。</strong><br><img src="https://img-blog.csdnimg.cn/20200506210430882.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>按照往我这一系列博客的计划，文章本来是做如下安排的：</p>
+<ol type="1">
+<li><p><strong>前言</strong></p></li>
+<li><p><strong>电路图分析</strong></p></li>
+<li><p><strong>PCB原理图与封装 上</strong></p></li>
+<li><p><strong>PCB原理图与封装 下</strong></p></li>
+<li><p><strong>布局与接线</strong></p></li>
+<li><p><strong>焊接</strong></p></li>
+<li><p><strong>总结</strong></p></li>
+</ol>
+<p>但是写到布局与接线这一章，我忽然因为保研和考研种种缘由忙起来了。所以后面的内容就来不及完成。</p>
+<p>待到我有时间想起还有这么一桩事情来的时候，我已经找不到当初记录我焊接过程的照片和视频了。而我的电脑硬盘在暑假也损坏过一次，PCB软件和工程也都丢失了（以后一定记得备份！！！），很多人问我要PCB工程文件，我也很想给，但实在是找不到了啊，而且我之前那些费了好多时间画出来的花里胡哨的板子，现在也没了。在我的CSDN博客上有很多人私信我催促更新，我只能说，很抱歉。</p>
+<p>实际上我前面的博客已经将最关键的部分讲解完了，至于最后剩下的焊接部分的内容，就是将前一章买好的元器件一个个焊接到PCB板上去，其实也没什么好讲解的。这也是我一直拖着不更新的原因之一。</p>
+<p>现在回头看看之前自制的吉他效果器（我还做了蛮多种的），觉得还是蛮有趣的。只可惜现在连电吉他都少有弹了。</p>
+<p>我太懒了，大家不要像我一样。</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20210501173019566.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20210501173047535.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20210501173201924.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20210501172834688.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
+]]></content>
+      <categories>
+        <category>DIY</category>
+      </categories>
+      <tags>
+        <tag>DIY</tag>
+        <tag>音乐</tag>
+        <tag>信号处理</tag>
+        <tag>电子电路</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>自制电吉他效果器 DIY PCB（一）前言</title>
+    <url>/2020/05/10/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E4%BA%94%EF%BC%89%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8E%A5%E7%BA%BF/</url>
+    <content><![CDATA[<h3 id="摘要">摘要</h3>
+<p>上回我们已经完成了原理的绘制和封装的选择，接下来我们完成设计PCB的后续步骤。</p>
+<span id="more"></span>
+<p>（转自我的CSDN博客）</p>
+<p>完成原理图标注，检查无误后，在‘设计’中update PCB即可在已经创建的pcb文件中生成所有元件。如图。 注意在原理图标注时，<strong>不妨为一些比较重要的元件取一个特殊的名字</strong>。比如失真、音色、音量旋钮，输入输出接口、LED等等。 <img src="https://img-blog.csdnimg.cn/20200506202816756.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 在文档选择那一栏右键可以选择垂直分割文档。在原理图选择某个或某些元件，pcb对应的元件会高亮显示。这样比较方便观察和布局。 <img src="https://img-blog.csdnimg.cn/20200506203550812.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 如果有好好学怎么画pcb的朋友应该对布局方法有大致了解。 由于我们这里画的板子比较简单，其实讲究的不是太多。</p>
+<h3 id="先布置大块头">先布置大块头</h3>
+<p>首先，<strong>电位器、输入输出接口和电源三样必须摆在板子边缘</strong>。这几个需要<strong>首先考虑</strong>。因为<strong>脚钉</strong>的体积也比较大，所以在确定初始布局的时候也把他考虑进来好了。 具体位置看个人喜好。我这里给出一个示例，这次我想把所有接口都放在底下，旋钮都放在上面。并且在四角都稍微留了一点空间，方便后面在四角打孔固定螺丝。 各位可以根据自己喜欢的风格设计，比如把电源放在上面，输入输出接口一左一右等等。 有些朋友可能无法确定板子应该画多大，其实我这里也是大致估计的。先把上面这些大元件摆好，再留出一部分空间放剩下的零碎元件即可。<strong>板子大小可能在后续还要微调。</strong> <img src="https://img-blog.csdnimg.cn/20200506210430882.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /></p>
 <p>这里尤其需要注意的是所有<strong>接口注意方向</strong>。<strong>请务必确保有线要插进去的地方是面向外面的。</strong> 电位器旋钮也是，确保钮的地方是朝外的。</p>
 <p><strong>我这里DC电源接口的方向就弄反了，在后期检查的时候才发现，由于我之前已经做过这个但单块了，所以没有改过来，大家千万注意。</strong></p>
 <p>另外，<strong>在摆放时尽量使得连接的交叉少一些。</strong> 多旋转一下元件，更换几种摆放位置，看看有没有更好的办法。</p>
-<h3 id="布置信号处理模块"><a href="#布置信号处理模块" class="headerlink" title="布置信号处理模块"></a>布置信号处理模块</h3><p>也就是Amp模块。<br><strong>大致按照原理图的布局摆放</strong>就好了。框选Amp模块的原理图，把对应的元件先找出来。<br>我喜欢在开始之前，先找到菜单栏&gt;视图&gt;连接&gt;隐藏网络，然后单击一个GND连接，先把地线的连接隐藏，方便布局。因为所有的地线连接我都打算通过铺铜直接与铜皮相连。<br><img src="https://img-blog.csdnimg.cn/20200506211939122.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>从IN连接的这个小电阻开始。<br><img src="https://img-blog.csdnimg.cn/20200506212050930.png" alt="在这里插入图片描述"><br>元件的摆放采取就近原则，所以这个小电阻我们摆在IN接口的旁边会比较好。我摆了一下，大概摆成了这个样子。<br><img src="https://img-blog.csdnimg.cn/20200506213721597.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>摆放时注意保持布局紧凑，减少连接交叉。</p>
-<h3 id="摆放电源模块"><a href="#摆放电源模块" class="headerlink" title="摆放电源模块"></a>摆放电源模块</h3><p><img src="https://img-blog.csdnimg.cn/20200506214424983.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>摆放电容时格外注意，<strong>所有的电源，都是经过了滤波电容再去供电的</strong>。所以在摆放时注意尽量让电流的路线先经过电容。</p>
+<h3 id="布置信号处理模块">布置信号处理模块</h3>
+<p>也就是Amp模块。 <strong>大致按照原理图的布局摆放</strong>就好了。框选Amp模块的原理图，把对应的元件先找出来。 我喜欢在开始之前，先找到菜单栏&gt;视图&gt;连接&gt;隐藏网络，然后单击一个GND连接，先把地线的连接隐藏，方便布局。因为所有的地线连接我都打算通过铺铜直接与铜皮相连。 <img src="https://img-blog.csdnimg.cn/20200506211939122.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 从IN连接的这个小电阻开始。 <img src="https://img-blog.csdnimg.cn/20200506212050930.png" alt="在这里插入图片描述" /> 元件的摆放采取就近原则，所以这个小电阻我们摆在IN接口的旁边会比较好。我摆了一下，大概摆成了这个样子。 <img src="https://img-blog.csdnimg.cn/20200506213721597.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 摆放时注意保持布局紧凑，减少连接交叉。</p>
+<h3 id="摆放电源模块">摆放电源模块</h3>
+<p><img src="https://img-blog.csdnimg.cn/20200506214424983.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 摆放电容时格外注意，<strong>所有的电源，都是经过了滤波电容再去供电的</strong>。所以在摆放时注意尽量让电流的路线先经过电容。</p>
 <p>LED灯摆在自己喜欢的位置就好了。</p>
-<h3 id="微调位置"><a href="#微调位置" class="headerlink" title="微调位置"></a>微调位置</h3><p>这样我们就把所有元件大致摆好了。接下来只需要微调一下位置，让整体更紧凑一点，保持一定的对齐、对称性，还有调整板子大小。<br><strong>注意板子长宽尽量都不要超过10cm，超过了的话制作价格会变高。</strong></p>
-<p>我这里总体摆放得是比较宽松的，当你的焊接技术和布局都比较熟练之后，可以把元件摆的更紧密一些，让板子更小巧。<br><img src="https://img-blog.csdnimg.cn/20200506215608862.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>右边留了一小块区域可以添加文字或者图案。</p>
-<p>在板子四周打上小孔。即放置四个焊盘。尺寸如图。<br>tips:把编辑好尺寸的焊盘先摆在角上，单机选中，按m，选择沿xy移动，然后输入具体移动的距离即可。<br><img src="https://img-blog.csdnimg.cn/20200506215921452.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>我还顺便把板子四角磨成了圆的。非必要步骤，不知道怎么操作的可以略过。<br><img src="https://img-blog.csdnimg.cn/20200506220833806.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>布局已经基本完成。</p>
-<h3 id="规则设置"><a href="#规则设置" class="headerlink" title="规则设置"></a>规则设置</h3><p>首先在菜单栏中选择 <strong>设计——规则</strong>。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200508220050218.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>设置走线线宽，为了保证信号质量，我们这里不妨把走线设置得宽一些，首选宽度设置为30mil。</p>
-<p>找到Hole size，把最大限制设置得大一些。因为我们需要在四角打固定孔，孔径会比较大。<br><img src="https://img-blog.csdnimg.cn/20200508220201981.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>找到两个跟丝印相关的规则，把最小间距设置为0。允许丝印跟元件位置有一点点重叠。<br><img src="https://img-blog.csdnimg.cn/20200508220318470.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="连线"><a href="#连线" class="headerlink" title="连线"></a>连线</h3><p>先把除了VCC，POWER，GND和输入输出相关的部分连接起来。<br>线宽默认30mil。<br><img src="https://img-blog.csdnimg.cn/20200508220630502.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>我这里连得比较丑，不要介意。<br>连线规则相信大家已经在学习AD时候学过了。<br>如果觉得有的线太长了，可以<strong>适当加粗</strong>一点。</p>
-<p>再连接输入输出线，较长的部分适当加粗。<br>TOP layer走不通就试试Bottom layer。实在不行就打个过孔。<br><img src="https://img-blog.csdnimg.cn/20200508221328500.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>连接电源线，<strong>尽量用粗一点的线</strong>。但LED灯的无所谓。<br>遇到冲突还可以对之前的设计进行微调。比如我R1电阻这个部分。<br><img src="https://img-blog.csdnimg.cn/20200508221850781.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="铺铜"><a href="#铺铜" class="headerlink" title="铺铜"></a>铺铜</h3><p>在top layer和bottom layer分别铺设一层属性是GND的铜皮。<br>铺铜是信号质量的很好保证。<br><img src="https://img-blog.csdnimg.cn/20200508224310994.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200508223726805.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>可能是铜皮与焊盘距离设置不好，我这里用自己画的封装容易出现绿色报错，所以在绿色的地方放置了铺铜挖空。<br><img src="https://img-blog.csdnimg.cn/20200508223957542.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="滴泪"><a href="#滴泪" class="headerlink" title="滴泪"></a>滴泪</h3><p>菜单栏——工具——滴泪<br><img src="https://img-blog.csdnimg.cn/20200508224412979.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>非必要步骤，但是加了更好。</p>
-<p>模拟电子电路，不同于数电的非0即1，而是一个从量变到质变的的感觉。<br>在信号处理的过程中，你某些细节或者步骤，你关注或是不关注，也许在一时之间都不能在结果中表现出什么影响。但是在一次次的细节处理过程中，不到位的地方或许会被不断地放大，到最终的成果可能就与理想相去甚远。</p>
+<h3 id="微调位置">微调位置</h3>
+<p>这样我们就把所有元件大致摆好了。接下来只需要微调一下位置，让整体更紧凑一点，保持一定的对齐、对称性，还有调整板子大小。 <strong>注意板子长宽尽量都不要超过10cm，超过了的话制作价格会变高。</strong></p>
+<p>我这里总体摆放得是比较宽松的，当你的焊接技术和布局都比较熟练之后，可以把元件摆的更紧密一些，让板子更小巧。 <img src="https://img-blog.csdnimg.cn/20200506215608862.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 右边留了一小块区域可以添加文字或者图案。</p>
+<p>在板子四周打上小孔。即放置四个焊盘。尺寸如图。 tips:把编辑好尺寸的焊盘先摆在角上，单机选中，按m，选择沿xy移动，然后输入具体移动的距离即可。 <img src="https://img-blog.csdnimg.cn/20200506215921452.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 我还顺便把板子四角磨成了圆的。非必要步骤，不知道怎么操作的可以略过。 <img src="https://img-blog.csdnimg.cn/20200506220833806.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 布局已经基本完成。</p>
+<h3 id="规则设置">规则设置</h3>
+<p>首先在菜单栏中选择 <strong>设计——规则</strong>。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200508220050218.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 设置走线线宽，为了保证信号质量，我们这里不妨把走线设置得宽一些，首选宽度设置为30mil。</p>
+<p>找到Hole size，把最大限制设置得大一些。因为我们需要在四角打固定孔，孔径会比较大。 <img src="https://img-blog.csdnimg.cn/20200508220201981.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 找到两个跟丝印相关的规则，把最小间距设置为0。允许丝印跟元件位置有一点点重叠。 <img src="https://img-blog.csdnimg.cn/20200508220318470.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> ### 连线 先把除了VCC，POWER，GND和输入输出相关的部分连接起来。 线宽默认30mil。 <img src="https://img-blog.csdnimg.cn/20200508220630502.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 我这里连得比较丑，不要介意。 连线规则相信大家已经在学习AD时候学过了。 如果觉得有的线太长了，可以<strong>适当加粗</strong>一点。</p>
+<p>再连接输入输出线，较长的部分适当加粗。 TOP layer走不通就试试Bottom layer。实在不行就打个过孔。 <img src="https://img-blog.csdnimg.cn/20200508221328500.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 连接电源线，<strong>尽量用粗一点的线</strong>。但LED灯的无所谓。 遇到冲突还可以对之前的设计进行微调。比如我R1电阻这个部分。 <img src="https://img-blog.csdnimg.cn/20200508221850781.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> ### 铺铜 在top layer和bottom layer分别铺设一层属性是GND的铜皮。 铺铜是信号质量的很好保证。 <img src="https://img-blog.csdnimg.cn/20200508224310994.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200508223726805.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 可能是铜皮与焊盘距离设置不好，我这里用自己画的封装容易出现绿色报错，所以在绿色的地方放置了铺铜挖空。 <img src="https://img-blog.csdnimg.cn/20200508223957542.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> ### 滴泪 菜单栏——工具——滴泪 <img src="https://img-blog.csdnimg.cn/20200508224412979.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 非必要步骤，但是加了更好。</p>
+<p>模拟电子电路，不同于数电的非0即1，而是一个从量变到质变的的感觉。 在信号处理的过程中，你某些细节或者步骤，你关注或是不关注，也许在一时之间都不能在结果中表现出什么影响。但是在一次次的细节处理过程中，不到位的地方或许会被不断地放大，到最终的成果可能就与理想相去甚远。</p>
 <p>在之前的设计中，也许会有一些随意的地方，在下次设计的时候，能不能更加谨慎呢？</p>
-<h3 id="加点字"><a href="#加点字" class="headerlink" title="加点字"></a>加点字</h3><p>修改一下关键部分的字体、大小、位置，自己满意就好。<br>另外还可以在角落加上署名日期。（top overlay 层）<br><img src="https://img-blog.csdnimg.cn/20200508233001336.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>如果有兴致，还可以加点自己喜欢的图案。<br><img src="https://img-blog.csdnimg.cn/20200508233752471.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/2020050823330099.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>加载图案需要用到插件。<br>我这里使用的是<strong>pcb logo creater</strong>。具体资源和使用方法可以百度一下。<br>需要注意的是我发现这个插件需要目标图片位于插件目录里才能正常运行，使用时可以注意一下。</p>
-<h3 id="设计规则检查"><a href="#设计规则检查" class="headerlink" title="设计规则检查"></a>设计规则检查</h3><p>菜单栏 工具 设计规则 检查 运行DRC<br>没有问题即可进行下一步。<br><img src="https://img-blog.csdnimg.cn/20200508234003197.png" alt="在这里插入图片描述"></p>
+<h3 id="加点字">加点字</h3>
+<p>修改一下关键部分的字体、大小、位置，自己满意就好。 另外还可以在角落加上署名日期。（top overlay 层） <img src="https://img-blog.csdnimg.cn/20200508233001336.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 如果有兴致，还可以加点自己喜欢的图案。 <img src="https://img-blog.csdnimg.cn/20200508233752471.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/2020050823330099.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 加载图案需要用到插件。 我这里使用的是<strong>pcb logo creater</strong>。具体资源和使用方法可以百度一下。 需要注意的是我发现这个插件需要目标图片位于插件目录里才能正常运行，使用时可以注意一下。</p>
+<h3 id="设计规则检查">设计规则检查</h3>
+<p>菜单栏 工具 设计规则 检查 运行DRC 没有问题即可进行下一步。 <img src="https://img-blog.csdnimg.cn/20200508234003197.png" alt="在这里插入图片描述" /></p>
 <p>要是有问题。。百度一下，通常是规则没有设置好。</p>
-<h3 id="导出文件"><a href="#导出文件" class="headerlink" title="导出文件"></a>导出文件</h3><p>PCB设计至此已经大功告成。现在只需要将设计文件导出。<br>下面简要介绍一下如何输出，如果弄不明白可以百度一下。</p>
-<p>菜单栏 文件 制造输出 Gerber Files<br>层 绘制层展开 选择使用的<br>其余一律默认即可<br>确定<br><img src="https://img-blog.csdnimg.cn/20200508234516115.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>新产生的文件可以直接关掉不用保存。</p>
-<p>再次<br>菜单栏 文件 制造输出 NC Drill Files<br>默认 确定即可<br><img src="https://img-blog.csdnimg.cn/20200508234820685.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>新产生文件可以直接关掉。</p>
-<p>完成操作后找到工作目录，直接将OUTPUT文件夹压缩，准备提交PCB厂家。<br><img src="https://img-blog.csdnimg.cn/20200510214853382.png" alt="在这里插入图片描述"></p>
-<h3 id="PCB下单"><a href="#PCB下单" class="headerlink" title="PCB下单"></a>PCB下单</h3><p>有很多朋友应该都没印刷过PCB，这里再介绍一下交付厂家印刷的流程。</p>
-<p>PCB厂家可以上某宝找一找，打样5块板（长宽不超过10cm）价格为5-30元。<br>我这里用的是嘉立创。直接下载客户端，注册账户。在线下单。<br><img src="https://img-blog.csdnimg.cn/20200510220527493.png" alt="在这里插入图片描述"><br>上传刚刚打包好的文件。<br><img src="https://img-blog.csdnimg.cn/20200510220641154.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>下一步前一定要检查一下板子有没有问题。</strong></p>
+<h3 id="导出文件">导出文件</h3>
+<p>PCB设计至此已经大功告成。现在只需要将设计文件导出。 下面简要介绍一下如何输出，如果弄不明白可以百度一下。</p>
+<p>菜单栏 文件 制造输出 Gerber Files 层 绘制层展开 选择使用的 其余一律默认即可 确定 <img src="https://img-blog.csdnimg.cn/20200508234516115.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 新产生的文件可以直接关掉不用保存。</p>
+<p>再次 菜单栏 文件 制造输出 NC Drill Files 默认 确定即可 <img src="https://img-blog.csdnimg.cn/20200508234820685.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 新产生文件可以直接关掉。</p>
+<p>完成操作后找到工作目录，直接将OUTPUT文件夹压缩，准备提交PCB厂家。 <img src="https://img-blog.csdnimg.cn/20200510214853382.png" alt="在这里插入图片描述" /> ### PCB下单 有很多朋友应该都没印刷过PCB，这里再介绍一下交付厂家印刷的流程。</p>
+<p>PCB厂家可以上某宝找一找，打样5块板（长宽不超过10cm）价格为5-30元。 我这里用的是嘉立创。直接下载客户端，注册账户。在线下单。 <img src="https://img-blog.csdnimg.cn/20200510220527493.png" alt="在这里插入图片描述" /> 上传刚刚打包好的文件。 <img src="https://img-blog.csdnimg.cn/20200510220641154.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> <strong>下一步前一定要检查一下板子有没有问题。</strong></p>
 <p>比如我这里，细心的读者可以发现有一些孔居然没有显示出来，<strong>总孔数居然只有19.</strong></p>
-<p>接口上的孔都没了。<br><img src="https://img-blog.csdnimg.cn/20200510220832419.png" alt="在这里插入图片描述"><br>但是经过我的检查，我的输出文件似乎并没有问题。<br>我试着上传以前制作的绝对没问题的文件，同样也遇到了这种情况。<br>所以这可能是系统暂时出了BUG.<br>我们先进行下一步。</p>
-<p>基本一律默认即可。<br><img src="https://img-blog.csdnimg.cn/20200510221144625.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>由于我们是小批量制作，成本很低，纯属娱乐，<strong>能不需要的服务就选不需要</strong>。<br><img src="https://img-blog.csdnimg.cn/20200510221232875.png" alt="在这里插入图片描述"><br>关于<strong>板子颜色</strong>，看个人喜好，但是绿色生产速度会比其他颜色快很多。<br><img src="https://img-blog.csdnimg.cn/20200510221447590.png" alt="在这里插入图片描述"><br>把信息填完之后下单付款即可。</p>
+<p>接口上的孔都没了。 <img src="https://img-blog.csdnimg.cn/20200510220832419.png" alt="在这里插入图片描述" /> 但是经过我的检查，我的输出文件似乎并没有问题。 我试着上传以前制作的绝对没问题的文件，同样也遇到了这种情况。 所以这可能是系统暂时出了BUG. 我们先进行下一步。</p>
+<p>基本一律默认即可。 <img src="https://img-blog.csdnimg.cn/20200510221144625.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 由于我们是小批量制作，成本很低，纯属娱乐，<strong>能不需要的服务就选不需要</strong>。 <img src="https://img-blog.csdnimg.cn/20200510221232875.png" alt="在这里插入图片描述" /> 关于<strong>板子颜色</strong>，看个人喜好，但是绿色生产速度会比其他颜色快很多。 <img src="https://img-blog.csdnimg.cn/20200510221447590.png" alt="在这里插入图片描述" /> 把信息填完之后下单付款即可。</p>
 <p>接下来只需<strong>把元件和工具备齐</strong>，在家等快递就好啦！</p>
 <p>且听下回分解。</p>
 ]]></content>
@@ -456,71 +582,38 @@ D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e + K_p e+\hat
       </tags>
   </entry>
   <entry>
-    <title>自制电吉他效果器 DIY PCB（六）后记</title>
-    <url>/2021/05/01/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E5%85%AD%EF%BC%89%E5%90%8E%E8%AE%B0/</url>
-    <content><![CDATA[<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>出了点问题。但还是要收个尾。</p>
-<span id="more"></span>
-<p>（转自我的CSDN博客）</p>
-<p>按照往我这一系列博客的计划，文章本来是做如下安排的：</p>
-<ol>
-<li><p><strong>前言</strong></p>
-<ol>
-<li><strong>电路图分析</strong></li>
-<li><strong>PCB原理图与封装 上</strong></li>
-<li><strong>PCB原理图与封装 下</strong></li>
-<li><strong>布局与接线</strong></li>
-<li><strong>焊接</strong></li>
-<li><strong>总结</strong></li>
-</ol>
-</li>
-</ol>
-<p>但是写到布局与接线这一章，我忽然因为保研和考研种种缘由忙起来了。所以后面的内容就来不及完成。</p>
-<p>待到我有时间想起还有这么一桩事情来的时候，我已经找不到当初记录我焊接过程的照片和视频了。而我的电脑硬盘在暑假也损坏过一次，PCB软件和工程也都丢失了（以后一定记得备份！！！），很多人问我要PCB工程文件，我也很想给，但实在是找不到了啊，而且我之前那些费了好多时间画出来的花里胡哨的板子，现在也没了。在我的CSDN博客上有很多人私信我催促更新，我只能说，很抱歉。</p>
-<p>实际上我前面的博客已经将最关键的部分讲解完了，至于最后剩下的焊接部分的内容，就是将前一章买好的元器件一个个焊接到PCB板上去，其实也没什么好讲解的。这也是我一直拖着不更新的原因之一。</p>
-<p>现在回头看看之前自制的吉他效果器（我还做了蛮多种的），觉得还是蛮有趣的。只可惜现在连电吉他都少有弹了。</p>
-<p>我太懒了，大家不要像我一样。</p>
-<p><img src="https://img-blog.csdnimg.cn/20210501173019566.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20210501173047535.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20210501173201924.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20210501172834688.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-]]></content>
-      <categories>
-        <category>DIY</category>
-      </categories>
-      <tags>
-        <tag>DIY</tag>
-        <tag>音乐</tag>
-        <tag>信号处理</tag>
-        <tag>电子电路</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>自制电吉他效果器 DIY PCB（一）前言</title>
     <url>/2020/04/27/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E5%9B%9B%EF%BC%89%E5%8E%9F%E7%90%86%E5%9B%BE%E4%B8%8E%E5%B0%81%E8%A3%85%20%E4%B8%8B/</url>
-    <content><![CDATA[<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p><a href="https://blog.csdn.net/qq_41342525/article/details/105716861">上篇</a>介绍了绘制PCB效果器原理图中主要放大模块的注意事项，本篇将会继续介绍余下模块内容。</p>
+    <content><![CDATA[<h3 id="摘要">摘要</h3>
+<p><a href="https://blog.csdn.net/qq_41342525/article/details/105716861">上篇</a>介绍了绘制PCB效果器原理图中主要放大模块的注意事项，本篇将会继续介绍余下模块内容。</p>
 <span id="more"></span>
 <p>（转自我的CSDN博客）</p>
-<p>原理图略有更新，将运放芯片和电位器换成了自己画的，如下。<br><img src="https://img-blog.csdnimg.cn/20200427120227698.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="POWER模块"><a href="#POWER模块" class="headerlink" title="POWER模块"></a>POWER模块</h2><p><img src="https://img-blog.csdnimg.cn/20200427120407169.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>原理图略有更新，将运放芯片和电位器换成了自己画的，如下。 <img src="https://img-blog.csdnimg.cn/20200427120227698.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /></p>
+<h2 id="power模块">POWER模块</h2>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200427120407169.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>由三个简单的电路组成，负责电源的管理。</p>
-<p>第一个是用电解电容对电源进行滤波，这个很重要，<strong>有些电路原理图里可能会省略，但是自己画PCB原理图的时候一定要加上，防止过多噪声。</strong><br>一般选用的电容容值是47uf、100uf，或者更大。<br>电解电容用前文提到的就行了。</p>
-<p>第二个是4.5v分压模块。（我这里写成了5v）<br>目的是制造出4.5v电压供放大使用，<strong>也要进行滤波</strong>。<br>一般选用10uf以上的电解电容。</p>
-<p>第三个是电源指示灯，就是我们常在效果器上看到的灯啦。<br>LED的封装根据自己的喜好选择，如果喜欢比较大的灯，那就选择直插式的一般。如果喜欢尺寸小一点的，那就选贴片的，我这里选的是贴片的。</p>
-<p>直插LED<br><img src="https://img-blog.csdnimg.cn/20200427121433206.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>贴片LED<br><img src="https://img-blog.csdnimg.cn/20200427121511483.png" alt="在这里插入图片描述"><br>需要注意的是，<strong>如果选择了直插式LED灯，最好在灯的两端并联一个47uf的滤波电容</strong>。本人曾经试过，尤其是那种会闪烁或者变化颜色的灯，会对电源信号产生干扰，导致音箱里也能听见随着LED一闪一闪的频率发出的噪音。<br>贴片式LED对电源几乎没什么影响，所以这里我不加滤波电容。放心不下的朋友可以自行加上。</p>
-<h2 id="IO-输入输出接口模块"><a href="#IO-输入输出接口模块" class="headerlink" title="IO 输入输出接口模块"></a>IO 输入输出接口模块</h2><p><img src="https://img-blog.csdnimg.cn/20200427121948313.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>由三个接口组成：<strong>吉他大二芯信号输入、失真效果大二芯输出、9v电源输入。</strong>这三个接口都很难在AD现成封装库里找到，需要自己绘制。</p>
-<h4 id="信号输入输出接口"><a href="#信号输入输出接口" class="headerlink" title="信号输入输出接口"></a>信号输入输出接口</h4><p>先某宝找一个合适的 <strong>大二芯/大三芯 6.35mm(6.5mm)</strong> 插座。我选的是这种大三芯的。大约一元左右一个。多买几个。<br><img src="https://img-blog.csdnimg.cn/20200427124504978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>也可以选择其他样子的接口，但是最好有脚，能焊接在PCB板子上，像电吉他上的那种屁股长得像个钩子一样的接口是不行的哦。</p>
-<p>先绘制一个原理图库。很简单，一个矩形加上三个引脚，引脚位置摆放参照实物。<br><img src="https://img-blog.csdnimg.cn/20200427125006436.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>找到商品详情页的尺寸说明。<br><img src="https://img-blog.csdnimg.cn/20200427124844774.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>根据工程图绘制封装。外围矩形框大小参照接口的最大尺寸，要腾出足够多的空间。引脚之间的距离根据尺寸图（默认单位mm）严格规定。焊盘的大小可以比尺寸图上画的尺寸大上那么几圈。像我这里其实就<strong>故意弄大了很多，一是为了保证能插进去，二是因为输入输出接口是经常进行插拔操作的部位，焊盘大一些可以灌入更多的焊锡使得接口更牢固。</strong><br><img src="https://img-blog.csdnimg.cn/20200427125203714.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>注意<strong>不同店家买到的接口尺寸可能不同</strong>哦，千万要看自己买的接口的尺寸说明，不要糊里糊涂全部参照我这里给出的。</p>
-<p>另外需要强调的是，<strong>注意大三芯插座每个引脚的作用</strong>。<br>以我这里选择的插座为例，1号脚接地，2号脚右声道，3号脚左声道。<br>由于吉他输入信号是单声道，所以右声道2号脚应该与地短接，3号脚才是真正的信号输入。所以在我的原理图里也干脆将1、2两脚短接了。</p>
-<p>大家在设计和焊接时千万注意，<strong>如果这三个引脚顺序弄错了，极有可能造成信号与地短接，结果什么声音都出不了。</strong><br><strong>担心自己弄错的朋友可以先不将1、2短接</strong>，这样万一弄错在焊接时还有回旋的余地。</p>
-<h4 id="电源输入接口"><a href="#电源输入接口" class="headerlink" title="电源输入接口"></a>电源输入接口</h4><p>一般效果器都是使用9v电源供电，接口也是统一的。大致是5.5mm的插头，内正外负。我选的是这种。<br><img src="https://img-blog.csdnimg.cn/20200427131201168.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200427131207192.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>根据自己选的接口绘制原理图和封装。<br><img src="https://img-blog.csdnimg.cn/202004271314472.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200427131535663.png" alt="在这里插入图片描述"><br>注意我这里选的接口2脚和3脚其实是短接的。<br>其中1脚接地，2、3脚接9v电源。<br><strong>绘制时千万要注意电源正负</strong>，一般这种接口，效果器电源的供电是：外壁一圈是负接地，里面伸出的一跟探头是正。如果实在确定不了，可以先购买接口自己用电表测一测看每个引脚对应的电极。一般详情页也会写。<br><img src="https://img-blog.csdnimg.cn/20200427132035154.png" alt="在这里插入图片描述"><br>另外，除了使用220v交流转9v直流的适配器进行电源供电外，还可以<strong>购买9v电池、9v电池扣和DC插头，焊接起来进行供电。</strong><br>此外，还有专门的9v电池座，一两块钱一个，那就更方便一些了。<br>使用电池供电信号质量会比用一般适配器好一些。<br><img src="https://img-blog.csdnimg.cn/20200427132354994.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200427132840625.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="SWITCH-脚钉"><a href="#SWITCH-脚钉" class="headerlink" title="SWITCH 脚钉"></a>SWITCH 脚钉</h2><p><img src="https://img-blog.csdnimg.cn/20200427133012615.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这就是我们在效果器中见到的脚踏开关啦，实现了<strong>效果器接通和bypass的转换</strong>。</p>
-<p>我们常见的效果器开关是这种。<strong>单个价格比较贵，大约六元到十几元不等。分为自锁型和自复位型。</strong> 自锁型是最常见的，踩下后会保持状态，通过踩踏可以在接通和bypass之间转换。自复位型比较常见于哇音类效果器，要一直踩着才能接通电路，松开则不起作用。当然还有那种会根据踩的力度有不同效果的开关，这个比较复杂不讨论。<br><img src="https://img-blog.csdnimg.cn/20200427133341815.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>说了这么多，其实我这里并不打算用这种开关。因为我们计划是只设计PCB板不制作效果器金属外壳。如果要制作外壳的话，之前用的很多封装都要重新考虑，并且外壳的打孔需要台钻，焊接的难度也会增加，成本也会大幅增加，我评估了一下这样搞下来还不如直接去买现成效果器划算，不适合新手食用。<br><strong>如果没有金属外壳的话，脚钉上的力就会作用在PCB板上，容易导致损坏，因而使用MTS 202钮子开关代替</strong>。钮子开关1元左右一个，成本也大大降低。<br><img src="https://img-blog.csdnimg.cn/20200427134251486.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200427134300936.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>绘制原理图和封装，<strong>千万注意引脚序号对应</strong>。像我下面4、5、6号脚的顺序就和常规不一样，本来应该是从下到上分别为4、5、6的。但是我在封装图里也按照原理图里的画法一一对应，所以没有出现问题。<br><img src="https://img-blog.csdnimg.cn/2020042713445834.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><img src="https://img-blog.csdnimg.cn/20200427134834136.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这里再讲解一下<strong>开关转换的原理</strong>。以下图为例。</p>
+<p>第一个是用电解电容对电源进行滤波，这个很重要，<strong>有些电路原理图里可能会省略，但是自己画PCB原理图的时候一定要加上，防止过多噪声。</strong> 一般选用的电容容值是47uf、100uf，或者更大。 电解电容用前文提到的就行了。</p>
+<p>第二个是4.5v分压模块。（我这里写成了5v） 目的是制造出4.5v电压供放大使用，<strong>也要进行滤波</strong>。 一般选用10uf以上的电解电容。</p>
+<p>第三个是电源指示灯，就是我们常在效果器上看到的灯啦。 LED的封装根据自己的喜好选择，如果喜欢比较大的灯，那就选择直插式的一般。如果喜欢尺寸小一点的，那就选贴片的，我这里选的是贴片的。</p>
+<p>直插LED <img src="https://img-blog.csdnimg.cn/20200427121433206.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 贴片LED <img src="https://img-blog.csdnimg.cn/20200427121511483.png" alt="在这里插入图片描述" /> 需要注意的是，<strong>如果选择了直插式LED灯，最好在灯的两端并联一个47uf的滤波电容</strong>。本人曾经试过，尤其是那种会闪烁或者变化颜色的灯，会对电源信号产生干扰，导致音箱里也能听见随着LED一闪一闪的频率发出的噪音。 贴片式LED对电源几乎没什么影响，所以这里我不加滤波电容。放心不下的朋友可以自行加上。</p>
+<h2 id="io-输入输出接口模块">IO 输入输出接口模块</h2>
+<p><img src="https://img-blog.csdnimg.cn/20200427121948313.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 由三个接口组成：<strong>吉他大二芯信号输入、失真效果大二芯输出、9v电源输入。</strong>这三个接口都很难在AD现成封装库里找到，需要自己绘制。</p>
+<h4 id="信号输入输出接口">信号输入输出接口</h4>
+<p>先某宝找一个合适的 <strong>大二芯/大三芯 6.35mm(6.5mm)</strong> 插座。我选的是这种大三芯的。大约一元左右一个。多买几个。 <img src="https://img-blog.csdnimg.cn/20200427124504978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 也可以选择其他样子的接口，但是最好有脚，能焊接在PCB板子上，像电吉他上的那种屁股长得像个钩子一样的接口是不行的哦。</p>
+<p>先绘制一个原理图库。很简单，一个矩形加上三个引脚，引脚位置摆放参照实物。 <img src="https://img-blog.csdnimg.cn/20200427125006436.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /></p>
+<p>找到商品详情页的尺寸说明。 <img src="https://img-blog.csdnimg.cn/20200427124844774.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 根据工程图绘制封装。外围矩形框大小参照接口的最大尺寸，要腾出足够多的空间。引脚之间的距离根据尺寸图（默认单位mm）严格规定。焊盘的大小可以比尺寸图上画的尺寸大上那么几圈。像我这里其实就<strong>故意弄大了很多，一是为了保证能插进去，二是因为输入输出接口是经常进行插拔操作的部位，焊盘大一些可以灌入更多的焊锡使得接口更牢固。</strong> <img src="https://img-blog.csdnimg.cn/20200427125203714.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 注意<strong>不同店家买到的接口尺寸可能不同</strong>哦，千万要看自己买的接口的尺寸说明，不要糊里糊涂全部参照我这里给出的。</p>
+<p>另外需要强调的是，<strong>注意大三芯插座每个引脚的作用</strong>。 以我这里选择的插座为例，1号脚接地，2号脚右声道，3号脚左声道。 由于吉他输入信号是单声道，所以右声道2号脚应该与地短接，3号脚才是真正的信号输入。所以在我的原理图里也干脆将1、2两脚短接了。</p>
+<p>大家在设计和焊接时千万注意，<strong>如果这三个引脚顺序弄错了，极有可能造成信号与地短接，结果什么声音都出不了。</strong> <strong>担心自己弄错的朋友可以先不将1、2短接</strong>，这样万一弄错在焊接时还有回旋的余地。</p>
+<h4 id="电源输入接口">电源输入接口</h4>
+<p>一般效果器都是使用9v电源供电，接口也是统一的。大致是5.5mm的插头，内正外负。我选的是这种。 <img src="https://img-blog.csdnimg.cn/20200427131201168.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200427131207192.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 根据自己选的接口绘制原理图和封装。 <img src="https://img-blog.csdnimg.cn/202004271314472.png" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200427131535663.png" alt="在这里插入图片描述" /> 注意我这里选的接口2脚和3脚其实是短接的。 其中1脚接地，2、3脚接9v电源。 <strong>绘制时千万要注意电源正负</strong>，一般这种接口，效果器电源的供电是：外壁一圈是负接地，里面伸出的一跟探头是正。如果实在确定不了，可以先购买接口自己用电表测一测看每个引脚对应的电极。一般详情页也会写。 <img src="https://img-blog.csdnimg.cn/20200427132035154.png" alt="在这里插入图片描述" /> 另外，除了使用220v交流转9v直流的适配器进行电源供电外，还可以<strong>购买9v电池、9v电池扣和DC插头，焊接起来进行供电。</strong> 此外，还有专门的9v电池座，一两块钱一个，那就更方便一些了。 使用电池供电信号质量会比用一般适配器好一些。 <img src="https://img-blog.csdnimg.cn/20200427132354994.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200427132840625.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> ## SWITCH 脚钉 <img src="https://img-blog.csdnimg.cn/20200427133012615.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 这就是我们在效果器中见到的脚踏开关啦，实现了<strong>效果器接通和bypass的转换</strong>。</p>
+<p>我们常见的效果器开关是这种。<strong>单个价格比较贵，大约六元到十几元不等。分为自锁型和自复位型。</strong> 自锁型是最常见的，踩下后会保持状态，通过踩踏可以在接通和bypass之间转换。自复位型比较常见于哇音类效果器，要一直踩着才能接通电路，松开则不起作用。当然还有那种会根据踩的力度有不同效果的开关，这个比较复杂不讨论。 <img src="https://img-blog.csdnimg.cn/20200427133341815.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 说了这么多，其实我这里并不打算用这种开关。因为我们计划是只设计PCB板不制作效果器金属外壳。如果要制作外壳的话，之前用的很多封装都要重新考虑，并且外壳的打孔需要台钻，焊接的难度也会增加，成本也会大幅增加，我评估了一下这样搞下来还不如直接去买现成效果器划算，不适合新手食用。 <strong>如果没有金属外壳的话，脚钉上的力就会作用在PCB板上，容易导致损坏，因而使用MTS 202钮子开关代替</strong>。钮子开关1元左右一个，成本也大大降低。 <img src="https://img-blog.csdnimg.cn/20200427134251486.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /></p>
+<p><img src="https://img-blog.csdnimg.cn/20200427134300936.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 绘制原理图和封装，<strong>千万注意引脚序号对应</strong>。像我下面4、5、6号脚的顺序就和常规不一样，本来应该是从下到上分别为4、5、6的。但是我在封装图里也按照原理图里的画法一一对应，所以没有出现问题。 <img src="https://img-blog.csdnimg.cn/2020042713445834.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><img src="https://img-blog.csdnimg.cn/20200427134834136.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 这里再讲解一下<strong>开关转换的原理</strong>。以下图为例。</p>
 <p>假设开关拨向某一边时，1、2接通，4、5接通，3和6不与任何引脚连接。这时POWER与VCC接通，OUT与OUTPUT接通。观察电源模块和IO模块，可知，POWER即是真正的9v电源输入，而VCC是效果器内部工作的电压。只有POWER与VCC接通时，VCC才是9v，否则VCC=0，电路不工作。OUT是放大模块的输出，而OUTPUT是真正的信号接口输出。于是乎，在这种状态下，VCC=9v，电路工作，输出接口输出放大过的失真信号。</p>
-<p>开关拨向另一边，2、3接通，5、6接通。VCC不与POWER相连，VCC=0v，电路不工作。OUTPUT直接与IN相连，输出吉他的原始信号，即bypass。<br><img src="https://img-blog.csdnimg.cn/20200427134855580.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>开关拨向另一边，2、3接通，5、6接通。VCC不与POWER相连，VCC=0v，电路不工作。OUTPUT直接与IN相连，输出吉他的原始信号，即bypass。 <img src="https://img-blog.csdnimg.cn/20200427134855580.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /></p>
 <p>至此，原理图和封装已经全部说明完毕。</p>
-<p>如果你已经完成了以上所有内容的绘制，不妨好好保存现有的原理图库、封装库和这个原理图。<br>在以后的效果器设计中，可作为模板使用。<strong>在制作下一款效果器的时候，往往只需要替换AMP模块，其他模块可以照搬。</strong></p>
+<p>如果你已经完成了以上所有内容的绘制，不妨好好保存现有的原理图库、封装库和这个原理图。 在以后的效果器设计中，可作为模板使用。<strong>在制作下一款效果器的时候，往往只需要替换AMP模块，其他模块可以照搬。</strong></p>
 <p>下一步，我们就要根据原理图来绘制PCB板了。</p>
 <p>且听下回分解。</p>
 ]]></content>
@@ -537,95 +630,133 @@ D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e + K_p e+\hat
   <entry>
     <title>倒立摆状态反馈控制——分析、建模与仿真(matlab)</title>
     <url>/2020/06/01/%E5%80%92%E7%AB%8B%E6%91%86%E7%8A%B6%E6%80%81%E5%8F%8D%E9%A6%88%E6%8E%A7%E5%88%B6%E2%80%94%E2%80%94%E5%88%86%E6%9E%90%E3%80%81%E5%BB%BA%E6%A8%A1%E4%B8%8E%E4%BB%BF%E7%9C%9F(matlab)/</url>
-    <content><![CDATA[<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>倒立摆是机器人学中一个非常重要的模型，火箭、导弹、独轮车、双足机器人、四足机器人，基本都是倒立摆的变形。这里是对基本的倒立摆问题的一些研究和思考。</p>
+    <content><![CDATA[<h3 id="摘要">摘要</h3>
+<p>倒立摆是机器人学中一个非常重要的模型，火箭、导弹、独轮车、双足机器人、四足机器人，基本都是倒立摆的变形。这里是对基本的倒立摆问题的一些研究和思考。</p>
 <span id="more"></span>
 <p>（转自我的CSDN博客）</p>
-<h1 id="倒立摆状态反馈控制"><a href="#倒立摆状态反馈控制" class="headerlink" title="倒立摆状态反馈控制"></a>倒立摆状态反馈控制</h1><h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>关于倒立摆的问题描述如下：<br>如图所示的倒立摆系统。摆的关节连接在一个可移动的小车上，小车由电机驱动，电机水平驱动力为<strong>F</strong>，摆杆质量为<strong>m</strong>，小车质量为<strong>M</strong>，摆长<strong>2l</strong>。<br>现在要研究外力F如何能使摆保持垂直的位置。</p>
-<p><img src="https://img-blog.csdnimg.cn/2020051815081870.png" alt="在这里插入图片描述"></p>
-<h2 id="状态空间模型"><a href="#状态空间模型" class="headerlink" title="状态空间模型"></a>状态空间模型</h2><p>设摆杆偏离垂直位置角度为<strong>θ</strong>，小车位移为<strong>y</strong>。小车对摆水平方向和垂直方向反作用力分别为<strong>H和V</strong>。</p>
-<p><img src="https://img-blog.csdnimg.cn/202005181519403.png" alt="在这里插入图片描述"><br>根据牛顿定律可以写出摆水平、垂直方向的力平衡方程：<br><img src="https://img-blog.csdnimg.cn/20200518152031278.png" alt="在这里插入图片描述"><br>记摆杆对其质心的转动惯量为<strong>I</strong>，则摆质心的力矩方程为：<br><img src="https://img-blog.csdnimg.cn/20200518152526233.png" alt="在这里插入图片描述"><br>用k表示摩擦系数，小车水平方向的力平衡方程为：<br><img src="https://img-blog.csdnimg.cn/20200518153034256.png" alt="在这里插入图片描述"><br>联立以上四个式子，小曲中间变量V、H，得到：<br><img src="https://img-blog.csdnimg.cn/20200518153441440.png" alt="在这里插入图片描述"><br>由于θ比较小，这里不妨使sinθ = 0，cosθ = 1，简化方程为：<br><img src="https://img-blog.csdnimg.cn/20200518153853325.png" alt="在这里插入图片描述"><br>设摆杆质量分布均匀，忽略摩擦（k=0，摩擦力也不会影响能控性），有：<br><img src="https://img-blog.csdnimg.cn/20200518155051441.png" alt="在这里插入图片描述"><br>定义系统状态：<br><img src="https://img-blog.csdnimg.cn/20200518155241173.png" alt="在这里插入图片描述"><br>得到状态方程：<br><img src="https://img-blog.csdnimg.cn/20200518155256854.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>即：<br><img src="https://img-blog.csdnimg.cn/20200518155401489.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>计算系统的能控性矩阵：<br><img src="https://img-blog.csdnimg.cn/2020051815571467.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>能控性矩阵的秩为4，所以系统完全能控。</p>
-<h2 id="设计状态反馈控制"><a href="#设计状态反馈控制" class="headerlink" title="设计状态反馈控制"></a>设计状态反馈控制</h2><p>为了方便设计，不妨设<strong>M=2kg，m=0.1kg，l=0.5m</strong>。代入状态方程：<br><img src="https://img-blog.csdnimg.cn/20200519084128428.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>其中：<br><img src="https://img-blog.csdnimg.cn/20200519084208893.png" alt="在这里插入图片描述"><br>根据<strong>极点配置原理</strong>，线性定常系统通过状态反馈可以任意配置闭环系统极点的充分必要条件是系统完全能控。<br>系统的能控性在上面已经证明。<br>于是采用状态反馈，即：<br><img src="https://img-blog.csdnimg.cn/20200519084338722.png" alt="在这里插入图片描述"><br>K为4<em>1矩阵。<br>原系统的特征多项式为：<br><img src="https://img-blog.csdnimg.cn/20200519085132333.png" alt="在这里插入图片描述"><br>存在大于等于0的极点，显然不加控制的系统是不稳定的，倒立摆不能倒立。<br>所以我们要<em>*配置合适的极点</em></em>来使得系统达到稳定性要求。</p>
-<p>这是一个四阶系统，可以设计两个远离虚轴的极点，和两个<strong>靠近虚轴的闭环主导极点</strong>，系统的瞬态性能指标主要由主导极点决定。<br>这样就可以<strong>把一个高阶系统简化成一个二阶系统</strong>。</p>
-<p><strong>典型二阶系统传递函数</strong>如下：<br><img src="https://img-blog.csdnimg.cn/20200519091717626.png" alt="在这里插入图片描述"><img src="https://img-blog.csdnimg.cn/20200519091733165.png" alt="在这里插入图片描述"><br><strong>欠阻尼时的两个特征根</strong>为：<br><img src="https://img-blog.csdnimg.cn/20200519093404130.png" alt="在这里插入图片描述"><br><strong>典型二阶系统的瞬态性能指标</strong>如下：</p>
-<p>（1）上升时间：<br><img src="https://img-blog.csdnimg.cn/20200519092300720.png" alt="在这里插入图片描述"><br>其中<br><img src="https://img-blog.csdnimg.cn/20200519092025406.png" alt="在这里插入图片描述"><br>（2）峰值时间：<br><img src="https://img-blog.csdnimg.cn/20200519092322664.png" alt="在这里插入图片描述"><br>（3）最大超调量：<br><img src="https://img-blog.csdnimg.cn/20200519092540201.png" alt="在这里插入图片描述"><img src="https://img-blog.csdnimg.cn/20200519092514156.png" alt="在这里插入图片描述"><br>通常取控制系统最大超调量为25% ~ 1.5%，对应的阻尼比为0.4 ~ 0.8 。</p>
-<p>（4）调节时间：<br><img src="https://img-blog.csdnimg.cn/20200519092811560.png" alt="在这里插入图片描述"><br>（5）震荡次数<br><img src="https://img-blog.csdnimg.cn/20200519092911234.png" alt="在这里插入图片描述"><br>综上，我们想要使系统具有<strong>较短的调节时间和适当的超调量</strong>，可取<br><img src="https://img-blog.csdnimg.cn/20200519093604919.png" alt="在这里插入图片描述">      <img src="https://img-blog.csdnimg.cn/20200519093612456.png" alt="在这里插入图片描述"><br>于是闭环主导极点为：<br><img src="https://img-blog.csdnimg.cn/20200519093700922.png" alt="在这里插入图片描述"><br>再取两个远离虚轴的极点：<br><img src="https://img-blog.csdnimg.cn/20200519093722817.png" alt="在这里插入图片描述"><br>期望特征多项式为：<br><img src="https://img-blog.csdnimg.cn/20200519093800207.png" alt="在这里插入图片描述"><br>已经有了期望的闭环特征多项式，接下来要<strong>如何根据特征多项式确定反馈增益K</strong>呢？<br>有两种常见方法：<br><img src="https://img-blog.csdnimg.cn/20200519094904985.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200519094926393.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>其中<strong>算法1在低阶系统中应用会比较方便，但是对于高阶系统，算法2的计算会更为简单</strong>。<br>本问题是四阶系统，我们选用算法2 。<br>刚刚我们已经计算过原特征多项式。<br><img src="https://img-blog.csdnimg.cn/2020051910172255.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>我们已经计算出了反馈增益K。</p>
-<p>综上，只需要使得外力输入<br><img src="https://img-blog.csdnimg.cn/20200519084338722.png" alt="在这里插入图片描述"><br>即可使倒立摆保持垂直状态。</p>
-<h2 id="建立simulink模型"><a href="#建立simulink模型" class="headerlink" title="建立simulink模型"></a>建立simulink模型</h2><p>根据A、B、K矩阵画出框图：<br><img src="https://img-blog.csdnimg.cn/20200628203711312.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>给定状态x1（即θ）初值：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123006150.png" alt="\[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-Ma4KziYv-1590985727990)(C:\Users\hp\AppData\Roaming\Typora\typora-user-images\image-20200525170331331.png)\]"></p>
+<h1 id="倒立摆状态反馈控制">倒立摆状态反馈控制</h1>
+<h2 id="问题描述">问题描述</h2>
+<p>关于倒立摆的问题描述如下： 如图所示的倒立摆系统。摆的关节连接在一个可移动的小车上，小车由电机驱动，电机水平驱动力为<strong>F</strong>，摆杆质量为<strong>m</strong>，小车质量为<strong>M</strong>，摆长<strong>2l</strong>。 现在要研究外力F如何能使摆保持垂直的位置。</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/2020051815081870.png" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
+<h2 id="状态空间模型">状态空间模型</h2>
+<p>设摆杆偏离垂直位置角度为<strong>θ</strong>，小车位移为<strong>y</strong>。小车对摆水平方向和垂直方向反作用力分别为<strong>H和V</strong>。</p>
+<p><img src="https://img-blog.csdnimg.cn/202005181519403.png" alt="在这里插入图片描述" /> 根据牛顿定律可以写出摆水平、垂直方向的力平衡方程： <img src="https://img-blog.csdnimg.cn/20200518152031278.png" alt="在这里插入图片描述" /> 记摆杆对其质心的转动惯量为<strong>I</strong>，则摆质心的力矩方程为： <img src="https://img-blog.csdnimg.cn/20200518152526233.png" alt="在这里插入图片描述" /> 用k表示摩擦系数，小车水平方向的力平衡方程为： <img src="https://img-blog.csdnimg.cn/20200518153034256.png" alt="在这里插入图片描述" /> 联立以上四个式子，小曲中间变量V、H，得到： <img src="https://img-blog.csdnimg.cn/20200518153441440.png" alt="在这里插入图片描述" /> 由于θ比较小，这里不妨使sinθ = 0，cosθ = 1，简化方程为： <img src="https://img-blog.csdnimg.cn/20200518153853325.png" alt="在这里插入图片描述" /> 设摆杆质量分布均匀，忽略摩擦（k=0，摩擦力也不会影响能控性），有： <img src="https://img-blog.csdnimg.cn/20200518155051441.png" alt="在这里插入图片描述" /> 定义系统状态： <img src="https://img-blog.csdnimg.cn/20200518155241173.png" alt="在这里插入图片描述" /> 得到状态方程： <img src="https://img-blog.csdnimg.cn/20200518155256854.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 即： <img src="https://img-blog.csdnimg.cn/20200518155401489.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 计算系统的能控性矩阵： <img src="https://img-blog.csdnimg.cn/2020051815571467.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 能控性矩阵的秩为4，所以系统完全能控。</p>
+<h2 id="设计状态反馈控制">设计状态反馈控制</h2>
+<p>为了方便设计，不妨设<strong>M=2kg，m=0.1kg，l=0.5m</strong>。代入状态方程： <img src="https://img-blog.csdnimg.cn/20200519084128428.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 其中： <img src="https://img-blog.csdnimg.cn/20200519084208893.png" alt="在这里插入图片描述" /> 根据<strong>极点配置原理</strong>，线性定常系统通过状态反馈可以任意配置闭环系统极点的充分必要条件是系统完全能控。 系统的能控性在上面已经证明。 于是采用状态反馈，即： <img src="https://img-blog.csdnimg.cn/20200519084338722.png" alt="在这里插入图片描述" /> K为4*1矩阵。 原系统的特征多项式为： <img src="https://img-blog.csdnimg.cn/20200519085132333.png" alt="在这里插入图片描述" /> 存在大于等于0的极点，显然不加控制的系统是不稳定的，倒立摆不能倒立。 所以我们要<strong>配置合适的极点</strong>来使得系统达到稳定性要求。</p>
+<p>这是一个四阶系统，可以设计两个远离虚轴的极点，和两个<strong>靠近虚轴的闭环主导极点</strong>，系统的瞬态性能指标主要由主导极点决定。 这样就可以<strong>把一个高阶系统简化成一个二阶系统</strong>。</p>
+<p><strong>典型二阶系统传递函数</strong>如下： <img src="https://img-blog.csdnimg.cn/20200519091717626.png" alt="在这里插入图片描述" /><img src="https://img-blog.csdnimg.cn/20200519091733165.png" alt="在这里插入图片描述" /> <strong>欠阻尼时的两个特征根</strong>为： <img src="https://img-blog.csdnimg.cn/20200519093404130.png" alt="在这里插入图片描述" /> <strong>典型二阶系统的瞬态性能指标</strong>如下：</p>
+<p>（1）上升时间： <img src="https://img-blog.csdnimg.cn/20200519092300720.png" alt="在这里插入图片描述" /> 其中 <img src="https://img-blog.csdnimg.cn/20200519092025406.png" alt="在这里插入图片描述" /> （2）峰值时间： <img src="https://img-blog.csdnimg.cn/20200519092322664.png" alt="在这里插入图片描述" /> （3）最大超调量： <img src="https://img-blog.csdnimg.cn/20200519092540201.png" alt="在这里插入图片描述" /><img src="https://img-blog.csdnimg.cn/20200519092514156.png" alt="在这里插入图片描述" /> 通常取控制系统最大超调量为25% ~ 1.5%，对应的阻尼比为0.4 ~ 0.8 。</p>
+<p>（4）调节时间： <img src="https://img-blog.csdnimg.cn/20200519092811560.png" alt="在这里插入图片描述" /> （5）震荡次数 <img src="https://img-blog.csdnimg.cn/20200519092911234.png" alt="在这里插入图片描述" /> 综上，我们想要使系统具有<strong>较短的调节时间和适当的超调量</strong>，可取 <img src="https://img-blog.csdnimg.cn/20200519093604919.png" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200519093612456.png" alt="在这里插入图片描述" /> 于是闭环主导极点为： <img src="https://img-blog.csdnimg.cn/20200519093700922.png" alt="在这里插入图片描述" /> 再取两个远离虚轴的极点： <img src="https://img-blog.csdnimg.cn/20200519093722817.png" alt="在这里插入图片描述" /> 期望特征多项式为： <img src="https://img-blog.csdnimg.cn/20200519093800207.png" alt="在这里插入图片描述" /> 已经有了期望的闭环特征多项式，接下来要<strong>如何根据特征多项式确定反馈增益K</strong>呢？ 有两种常见方法： <img src="https://img-blog.csdnimg.cn/20200519094904985.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200519094926393.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 其中<strong>算法1在低阶系统中应用会比较方便，但是对于高阶系统，算法2的计算会更为简单</strong>。 本问题是四阶系统，我们选用算法2 。 刚刚我们已经计算过原特征多项式。 <img src="https://img-blog.csdnimg.cn/2020051910172255.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 我们已经计算出了反馈增益K。</p>
+<p>综上，只需要使得外力输入 <img src="https://img-blog.csdnimg.cn/20200519084338722.png" alt="在这里插入图片描述" /> 即可使倒立摆保持垂直状态。</p>
+<h2 id="建立simulink模型">建立simulink模型</h2>
+<p>根据A、B、K矩阵画出框图： <img src="https://img-blog.csdnimg.cn/20200628203711312.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 给定状态x1（即θ）初值：</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200601123006150.png" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-Ma4KziYv-1590985727990)(C:-user-images-20200525170331331.png)]" /><figcaption aria-hidden="true">[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-Ma4KziYv-1590985727990)(C:-user-images-20200525170331331.png)]</figcaption>
+</figure>
 <p>运行仿真，观测四个状态的变化。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200628203647460.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200628203647460.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>观察x1，可知倒立摆偏离角度在很短时间内收敛到0，控制效果很好。</p>
-<h2 id="设计降维状态观测器"><a href="#设计降维状态观测器" class="headerlink" title="设计降维状态观测器"></a>设计降维状态观测器</h2><p>在以上的状态反馈控制中，我们使用了4个状态变量来进行反馈控制：<br><img src="https://img-blog.csdnimg.cn/20200519084208893.png" alt="在这里插入图片描述"><br>这就意味着，在实际的应用中，我们需要<strong>同时用传感器测量4个变量</strong>：<br>摆杆角度、摆杆角速度、小车位移、小车速度。</p>
-<p>但是有的时候，我们不想用这么多传感器，或者有的时候，某些状态量的测量并不方便。<br><strong>能不能减少反馈的状态个数，同时也能达到控制效果呢</strong>？</p>
+<h2 id="设计降维状态观测器">设计降维状态观测器</h2>
+<p>在以上的状态反馈控制中，我们使用了4个状态变量来进行反馈控制： <img src="https://img-blog.csdnimg.cn/20200519084208893.png" alt="在这里插入图片描述" /> 这就意味着，在实际的应用中，我们需要<strong>同时用传感器测量4个变量</strong>： 摆杆角度、摆杆角速度、小车位移、小车速度。</p>
+<p>但是有的时候，我们不想用这么多传感器，或者有的时候，某些状态量的测量并不方便。 <strong>能不能减少反馈的状态个数，同时也能达到控制效果呢</strong>？</p>
 <p>可以设计降维观测器配合反馈控制来达到目的。</p>
-<p>不过在此之前可能有人会想：摆杆角速度和小车的速度不就分别是角度和位移对时间的微分吗？<br>的确如此，但是<strong>直接用微分计算得到的速度与用传感器测得的速度是有不同的。在状态观测器的设计中，用一个状态的微分产生另一个状态的方法通常是不可取的，因为噪声通常比控制信号变化快，信号的微分会使噪声的作用增强，即减小了信噪比。</strong></p>
+<p>不过在此之前可能有人会想：摆杆角速度和小车的速度不就分别是角度和位移对时间的微分吗？ 的确如此，但是<strong>直接用微分计算得到的速度与用传感器测得的速度是有不同的。在状态观测器的设计中，用一个状态的微分产生另一个状态的方法通常是不可取的，因为噪声通常比控制信号变化快，信号的微分会使噪声的作用增强，即减小了信噪比。</strong></p>
 <p>这里假设摆杆的角度和小车的位移能被测量，即状态</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123541235.png" alt="在这里插入图片描述"></p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200601123541235.png" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>已知，需要设计状态观测器观测其余两个状态。</p>
-<p><strong>将状态重新排序</strong>：</p>
-<script type="math/tex; mode=display">
-x1 = x，x2=y, x3 = \dot θ，x4= \dot y</script><p>系统输出为：</p>
-<script type="math/tex; mode=display">
+<p><strong>将状态重新排序</strong>： <span class="math display">\[
+x1 = x，x2=y, x3 = \dot θ，x4= \dot y
+\]</span> 系统输出为： <span class="math display">\[
 y=\begin{bmatrix}
 \theta \\
 y\\
-\end{bmatrix}</script><p>状态矩阵变为：</p>
-<script type="math/tex; mode=display">
-A=\begin{bmatrix}0  & 0&1&0 \\ 0 & 0&0&1\\15.244&0&0&0\\-0.363&0&0&0 \end{bmatrix}
+\end{bmatrix}
+\]</span> 状态矩阵变为： <span class="math display">\[
+A=\begin{bmatrix}0  &amp; 0&amp;1&amp;0 \\ 0 &amp; 0&amp;0&amp;1\\15.244&amp;0&amp;0&amp;0\\-0.363&amp;0&amp;0&amp;0 \end{bmatrix}
 B=\begin{bmatrix}0  \\ 0 \\-0.741\\0.494 \end{bmatrix}
-C=\begin{bmatrix}1  & 0&0&0 \\ 0 &1&0&0 \end{bmatrix}</script><p>降维观测器设计思路：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123049630.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="\[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-mhKzq5aO-1590985727998)(C:\Users\hp\AppData\Roaming\Typora\typora-user-images\image-20200531233309196.png)\]\[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-0acABmru-1590985728000)(C:\Users\hp\AppData\Roaming\Typora\typora-user-images\image-20200531233355203.png)\]\[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-cvb2jLCC-1590985728000)(C:\Users\hp\AppData\Roaming\Typora\typora-user-images\image-20200601084105169.png)\]"><br><img src="https://img-blog.csdnimg.cn/20200601123107667.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200601123125483.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>首先<strong>判断系统的能观性</strong>：</p>
-<script type="math/tex; mode=display">
-Rank Qc = \begin{bmatrix}C \\ CA\\CA^2\\CA^3 \end{bmatrix}=4</script><p>系统完全能观，确保可以设计降维状态观测器来观测状态。</p>
-<p>令</p>
-<script type="math/tex; mode=display">
-C=\begin{bmatrix}C1 & C2 \end{bmatrix},C1=\begin{bmatrix}1&0\\0&1\end{bmatrix},C2=\begin{bmatrix}0&0\\0&0\end{bmatrix}</script><p>C1非奇异，则<strong>状态变换矩阵</strong></p>
-<script type="math/tex; mode=display">
-P=\begin{bmatrix}1 & 0&0&0 \\ 0 & 1&0&0\\0&0&1&0\\0&0&0&1 \end{bmatrix}</script><script type="math/tex; mode=display">
-\overline A=\begin{bmatrix}0  & 0&1&0 \\ 0 & 0&0&1\\15.244&0&0&0\\-0.363&0&0&0 \end{bmatrix}=\begin{bmatrix}\overline A_{11}&\overline A_{12} \\ \overline A_{21}&\overline A_{22}\end{bmatrix},
+C=\begin{bmatrix}1  &amp; 0&amp;0&amp;0 \\ 0 &amp;1&amp;0&amp;0 \end{bmatrix}
+\]</span></p>
+<p>降维观测器设计思路：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200601123049630.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-mhKzq5aO-1590985727998)(C:-user-images-20200531233309196.png)][外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-0acABmru-1590985728000)(C:-user-images-20200531233355203.png)][外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-cvb2jLCC-1590985728000)(C:-user-images-20200601084105169.png)]" /> <img src="https://img-blog.csdnimg.cn/20200601123107667.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200601123125483.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 首先<strong>判断系统的能观性</strong>： <span class="math display">\[
+Rank Qc = \begin{bmatrix}C \\ CA\\CA^2\\CA^3 \end{bmatrix}=4
+\]</span> 系统完全能观，确保可以设计降维状态观测器来观测状态。</p>
+<p>令 <span class="math display">\[
+C=\begin{bmatrix}C1 &amp; C2 \end{bmatrix},C1=\begin{bmatrix}1&amp;0\\0&amp;1\end{bmatrix},C2=\begin{bmatrix}0&amp;0\\0&amp;0\end{bmatrix}
+\]</span> C1非奇异，则<strong>状态变换矩阵</strong> <span class="math display">\[
+P=\begin{bmatrix}1 &amp; 0&amp;0&amp;0 \\ 0 &amp; 1&amp;0&amp;0\\0&amp;0&amp;1&amp;0\\0&amp;0&amp;0&amp;1 \end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[
+\overline A=\begin{bmatrix}0  &amp; 0&amp;1&amp;0 \\ 0 &amp; 0&amp;0&amp;1\\15.244&amp;0&amp;0&amp;0\\-0.363&amp;0&amp;0&amp;0 \end{bmatrix}=\begin{bmatrix}\overline A_{11}&amp;\overline A_{12} \\ \overline A_{21}&amp;\overline A_{22}\end{bmatrix},
 \overline B=\begin{bmatrix}0  \\ 0 \\-0.741\\0.494 \end{bmatrix}=\begin{bmatrix}\overline B_{1} \\\overline B_{2}\end{bmatrix},
-\overline C=\begin{bmatrix}1  & 0&0&0 \\ 0 &1&0&0 \end{bmatrix}</script><p><strong>设计反馈增益矩阵</strong>:</p>
-<p>前面我们在设计状态反馈的时候已经得出了系统的闭环主导极点：</p>
-<script type="math/tex; mode=display">
-\lambda_1^*=-2+j2\sqrt3,\lambda_2^*=-2-j2\sqrt3</script><p>一般设计，观测器极点为系统主导极点3~5倍。</p>
+\overline C=\begin{bmatrix}1  &amp; 0&amp;0&amp;0 \\ 0 &amp;1&amp;0&amp;0 \end{bmatrix}
+\]</span></p>
+<p><strong>设计反馈增益矩阵</strong>:</p>
+<p>前面我们在设计状态反馈的时候已经得出了系统的闭环主导极点： <span class="math display">\[
+\lambda_1^*=-2+j2\sqrt3,\lambda_2^*=-2-j2\sqrt3
+\]</span> 一般设计，观测器极点为系统主导极点3~5倍。</p>
 <p>我们先试着使极点为-10，-10。</p>
-<p>期望特征方程为：</p>
-<script type="math/tex; mode=display">
-\lambda^2+20\lambda+100=0</script><p>观测器特征方程为：</p>
-<script type="math/tex; mode=display">
-det(sI-\overline A_{22}+\overline H\overline A_{12})=s^2+(H_{11}+H_{22})s+H_{11}H_{22}-H_{21}H_{22}=0</script><p>不妨使：</p>
-<script type="math/tex; mode=display">
-H_{21}=0,H_{22}=0,H_{11}=H_{22}</script><p>比较系数，得：</p>
-<script type="math/tex; mode=display">
-H_{11}=10,H_{22}=10</script><p><strong>子系统的观测器为</strong>：</p>
-<script type="math/tex; mode=display">
+<p>期望特征方程为： <span class="math display">\[
+\lambda^2+20\lambda+100=0
+\]</span> 观测器特征方程为： <span class="math display">\[
+det(sI-\overline A_{22}+\overline H\overline A_{12})=s^2+(H_{11}+H_{22})s+H_{11}H_{22}-H_{21}H_{22}=0
+\]</span></p>
+<p>不妨使： <span class="math display">\[
+H_{21}=0,H_{22}=0,H_{11}=H_{22}
+\]</span> 比较系数，得： <span class="math display">\[
+H_{11}=10,H_{22}=10
+\]</span> <strong>子系统的观测器为</strong>：</p>
+<p><span class="math display">\[
 \begin{cases}
-\dot z=\begin{bmatrix} -10&0 \\0&-10 \end{bmatrix}\hat x_2+\begin{bmatrix} -0.741 \\0.494 \end{bmatrix}u+\begin{bmatrix}15.244&0 \\-0.363&0\end{bmatrix}y\\
-\hat x_2=z+\begin{bmatrix} 10&0\\0&10 \end{bmatrix}y
-\end{cases}</script><p><strong>原系统的状态观测量为</strong>：</p>
-<script type="math/tex; mode=display">
-\hat x=\begin{bmatrix}y\\\hat x_2\end{bmatrix},y=\begin{bmatrix} x_1\\x_2 \end{bmatrix}=\begin{bmatrix} \theta\\y^{'} \end{bmatrix}</script><p>于是我们便构建了x3、x4，即两个不可测量的速度的观测值。</p>
+\dot z=\begin{bmatrix} -10&amp;0 \\0&amp;-10 \end{bmatrix}\hat x_2+\begin{bmatrix} -0.741 \\0.494 \end{bmatrix}u+\begin{bmatrix}15.244&amp;0 \\-0.363&amp;0\end{bmatrix}y\\
+\hat x_2=z+\begin{bmatrix} 10&amp;0\\0&amp;10 \end{bmatrix}y
+\end{cases}
+\]</span></p>
+<p><strong>原系统的状态观测量为</strong>： <span class="math display">\[
+\hat x=\begin{bmatrix}y\\\hat x_2\end{bmatrix},y=\begin{bmatrix} x_1\\x_2 \end{bmatrix}=\begin{bmatrix} \theta\\y^{&#39;} \end{bmatrix}
+\]</span> 于是我们便构建了x3、x4，即两个不可测量的速度的观测值。</p>
 <p>接下来只需要<strong>将观测值代入状态反馈</strong>。</p>
-<h2 id="建立Simulink模型"><a href="#建立Simulink模型" class="headerlink" title="建立Simulink模型"></a>建立Simulink模型</h2><p>根据以上建立仿真模型：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123233338.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>为了简化框图，将原系统模型替换成了直接State space表示的形式，具体设置为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123248486.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="建立simulink模型-1">建立Simulink模型</h2>
+<p>根据以上建立仿真模型：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200601123233338.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 为了简化框图，将原系统模型替换成了直接State space表示的形式，具体设置为：</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200601123248486.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>可以看到我们给定了倒立摆角度的初值1，其他全部设为0。</p>
 <p>运行仿真，角度scope的输出为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123300369.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>系统可以控制倒立摆达到平衡状态，但是<strong>超调量和调节时间都增大</strong>了。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200601123300369.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 系统可以控制倒立摆达到平衡状态，但是<strong>超调量和调节时间都增大</strong>了。</p>
 <p>我们试着<strong>调整观测器极点</strong>，使两极点都为-20：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123314527.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123324650.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200601123314527.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200601123324650.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>影响并不是很大。</p>
 <p>实际上，当我试着<strong>将原系统框图完整地画出，并比较观测器观测值与实际状态的误差</strong>的时候，发现观测器已经能够很好地跟踪未知状态了。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200628204038292.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>θ曲线对比</p>
-<p><img src="https://img-blog.csdnimg.cn/2020060112335195.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200628204038292.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> θ曲线对比</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/2020060112335195.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>速度曲线对比</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123400100.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200601123400100.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>试着在初始状态基础上<strong>加入一个阶跃扰动</strong>，扰动发生时间为1s，幅度设置较大（1000）：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123414215.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200601123423558.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200601123414215.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200601123423558.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
+</figure>
 <p>观察到，系统受扰后，仍能迅速调整达到稳定。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>综上，倒立摆问题已经基本得到了解决。</p>
+<h2 id="总结">总结</h2>
+<p>综上，倒立摆问题已经基本得到了解决。</p>
 <p><strong>只需要通过传感器测量出摆的角度和小车位移，就能设计状态观测器观测出摆的角速度和小车速度，进而通过状态反馈，得到需要输入的外力F。通过此外力F，就能使倒立摆保持平衡。</strong></p>
 <p>在实际运用中，根据场景要求，对参数进行优化即可。</p>
 <p>matlab模型在我的CSDN个人主页资源中可以找到。</p>
