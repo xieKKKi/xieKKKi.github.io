@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"xiekkki.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="摘要 如题。">
+  <meta name="description" content="摘要如题。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="独立关节PD控制及其matlab simulink仿真">
 <meta property="og:url" content="https://xiekkki.github.io/2021/01/14/%E7%8B%AC%E7%AB%8B%E5%85%B3%E8%8A%82PD%E6%8E%A7%E5%88%B6%E5%8F%8A%E5%85%B6matlab%20simulink%E4%BB%BF%E7%9C%9F/index.html">
 <meta property="og:site_name" content="家鹏的个人主页">
-<meta property="og:description" content="摘要 如题。">
+<meta property="og:description" content="摘要如题。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210114154010661.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210114154059646.png">
@@ -272,34 +272,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="摘要">摘要</h3>
-<p>如题。</p>
+        <h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>如题。</p>
 <span id="more"></span>
 <p>（转自我的CSDN博客）</p>
-<h3 id="原理">原理</h3>
-<p>机器人控制常采用PD控制和PID控制，其优点是控制律简单，易于实现，无需建模。</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>机器人控制常采用PD控制和PID控制，其优点是控制律简单，易于实现，无需建模。</p>
 <p>当忽略重力和外力干扰时，采用独立的PD控制，能满足机器人定点控制的要求。</p>
-<p>根据欧拉-拉格朗日方程建立n连杆机器人的动力学模型： <span class="math display">\[
-D(q)\ddot q+C(q,\dot q)\dot q+g(q)=\tau
-\]</span> 其中D代表惯性项，C代表向心力项/哥氏力项，g代表重力项，q代表关节坐标，<span class="math display">\[\tau\]</span>代表了系统广义力。</p>
-<p>PID控制基于误差，设固定的期望位置为 <span class="math display">\[ q_d \]</span>，跟踪误差为<span class="math display">\[e=q_d-q\]</span>，由于<span class="math display">\[q_d\]</span>为常数，<span class="math display">\[\dot q_d=\ddot q_d =0\]</span>。</p>
-<p>PD控制律为： <span class="math display">\[
-\tau = K_d \dot e + K_p e
-\]</span> 忽略重力，机器人方程表示为： <span class="math display">\[
-D(q)(0 - \ddot q)+C(q,\dot q)(0 -\dot q)=- \tau
-\]</span> 进一步化为： <span class="math display">\[
-D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e =-K_p e
-\]</span></p>
-<p>考虑如下二连杆机器人系统：</p>
-<figure>
-<img src="https://img-blog.csdnimg.cn/20210114154010661.png" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
-</figure>
+<p>根据欧拉-拉格朗日方程建立n连杆机器人的动力学模型：</p>
+<script type="math/tex; mode=display">
+D(q)\ddot q+C(q,\dot q)\dot q+g(q)=\tau</script><p>其中D代表惯性项，C代表向心力项/哥氏力项，g代表重力项，q代表关节坐标，<script type="math/tex">\tau</script>代表了系统广义力。</p>
+<p>PID控制基于误差，设固定的期望位置为 <script type="math/tex">q_d</script>，跟踪误差为<script type="math/tex">e=q_d-q</script>，由于<script type="math/tex">q_d</script>为常数，<script type="math/tex">\dot q_d=\ddot q_d =0</script>。</p>
+<p>PD控制律为：</p>
+<script type="math/tex; mode=display">
+\tau = K_d \dot e + K_p e</script><p>忽略重力，机器人方程表示为：</p>
+<script type="math/tex; mode=display">
+D(q)(0 - \ddot q)+C(q,\dot q)(0 -\dot q)=- \tau</script><p>进一步化为：</p>
+<script type="math/tex; mode=display">
+D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e =-K_p e</script><p>考虑如下二连杆机器人系统：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210114154010661.png" alt="在这里插入图片描述"></p>
 <p>其中：</p>
-<p><img src="https://img-blog.csdnimg.cn/20210114154059646.png" /></p>
-<p>实例化，假设<span class="math display">\[ p=[2.90{\,} 0.76 {\,}0.87]^T, q_0 =[0 {\,}0]^T, \dot q_0 = [0{\,} 0 ]^T\]</span>,目标位置<span class="math display">\[q_d(0)=[1.0 {\,}1.0]^T\]</span>，取<span class="math display">\[K_p=\begin{bmatrix}100 &amp;0\\0&amp;100 \end{bmatrix}, K_d=\begin{bmatrix}100 &amp;0\\0&amp;100 \end{bmatrix}\]</span>。</p>
-<p>得到： <span class="math display">\[
-D(q)=\begin{bmatrix}3.66+1.74\cos q_2 &amp;0.76+0.87\cos q_2\\0.76+0.87\cos q_2&amp;0.76 \end{bmatrix}, C(q,\dot q)=\begin{bmatrix}-0.87 \dot q_2\sin q_2 &amp;-0.87(\dot q_1 + \dot q_2)\sin q_2\\0.87 \dot q_1\sin q_2&amp;0 \end{bmatrix}
-\]</span> 代入刚刚得到的机器人方程，并选取系统状态变量<span class="math display">\[[θ_1,\dot θ_1 ,θ_2,\dot θ_2] = [q_1,\dot q_1, q_2,\dot q_2]\]</span>： <span class="math display">\[
+<p><img src="https://img-blog.csdnimg.cn/20210114154059646.png" alt=""></p>
+<p>实例化，假设<script type="math/tex">p=[2.90{\,} 0.76 {\,}0.87]^T, q_0 =[0 {\,}0]^T, \dot q_0 = [0{\,} 0 ]^T</script>,目标位置<script type="math/tex">q_d(0)=[1.0 {\,}1.0]^T</script>，取<script type="math/tex">K_p=\begin{bmatrix}100 &0\\0&100 \end{bmatrix}, K_d=\begin{bmatrix}100 &0\\0&100 \end{bmatrix}</script>。</p>
+<p>得到：</p>
+<script type="math/tex; mode=display">
+D(q)=\begin{bmatrix}3.66+1.74\cos q_2 &0.76+0.87\cos q_2\\0.76+0.87\cos q_2&0.76 \end{bmatrix}, C(q,\dot q)=\begin{bmatrix}-0.87 \dot q_2\sin q_2 &-0.87(\dot q_1 + \dot q_2)\sin q_2\\0.87 \dot q_1\sin q_2&0 \end{bmatrix}</script><p>代入刚刚得到的机器人方程，并选取系统状态变量<script type="math/tex">[θ_1,\dot θ_1 ,θ_2,\dot θ_2] = [q_1,\dot q_1, q_2,\dot q_2]</script>：</p>
+<script type="math/tex; mode=display">
 \begin{cases}
 \dot θ_1 = \dot  θ_1 \\
 \ddot \theta_1 = {τ_1-(0.76+0.87cosθ_2 ) \ddot θ_2  + 0.87sin(θ_2 )\dot θ_1 \dot θ_2 +0.87(\dot θ_1 +\dot θ_2)sinθ_2 \dot θ_2 \over (3.66+1.74cosθ_2 )} \\
@@ -307,46 +303,30 @@ D(q)=\begin{bmatrix}3.66+1.74\cos q_2 &amp;0.76+0.87\cos q_2\\0.76+0.87\cos q_2&
 \ddot \theta_2 = {τ_2-(0.76+0.87cosθ_2 ) \ddot θ_1 -0.87sinθ_2 (\dot θ_1 )^2 \over 0.76}\\
 \tau_1 = K_p(q_{d1}-q_1)-K_d \dot q_1 \\
 \tau_2 = K_p(q_{d2}-q_2)-K_d \dot q_2
-\end{cases}
-\]</span></p>
-<h3 id="matlabsimulink-仿真建模">Matlab/simulink 仿真建模</h3>
-<p>依据上面得到的式子建立matlab simulink仿真模型：</p>
+\end{cases}</script><h3 id="Matlab-simulink-仿真建模"><a href="#Matlab-simulink-仿真建模" class="headerlink" title="Matlab/simulink 仿真建模"></a>Matlab/simulink 仿真建模</h3><p>依据上面得到的式子建立matlab simulink仿真模型：</p>
 <p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-r7H7RAFz-1610609990391)(image-20210107132308822.png)]</p>
-<p>注意计算<span class="math display">\[\ddot q_1, \ddot q_2\]</span>使用函数模块时候不能选择这个：</p>
-<figure>
-<img src="https://img-blog.csdnimg.cn/20210114154137426.png" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
-</figure>
+<p>注意计算<script type="math/tex">\ddot q_1, \ddot q_2</script>使用函数模块时候不能选择这个：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210114154137426.png" alt="在这里插入图片描述"></p>
 <p>否则就会报错：</p>
-<figure>
-<img src="https://img-blog.csdnimg.cn/20210114154143373.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
-</figure>
+<p><img src="https://img-blog.csdnimg.cn/20210114154143373.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>要选择这个：</p>
-<figure>
-<img src="https://img-blog.csdnimg.cn/20210114154152376.png" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
-</figure>
+<p><img src="https://img-blog.csdnimg.cn/20210114154152376.png" alt="在这里插入图片描述"></p>
 <p>示波器输出波形为：</p>
-<figure>
-<img src="https://img-blog.csdnimg.cn/20210114154202354.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
-</figure>
-<p>修改Kp，Kd，使得<span class="math display">\[K_p=\begin{bmatrix}1000&amp;0\\0&amp;1000 \end{bmatrix}, K_d=\begin{bmatrix}100 &amp;0\\0&amp;100 \end{bmatrix}\]</span>，得到：</p>
-<figure>
-<img src="https://img-blog.csdnimg.cn/20210114154214127.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
-</figure>
+<p><img src="https://img-blog.csdnimg.cn/20210114154202354.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>修改Kp，Kd，使得<script type="math/tex">K_p=\begin{bmatrix}1000&0\\0&1000 \end{bmatrix}, K_d=\begin{bmatrix}100 &0\\0&100 \end{bmatrix}</script>，得到：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210114154214127.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>调节时间缩短，响应变快。</p>
-<p>修改Kp，Kd，使得<span class="math display">\[K_p=\begin{bmatrix}100&amp;0\\0&amp;100 \end{bmatrix}, K_d=\begin{bmatrix}10 &amp;0\\0&amp;10 \end{bmatrix}\]</span>，得到：</p>
-<figure>
-<img src="https://img-blog.csdnimg.cn/20210114154222903.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /><figcaption aria-hidden="true">在这里插入图片描述</figcaption>
-</figure>
+<p>修改Kp，Kd，使得<script type="math/tex">K_p=\begin{bmatrix}100&0\\0&100 \end{bmatrix}, K_d=\begin{bmatrix}10 &0\\0&10 \end{bmatrix}</script>，得到：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210114154222903.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>出现过多超调，响应时间变长。</p>
-<h3 id="加入重力补偿">加入重力补偿</h3>
-<p>事实上完全不受外力，没有干扰的机械手系统是不存在的，独立的PD控制只是基础，可以作为参考来对系统进行分析。如果加入重力补偿，PD控制律变为： <span class="math display">\[
-\tau = K_d \dot e + K_p e + \hat G(q)
-\]</span> 其中<span class="math display">\[\hat G(q)\]</span>表示对重力矩的估计值。</p>
-<p>机器人方程为： <span class="math display">\[
-D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e + K_p e+\hat G(q)-G(q)=0
-\]</span> 对重力矩的估计方法有如下两类：</p>
-<ol type="1">
-<li>当对重力矩估计准确时候，<span class="math display">\[\hat G(q), G(q)\]</span>抵消，方程退化为上面的独立PD控制。</li>
+<h3 id="加入重力补偿"><a href="#加入重力补偿" class="headerlink" title="加入重力补偿"></a>加入重力补偿</h3><p>事实上完全不受外力，没有干扰的机械手系统是不存在的，独立的PD控制只是基础，可以作为参考来对系统进行分析。如果加入重力补偿，PD控制律变为：</p>
+<script type="math/tex; mode=display">
+\tau = K_d \dot e + K_p e + \hat G(q)</script><p>其中<script type="math/tex">\hat G(q)</script>表示对重力矩的估计值。</p>
+<p>机器人方程为：</p>
+<script type="math/tex; mode=display">
+D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e + K_p e+\hat G(q)-G(q)=0</script><p>对重力矩的估计方法有如下两类：</p>
+<ol>
+<li>当对重力矩估计准确时候，<script type="math/tex">\hat G(q), G(q)</script>抵消，方程退化为上面的独立PD控制。</li>
 <li>当对重力矩的估计值不准确时候，需要设计重力补偿算法。目前代表性的重力补偿PD控制算法有在线估计的和固定的重力补偿PD控制。其中在线补偿更为准确，但是会消耗更多的计算资源，固定的补偿特性与之相反。</li>
 </ol>
 
@@ -460,7 +440,7 @@ D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e + K_p e+\hat
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#matlabsimulink-%E4%BB%BF%E7%9C%9F%E5%BB%BA%E6%A8%A1"><span class="nav-number">3.</span> <span class="nav-text">Matlab&#x2F;simulink 仿真建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5%E9%87%8D%E5%8A%9B%E8%A1%A5%E5%81%BF"><span class="nav-number">4.</span> <span class="nav-text">加入重力补偿</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Matlab-simulink-%E4%BB%BF%E7%9C%9F%E5%BB%BA%E6%A8%A1"><span class="nav-number">3.</span> <span class="nav-text">Matlab&#x2F;simulink 仿真建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5%E9%87%8D%E5%8A%9B%E8%A1%A5%E5%81%BF"><span class="nav-number">4.</span> <span class="nav-text">加入重力补偿</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -683,7 +663,7 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       notify     : false,
       appId      : 'jWiMxVrj9ipCFA6Nt2JtFwld-gzGzoHsz# Your leancloud application appid',
       appKey     : '7u7KfQ4BNsCCjQElGsNtnYi5# Your leancloud application appkey',
-      placeholder: "Just go go",
+      placeholder: "在此留言...",
       avatar     : 'mm',
       meta       : guest,
       pageSize   : '10' || 10,
