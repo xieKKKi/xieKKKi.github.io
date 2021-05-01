@@ -363,6 +363,43 @@ D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e + K_p e+\hat
       </tags>
   </entry>
   <entry>
+    <title>自制电吉他效果器 DIY PCB（三）原理图与封装 上</title>
+    <url>/2020/04/27/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E4%B8%89%EF%BC%89%E5%8E%9F%E7%90%86%E5%9B%BE%E4%B8%8E%E5%B0%81%E8%A3%85%20%E4%B8%8A/</url>
+    <content><![CDATA[<h3 id="摘要">摘要</h3>
+<p>了解了电路原理，接下来我们打开<strong>Altium Designer</strong>开始画图吧。 熟悉其他PCB设计软件的也可以，大致思路是一样的。由于本人只会AD，这里使用<strong>AD20</strong>进行演示。</p>
+<span id="more"></span>
+<p>（转自我的CSDN博客）</p>
+<p>这里将不会对软件使用进行详细讲解，<strong>重点说明针对效果器PCB绘制需要注意的事项。</strong></p>
+<p>不会PCB软件的朋友建议找视频或者博客学一学，只需要掌握最基本的两层板绘制就行了。有人可能想试试不用pcb直接用洞洞板手焊，应对十分简单的电路确实可行，但是稍微一复杂，焊接和调试的花费的精力可能会比学习pcb还要多哦。如果以后还想继续尝试，最好还是学一下pcb。现在就打开B站或者另一个博客开始学习吧。</p>
+<p>建议不会AD的朋友能跟着教程画一遍完整的pcb再看下面的内容。 ## 原理图 依旧是<a href="https://blog.csdn.net/qq_41342525/article/details/105522483">上回</a>说过的<strong>失真效果器</strong>，首先来画原理图，直接来看看画好之后是什么样吧。 <img src="https://img-blog.csdnimg.cn/20200423205458684.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 乍看过去，好像和上回说的不一样啊，怎么回事？</p>
+<p>仔细观察，我这里将原理图分成了<strong>4个模块</strong>，接下来我们分模块进行讲解。</p>
+<h2 id="amp模块">AMP模块</h2>
+<p><img src="https://img-blog.csdnimg.cn/20200423210041658.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 大家看看这个部分，是不是就几乎和上回给大家介绍的电路一模一样呢？ <img src="https://img-blog.csdnimg.cn/20200423210228248.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> <strong>不同之处</strong>是： 输入输出与开关的连接没有体现出来，但是我已经把它们画到SWITCH模块中去了。 5v(4.5v)偏置也被独立了出去，这里只用网络标签表示。</p>
+<p><strong>在绘制原理图的时候需要注意的：</strong> 新学的朋友不要忘记给芯片接电源和接地哦，有的原理图会省略，但是在PCB原理图里可千万不能省。 <img src="https://img-blog.csdnimg.cn/20200423211440601.png" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/2020042321151221.png" alt="在这里插入图片描述" /> 这里的初始原理图中有的元件没有标注单位。 电阻如果没有写单位，默认单位就是Ω，如果是KΩ，会加上单位K。 电容默认单位是uF。</p>
+<p><strong>封装选择：</strong></p>
+<p><strong>电阻和无极性电容</strong>我一律选择的是0805贴片封装。<img src="https://img-blog.csdnimg.cn/2020042321212922.png" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200423212156502.png" alt="在这里插入图片描述" /> 有朋友可能会觉得贴片封装不好焊接，但个人认为熟练后贴片焊接是会比直插式焊接效率更高的。</p>
+<p><strong>音质方面</strong>，大家可能有见过一些比较经典的效果器内部的元件都是直插电阻电容的，我觉得那可能是因为以前SMT贴片技术还不成熟。我拆过Orange的小小强电子管箱头，里面的大部分电阻都是贴片的。 实际上，<strong>电路的设计和PCB的质量</strong>可能比元件的选型对音质的影响更大。另外，很多发烧友说的什么玄学感觉，很多时候靠<strong>调节EQ和音量就可以解决</strong>哦。 有一定电路知识的朋友在玩音箱设备的时候，希望都能<strong>理性思考，用所学的知识进行分析，不要陷入玄学之中。</strong></p>
+<p>当然我不是说元件选型不重要，<strong>在一些关键环节还是需要好一点的元件</strong>，比如我们希望电容的内部电阻阻值小一点的时候就应该选择好一点的电容。但是我们这里就不讲究什么发烧级的元件了，能满足需求就行了。<strong>在已经熟悉如何自制效果器之后，可以尝试更好的元器件。</strong> <img src="https://img-blog.csdnimg.cn/20200423214639129.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 常用的0805贴片电阻电容包在某宝十块钱左右就能买到。 想用其他封装也行，贴片比如0603、1206（我上面就是买错了买成了1206），或者直插，其实都可以，看个人喜好。 在购买时请注意你所购买的大礼包里有没有包含你需要的元件哦。有的时候初始电路图里会出现比较不常见的阻值，这个时候可以用相近的替代，或者换一个大礼包。</p>
+<p><strong>极性电容</strong>一般选择电解电容 <img src="https://img-blog.csdnimg.cn/20200423221925966.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 把1uf，4.7uf，10uf，47uf，100uf，470uf这几个型号都多买一些就对了，几块钱买他一大把。还有音频专用的电解电容，有兴趣的可以试试，不会贵很多。</p>
+<p><strong>运放芯片</strong>一般是选择DIP-8封装，也就是直插的8脚封装。不选贴片原因很简单，真的不好焊，而且选直插还有一个好处，稍后再说。 <img src="https://img-blog.csdnimg.cn/20200423215436286.png" alt="在这里插入图片描述" /> 我们这里的741很幸运在AD的自带原理图库里找到了。 <img src="https://img-blog.csdnimg.cn/20200423220336730.png" alt="在这里插入图片描述" /> 有的时候会出现有的芯片型号找不到的情况，这个时候自己简单画一个就行啦。像这样，我画了一个效果器常见的运放TL072作为示例。 <img src="https://img-blog.csdnimg.cn/20200423215627787.png" alt="在这里插入图片描述" /> 如果有好好学AD的朋友应该知道，这就是一个简单的矩形，加上了8个引脚，再给他命个名就行了。<strong>唯一需要注意的是引脚的顺序请务必不要搞错了。</strong></p>
+<p>芯片在也是在某宝直接买就行了，一般几毛钱到一两块钱就能买到。反正这么便宜，请一次多买几个。 此外，还可以购买芯片插座，这就是我之前说的好处。有了插座之后，当你手头有可以替代的芯片的时候，就可以<strong>直接拔下来替换</strong>，看看音色会有什么变化。 比如，上面说的741运放，可以选择UA741，也可以选择LM741，在查阅更过芯片的手册后，你会发现甚至还有更多的型号可以选择，几乎是个单运算放大器都可以试试。 当然，我是试过的，我得出的结论是，还是电路的设计和PCB质量对音色影响比较大。 <img src="https://img-blog.csdnimg.cn/20200423220918947.png" alt="在这里插入图片描述" /> 也很便宜，几块钱买一大把。</p>
+<p><strong>二极管</strong>，有的电路会说明型号，这里不说就选用1N4184，贴片直插皆可。也很便宜。 <img src="https://img-blog.csdnimg.cn/20200423222308901.png" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200423222321659.png" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200423222542877.png" alt="在这里插入图片描述" /></p>
+<p><strong>电位器</strong>，一定要选择可以用手扭的，并且旋转一圈就能完事的。个人选的是这种。这就是典型的音箱设备用的电位器。一般是几毛钱一个，稍好一点的几块钱一个。我看到某宝有些几十上百的电位器，大家可以开动脑筋想想不过是一个滑动变阻器而已到底能玩出什么花来。 <img src="https://img-blog.csdnimg.cn/20200423222914426.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 我们这里计划是要把电位器作为直插式元件焊接到PCB板上，而不是通过导线连接，所以在AD有要有对应的PCB封装。 注意前面介绍的元件都是有现成的封装的，可以直接在AD自带的原理图库和封装库中找到，如果没有应该也可以百度到。 而这里的电位器大家很可能找不到对应的封装了，所以我们要自己画。（我上面那个不是自己画的）</p>
+<p>先画一个原理图。一个小矩形加上三个引脚。 <img src="https://img-blog.csdnimg.cn/20200423224232142.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 为其添加封装，注意引脚序号对应。 <img src="https://img-blog.csdnimg.cn/20200423224421853.png" alt="在这里插入图片描述" /> 这里的白色矩形框只起到提示作用，可以自己限定范围，但是<strong>三个焊盘的尺寸和相对位置需要严格限定</strong>。 如何确定？查阅你所购买的电位器的商品详情页面。找到电位器工程图。 <img src="https://img-blog.csdnimg.cn/20200423224638644.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 由图可知，电位器三个引脚间距是5mm，那么我们就把距离定位5mm。引脚直径是1.2mm，但一般会预留更大的空间，可以把孔径定位1.6mm左右。 上面提到的白色框可以根据工程图来自行设计大小，能表示电位器占据的空间即可。</p>
+<p>AMP模块说明完毕。</p>
+<p>这部分太长了，分成上下篇。下回再分解。</p>
+]]></content>
+      <categories>
+        <category>DIY</category>
+      </categories>
+      <tags>
+        <tag>DIY</tag>
+        <tag>音乐</tag>
+        <tag>信号处理</tag>
+        <tag>电子电路</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>自制电吉他效果器 DIY PCB（一）前言</title>
     <url>/2020/03/26/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E4%B8%80%EF%BC%89%E5%89%8D%E8%A8%80/</url>
     <content><![CDATA[<h3 id="摘要">摘要</h3>
@@ -391,43 +428,6 @@ D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e + K_p e+\hat
 <p>后续我将会花几篇的篇幅来具体讲解如何自制效果器。</p>
 <p><strong>1. 前言 2. 电路图分析 3. PCB原理图与封装 上 4. PCB原理图与封装 下 5. 布局与接线 6. 焊接 7. 总结</strong></p>
 <p>请听下回分解。</p>
-]]></content>
-      <categories>
-        <category>DIY</category>
-      </categories>
-      <tags>
-        <tag>DIY</tag>
-        <tag>音乐</tag>
-        <tag>信号处理</tag>
-        <tag>电子电路</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>自制电吉他效果器 DIY PCB（三）原理图与封装 上</title>
-    <url>/2020/04/27/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E4%B8%89%EF%BC%89%E5%8E%9F%E7%90%86%E5%9B%BE%E4%B8%8E%E5%B0%81%E8%A3%85%20%E4%B8%8A/</url>
-    <content><![CDATA[<h3 id="摘要">摘要</h3>
-<p>了解了电路原理，接下来我们打开<strong>Altium Designer</strong>开始画图吧。 熟悉其他PCB设计软件的也可以，大致思路是一样的。由于本人只会AD，这里使用<strong>AD20</strong>进行演示。</p>
-<span id="more"></span>
-<p>（转自我的CSDN博客）</p>
-<p>这里将不会对软件使用进行详细讲解，<strong>重点说明针对效果器PCB绘制需要注意的事项。</strong></p>
-<p>不会PCB软件的朋友建议找视频或者博客学一学，只需要掌握最基本的两层板绘制就行了。有人可能想试试不用pcb直接用洞洞板手焊，应对十分简单的电路确实可行，但是稍微一复杂，焊接和调试的花费的精力可能会比学习pcb还要多哦。如果以后还想继续尝试，最好还是学一下pcb。现在就打开B站或者另一个博客开始学习吧。</p>
-<p>建议不会AD的朋友能跟着教程画一遍完整的pcb再看下面的内容。 ## 原理图 依旧是<a href="https://blog.csdn.net/qq_41342525/article/details/105522483">上回</a>说过的<strong>失真效果器</strong>，首先来画原理图，直接来看看画好之后是什么样吧。 <img src="https://img-blog.csdnimg.cn/20200423205458684.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 乍看过去，好像和上回说的不一样啊，怎么回事？</p>
-<p>仔细观察，我这里将原理图分成了<strong>4个模块</strong>，接下来我们分模块进行讲解。</p>
-<h2 id="amp模块">AMP模块</h2>
-<p><img src="https://img-blog.csdnimg.cn/20200423210041658.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 大家看看这个部分，是不是就几乎和上回给大家介绍的电路一模一样呢？ <img src="https://img-blog.csdnimg.cn/20200423210228248.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> <strong>不同之处</strong>是： 输入输出与开关的连接没有体现出来，但是我已经把它们画到SWITCH模块中去了。 5v(4.5v)偏置也被独立了出去，这里只用网络标签表示。</p>
-<p><strong>在绘制原理图的时候需要注意的：</strong> 新学的朋友不要忘记给芯片接电源和接地哦，有的原理图会省略，但是在PCB原理图里可千万不能省。 <img src="https://img-blog.csdnimg.cn/20200423211440601.png" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/2020042321151221.png" alt="在这里插入图片描述" /> 这里的初始原理图中有的元件没有标注单位。 电阻如果没有写单位，默认单位就是Ω，如果是KΩ，会加上单位K。 电容默认单位是uF。</p>
-<p><strong>封装选择：</strong></p>
-<p><strong>电阻和无极性电容</strong>我一律选择的是0805贴片封装。<img src="https://img-blog.csdnimg.cn/2020042321212922.png" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200423212156502.png" alt="在这里插入图片描述" /> 有朋友可能会觉得贴片封装不好焊接，但个人认为熟练后贴片焊接是会比直插式焊接效率更高的。</p>
-<p><strong>音质方面</strong>，大家可能有见过一些比较经典的效果器内部的元件都是直插电阻电容的，我觉得那可能是因为以前SMT贴片技术还不成熟。我拆过Orange的小小强电子管箱头，里面的大部分电阻都是贴片的。 实际上，<strong>电路的设计和PCB的质量</strong>可能比元件的选型对音质的影响更大。另外，很多发烧友说的什么玄学感觉，很多时候靠<strong>调节EQ和音量就可以解决</strong>哦。 有一定电路知识的朋友在玩音箱设备的时候，希望都能<strong>理性思考，用所学的知识进行分析，不要陷入玄学之中。</strong></p>
-<p>当然我不是说元件选型不重要，<strong>在一些关键环节还是需要好一点的元件</strong>，比如我们希望电容的内部电阻阻值小一点的时候就应该选择好一点的电容。但是我们这里就不讲究什么发烧级的元件了，能满足需求就行了。<strong>在已经熟悉如何自制效果器之后，可以尝试更好的元器件。</strong> <img src="https://img-blog.csdnimg.cn/20200423214639129.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 常用的0805贴片电阻电容包在某宝十块钱左右就能买到。 想用其他封装也行，贴片比如0603、1206（我上面就是买错了买成了1206），或者直插，其实都可以，看个人喜好。 在购买时请注意你所购买的大礼包里有没有包含你需要的元件哦。有的时候初始电路图里会出现比较不常见的阻值，这个时候可以用相近的替代，或者换一个大礼包。</p>
-<p><strong>极性电容</strong>一般选择电解电容 <img src="https://img-blog.csdnimg.cn/20200423221925966.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 把1uf，4.7uf，10uf，47uf，100uf，470uf这几个型号都多买一些就对了，几块钱买他一大把。还有音频专用的电解电容，有兴趣的可以试试，不会贵很多。</p>
-<p><strong>运放芯片</strong>一般是选择DIP-8封装，也就是直插的8脚封装。不选贴片原因很简单，真的不好焊，而且选直插还有一个好处，稍后再说。 <img src="https://img-blog.csdnimg.cn/20200423215436286.png" alt="在这里插入图片描述" /> 我们这里的741很幸运在AD的自带原理图库里找到了。 <img src="https://img-blog.csdnimg.cn/20200423220336730.png" alt="在这里插入图片描述" /> 有的时候会出现有的芯片型号找不到的情况，这个时候自己简单画一个就行啦。像这样，我画了一个效果器常见的运放TL072作为示例。 <img src="https://img-blog.csdnimg.cn/20200423215627787.png" alt="在这里插入图片描述" /> 如果有好好学AD的朋友应该知道，这就是一个简单的矩形，加上了8个引脚，再给他命个名就行了。<strong>唯一需要注意的是引脚的顺序请务必不要搞错了。</strong></p>
-<p>芯片在也是在某宝直接买就行了，一般几毛钱到一两块钱就能买到。反正这么便宜，请一次多买几个。 此外，还可以购买芯片插座，这就是我之前说的好处。有了插座之后，当你手头有可以替代的芯片的时候，就可以<strong>直接拔下来替换</strong>，看看音色会有什么变化。 比如，上面说的741运放，可以选择UA741，也可以选择LM741，在查阅更过芯片的手册后，你会发现甚至还有更多的型号可以选择，几乎是个单运算放大器都可以试试。 当然，我是试过的，我得出的结论是，还是电路的设计和PCB质量对音色影响比较大。 <img src="https://img-blog.csdnimg.cn/20200423220918947.png" alt="在这里插入图片描述" /> 也很便宜，几块钱买一大把。</p>
-<p><strong>二极管</strong>，有的电路会说明型号，这里不说就选用1N4184，贴片直插皆可。也很便宜。 <img src="https://img-blog.csdnimg.cn/20200423222308901.png" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200423222321659.png" alt="在这里插入图片描述" /> <img src="https://img-blog.csdnimg.cn/20200423222542877.png" alt="在这里插入图片描述" /></p>
-<p><strong>电位器</strong>，一定要选择可以用手扭的，并且旋转一圈就能完事的。个人选的是这种。这就是典型的音箱设备用的电位器。一般是几毛钱一个，稍好一点的几块钱一个。我看到某宝有些几十上百的电位器，大家可以开动脑筋想想不过是一个滑动变阻器而已到底能玩出什么花来。 <img src="https://img-blog.csdnimg.cn/20200423222914426.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 我们这里计划是要把电位器作为直插式元件焊接到PCB板上，而不是通过导线连接，所以在AD有要有对应的PCB封装。 注意前面介绍的元件都是有现成的封装的，可以直接在AD自带的原理图库和封装库中找到，如果没有应该也可以百度到。 而这里的电位器大家很可能找不到对应的封装了，所以我们要自己画。（我上面那个不是自己画的）</p>
-<p>先画一个原理图。一个小矩形加上三个引脚。 <img src="https://img-blog.csdnimg.cn/20200423224232142.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 为其添加封装，注意引脚序号对应。 <img src="https://img-blog.csdnimg.cn/20200423224421853.png" alt="在这里插入图片描述" /> 这里的白色矩形框只起到提示作用，可以自己限定范围，但是<strong>三个焊盘的尺寸和相对位置需要严格限定</strong>。 如何确定？查阅你所购买的电位器的商品详情页面。找到电位器工程图。 <img src="https://img-blog.csdnimg.cn/20200423224638644.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /> 由图可知，电位器三个引脚间距是5mm，那么我们就把距离定位5mm。引脚直径是1.2mm，但一般会预留更大的空间，可以把孔径定位1.6mm左右。 上面提到的白色框可以根据工程图来自行设计大小，能表示电位器占据的空间即可。</p>
-<p>AMP模块说明完毕。</p>
-<p>这部分太长了，分成上下篇。下回再分解。</p>
 ]]></content>
       <categories>
         <category>DIY</category>
