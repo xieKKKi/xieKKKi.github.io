@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon16.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xiekkki.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="摘要了解了电路原理，接下来我们打开Altium Designer开始画图吧。熟悉其他PCB设计软件的也可以，大致思路是一样的。由于本人只会AD，这里使用AD20进行演示。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自制电吉他效果器 DIY PCB（三）原理图与封装 上">
+<meta property="og:url" content="https://xiekkki.github.io/2020/04/27/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E4%B8%89%EF%BC%89%E5%8E%9F%E7%90%86%E5%9B%BE%E4%B8%8E%E5%B0%81%E8%A3%85%20%E4%B8%8A/index.html">
+<meta property="og:site_name" content="家鹏的个人主页">
+<meta property="og:description" content="摘要了解了电路原理，接下来我们打开Altium Designer开始画图吧。熟悉其他PCB设计软件的也可以，大致思路是一样的。由于本人只会AD，这里使用AD20进行演示。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423205458684.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423210041658.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423210228248.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423211440601.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020042321151221.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020042321212922.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423212156502.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423214639129.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423221925966.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423215436286.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423220336730.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423215627787.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423220918947.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423222308901.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423222321659.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423222542877.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423222914426.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423224232142.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423224421853.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200423224638644.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2020-04-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-05-01T09:05:29.080Z">
+<meta property="article:author" content="谢家鹏">
+<meta property="article:tag" content="DIY">
+<meta property="article:tag" content="音乐">
+<meta property="article:tag" content="信号处理">
+<meta property="article:tag" content="电子电路">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200423205458684.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70">
+
+<link rel="canonical" href="https://xiekkki.github.io/2020/04/27/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E4%B8%89%EF%BC%89%E5%8E%9F%E7%90%86%E5%9B%BE%E4%B8%8E%E5%B0%81%E8%A3%85%20%E4%B8%8A/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>自制电吉他效果器 DIY PCB（三）原理图与封装 上 | 家鹏的个人主页</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">家鹏的个人主页</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">10</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xiekkki.github.io/2020/04/27/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E4%B8%89%EF%BC%89%E5%8E%9F%E7%90%86%E5%9B%BE%E4%B8%8E%E5%B0%81%E8%A3%85%20%E4%B8%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="谢家鹏">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="家鹏的个人主页">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          自制电吉他效果器 DIY PCB（三）原理图与封装 上
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-27 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-27T00:00:00+08:00">2020-04-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-01 17:05:29" itemprop="dateModified" datetime="2021-05-01T17:05:29+08:00">2021-05-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DIY/" itemprop="url" rel="index"><span itemprop="name">DIY</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/04/27/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E4%B8%89%EF%BC%89%E5%8E%9F%E7%90%86%E5%9B%BE%E4%B8%8E%E5%B0%81%E8%A3%85%20%E4%B8%8A/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/27/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E4%B8%89%EF%BC%89%E5%8E%9F%E7%90%86%E5%9B%BE%E4%B8%8E%E5%B0%81%E8%A3%85%20%E4%B8%8A/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>了解了电路原理，接下来我们打开<strong>Altium Designer</strong>开始画图吧。<br>熟悉其他PCB设计软件的也可以，大致思路是一样的。由于本人只会AD，这里使用<strong>AD20</strong>进行演示。</p>
+<span id="more"></span>
+<p>（转自我的CSDN博客）</p>
+<p>这里将不会对软件使用进行详细讲解，<strong>重点说明针对效果器PCB绘制需要注意的事项。</strong></p>
+<p>不会PCB软件的朋友建议找视频或者博客学一学，只需要掌握最基本的两层板绘制就行了。有人可能想试试不用pcb直接用洞洞板手焊，应对十分简单的电路确实可行，但是稍微一复杂，焊接和调试的花费的精力可能会比学习pcb还要多哦。如果以后还想继续尝试，最好还是学一下pcb。现在就打开B站或者另一个博客开始学习吧。</p>
+<p>建议不会AD的朋友能跟着教程画一遍完整的pcb再看下面的内容。</p>
+<h2 id="原理图"><a href="#原理图" class="headerlink" title="原理图"></a>原理图</h2><p>依旧是<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41342525/article/details/105522483">上回</a>说过的<strong>失真效果器</strong>，首先来画原理图，直接来看看画好之后是什么样吧。<br><img src="https://img-blog.csdnimg.cn/20200423205458684.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>乍看过去，好像和上回说的不一样啊，怎么回事？</p>
+<p>仔细观察，我这里将原理图分成了<strong>4个模块</strong>，接下来我们分模块进行讲解。</p>
+<h2 id="AMP模块"><a href="#AMP模块" class="headerlink" title="AMP模块"></a>AMP模块</h2><p><img src="https://img-blog.csdnimg.cn/20200423210041658.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>大家看看这个部分，是不是就几乎和上回给大家介绍的电路一模一样呢？<br><img src="https://img-blog.csdnimg.cn/20200423210228248.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>不同之处</strong>是：<br>输入输出与开关的连接没有体现出来，但是我已经把它们画到SWITCH模块中去了。<br>5v(4.5v)偏置也被独立了出去，这里只用网络标签表示。</p>
+<p><strong>在绘制原理图的时候需要注意的：</strong><br>新学的朋友不要忘记给芯片接电源和接地哦，有的原理图会省略，但是在PCB原理图里可千万不能省。<br><img src="https://img-blog.csdnimg.cn/20200423211440601.png" alt="在这里插入图片描述">        <img src="https://img-blog.csdnimg.cn/2020042321151221.png" alt="在这里插入图片描述"><br>这里的初始原理图中有的元件没有标注单位。<br>电阻如果没有写单位，默认单位就是Ω，如果是KΩ，会加上单位K。<br>电容默认单位是uF。</p>
+<p><strong>封装选择：</strong></p>
+<p><strong>电阻和无极性电容</strong>我一律选择的是0805贴片封装。<img src="https://img-blog.csdnimg.cn/2020042321212922.png" alt="在这里插入图片描述">        <img src="https://img-blog.csdnimg.cn/20200423212156502.png" alt="在这里插入图片描述"><br>有朋友可能会觉得贴片封装不好焊接，但个人认为熟练后贴片焊接是会比直插式焊接效率更高的。</p>
+<p><strong>音质方面</strong>，大家可能有见过一些比较经典的效果器内部的元件都是直插电阻电容的，我觉得那可能是因为以前SMT贴片技术还不成熟。我拆过Orange的小小强电子管箱头，里面的大部分电阻都是贴片的。<br>实际上，<strong>电路的设计和PCB的质量</strong>可能比元件的选型对音质的影响更大。另外，很多发烧友说的什么玄学感觉，很多时候靠<strong>调节EQ和音量就可以解决</strong>哦。<br>有一定电路知识的朋友在玩音箱设备的时候，希望都能<strong>理性思考，用所学的知识进行分析，不要陷入玄学之中。</strong></p>
+<p>当然我不是说元件选型不重要，<strong>在一些关键环节还是需要好一点的元件</strong>，比如我们希望电容的内部电阻阻值小一点的时候就应该选择好一点的电容。但是我们这里就不讲究什么发烧级的元件了，能满足需求就行了。<strong>在已经熟悉如何自制效果器之后，可以尝试更好的元器件。</strong><br><img src="https://img-blog.csdnimg.cn/20200423214639129.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>常用的0805贴片电阻电容包在某宝十块钱左右就能买到。<br>想用其他封装也行，贴片比如0603、1206（我上面就是买错了买成了1206），或者直插，其实都可以，看个人喜好。<br>在购买时请注意你所购买的大礼包里有没有包含你需要的元件哦。有的时候初始电路图里会出现比较不常见的阻值，这个时候可以用相近的替代，或者换一个大礼包。</p>
+<p><strong>极性电容</strong>一般选择电解电容<br><img src="https://img-blog.csdnimg.cn/20200423221925966.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>把1uf，4.7uf，10uf，47uf，100uf，470uf这几个型号都多买一些就对了，几块钱买他一大把。还有音频专用的电解电容，有兴趣的可以试试，不会贵很多。</p>
+<p><strong>运放芯片</strong>一般是选择DIP-8封装，也就是直插的8脚封装。不选贴片原因很简单，真的不好焊，而且选直插还有一个好处，稍后再说。<br><img src="https://img-blog.csdnimg.cn/20200423215436286.png" alt="在这里插入图片描述"><br>我们这里的741很幸运在AD的自带原理图库里找到了。<br><img src="https://img-blog.csdnimg.cn/20200423220336730.png" alt="在这里插入图片描述"><br>有的时候会出现有的芯片型号找不到的情况，这个时候自己简单画一个就行啦。像这样，我画了一个效果器常见的运放TL072作为示例。<br><img src="https://img-blog.csdnimg.cn/20200423215627787.png" alt="在这里插入图片描述"><br>如果有好好学AD的朋友应该知道，这就是一个简单的矩形，加上了8个引脚，再给他命个名就行了。<strong>唯一需要注意的是引脚的顺序请务必不要搞错了。</strong></p>
+<p>芯片在也是在某宝直接买就行了，一般几毛钱到一两块钱就能买到。反正这么便宜，请一次多买几个。<br>此外，还可以购买芯片插座，这就是我之前说的好处。有了插座之后，当你手头有可以替代的芯片的时候，就可以<strong>直接拔下来替换</strong>，看看音色会有什么变化。<br>比如，上面说的741运放，可以选择UA741，也可以选择LM741，在查阅更过芯片的手册后，你会发现甚至还有更多的型号可以选择，几乎是个单运算放大器都可以试试。<br>当然，我是试过的，我得出的结论是，还是电路的设计和PCB质量对音色影响比较大。<br><img src="https://img-blog.csdnimg.cn/20200423220918947.png" alt="在这里插入图片描述"><br>也很便宜，几块钱买一大把。</p>
+<p><strong>二极管</strong>，有的电路会说明型号，这里不说就选用1N4184，贴片直插皆可。也很便宜。<br><img src="https://img-blog.csdnimg.cn/20200423222308901.png" alt="在这里插入图片描述">   <img src="https://img-blog.csdnimg.cn/20200423222321659.png" alt="在这里插入图片描述">  <img src="https://img-blog.csdnimg.cn/20200423222542877.png" alt="在这里插入图片描述"></p>
+<p><strong>电位器</strong>，一定要选择可以用手扭的，并且旋转一圈就能完事的。个人选的是这种。这就是典型的音箱设备用的电位器。一般是几毛钱一个，稍好一点的几块钱一个。我看到某宝有些几十上百的电位器，大家可以开动脑筋想想不过是一个滑动变阻器而已到底能玩出什么花来。<br><img src="https://img-blog.csdnimg.cn/20200423222914426.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>我们这里计划是要把电位器作为直插式元件焊接到PCB板上，而不是通过导线连接，所以在AD有要有对应的PCB封装。<br>注意前面介绍的元件都是有现成的封装的，可以直接在AD自带的原理图库和封装库中找到，如果没有应该也可以百度到。<br>而这里的电位器大家很可能找不到对应的封装了，所以我们要自己画。（我上面那个不是自己画的）</p>
+<p>先画一个原理图。一个小矩形加上三个引脚。<br><img src="https://img-blog.csdnimg.cn/20200423224232142.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>为其添加封装，注意引脚序号对应。<br><img src="https://img-blog.csdnimg.cn/20200423224421853.png" alt="在这里插入图片描述"><br>这里的白色矩形框只起到提示作用，可以自己限定范围，但是<strong>三个焊盘的尺寸和相对位置需要严格限定</strong>。<br>如何确定？查阅你所购买的电位器的商品详情页面。找到电位器工程图。<br><img src="https://img-blog.csdnimg.cn/20200423224638644.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzQyNTI1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>由图可知，电位器三个引脚间距是5mm，那么我们就把距离定位5mm。引脚直径是1.2mm，但一般会预留更大的空间，可以把孔径定位1.6mm左右。<br>上面提到的白色框可以根据工程图来自行设计大小，能表示电位器占据的空间即可。</p>
+<p>AMP模块说明完毕。</p>
+<p>这部分太长了，分成上下篇。下回再分解。</p>
+
+    </div>
+
+    
+    
+    
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束啦 ( •̀ ω •́ ) 感谢您的阅读。-------------</div>
+    
+</div>
+
+      
+    </div>
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>谢家鹏
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xiekkki.github.io/2020/04/27/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E4%B8%89%EF%BC%89%E5%8E%9F%E7%90%86%E5%9B%BE%E4%B8%8E%E5%B0%81%E8%A3%85%20%E4%B8%8A/" title="自制电吉他效果器 DIY PCB（三）原理图与封装 上">https://xiekkki.github.io/2020/04/27/自制电吉他效果器 DIY PCB（三）原理图与封装 上/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/DIY/" rel="tag"><i class="fa fa-tag"></i>DIY</a>
+              <a href="/tags/%E9%9F%B3%E4%B9%90/" rel="tag"><i class="fa fa-tag"></i>音乐</a>
+              <a href="/tags/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/" rel="tag"><i class="fa fa-tag"></i>信号处理</a>
+              <a href="/tags/%E7%94%B5%E5%AD%90%E7%94%B5%E8%B7%AF/" rel="tag"><i class="fa fa-tag"></i>电子电路</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/27/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E5%9B%9B%EF%BC%89%E5%8E%9F%E7%90%86%E5%9B%BE%E4%B8%8E%E5%B0%81%E8%A3%85%20%E4%B8%8B/" rel="prev" title="自制电吉他效果器 DIY PCB（一）前言">
+      <i class="fa fa-chevron-left"></i> 自制电吉他效果器 DIY PCB（一）前言
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/10/%E8%87%AA%E5%88%B6%E7%94%B5%E5%90%89%E4%BB%96%E6%95%88%E6%9E%9C%E5%99%A8%20DIY%20PCB%EF%BC%88%E4%BA%94%EF%BC%89%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8E%A5%E7%BA%BF/" rel="next" title="自制电吉他效果器 DIY PCB（一）前言">
+      自制电吉他效果器 DIY PCB（一）前言 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%E5%9B%BE"><span class="nav-number"></span> <span class="nav-text">原理图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AMP%E6%A8%A1%E5%9D%97"><span class="nav-number"></span> <span class="nav-text">AMP模块</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="谢家鹏"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">谢家鹏</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xieKKKi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xieKKKi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/qq_41342525?spm=1011.2124.3001.5343" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_41342525?spm&#x3D;1011.2124.3001.5343" rel="noopener" target="_blank"><i class="crosshairs fa-fw"></i>CSDN</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:xiekkk@yeah.net" title="E-Mail → mailto:xiekkk@yeah.net" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢家鹏</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'jWiMxVrj9ipCFA6Nt2JtFwld-gzGzoHsz',
+      appKey     : '7u7KfQ4BNsCCjQElGsNtnYi5',
+      placeholder: "输入你的评论...\n(昵称为必填项目)\n(虽然email不是必选，但是填写了email可以收到推送通知哦！)",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+  
+
+</body>
+</html>
