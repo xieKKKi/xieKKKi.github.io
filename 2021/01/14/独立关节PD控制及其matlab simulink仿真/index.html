@@ -673,7 +673,7 @@ D(q)(\ddot q_d - \ddot q)+C(q,\dot q)(\dot q_d -\dot q)+ K_d \dot e + K_p e+\hat
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
-    var guest = 'nick,mail,link';
+    var guest = 'nick,mail';
     guest = guest.split(',').filter(item => {
       return GUEST.includes(item);
     });
